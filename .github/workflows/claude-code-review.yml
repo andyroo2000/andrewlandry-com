@@ -1,0 +1,56 @@
+name: Claude Code Review
+
+on:
+  pull_request:
+    types: [opened, synchronize, reopened, ready_for_review]
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: claude-review-${{ github.event.pull_request.number || github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  claude-review:
+    # Forks do not receive the Claude credential. Maintainers can review them manually.
+    if: >-
+      github.event_name == 'workflow_dispatch' ||
+      (!github.event.pull_request.draft &&
+       github.event.pull_request.head.repo.full_name == github.repository)
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    permissions:
+      contents: read
+      pull-requests: read
+      issues: read
+      id-token: write
+    steps:
+      - uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262 # v4
+        with:
+          fetch-depth: 0
+          persist-credentials: false
+      - name: Review changes
+        uses: anthropics/claude-code-action@4169884de317bc1b4cb1b47f4476d76fed92b384 # v1
+        with:
+          claude_code_oauth_token: ${{ secrets.CLAUDE_CODE_OAUTH_TOKEN }}
+          prompt: |
+            Repository: ${{ github.repository }}
+            Event: ${{ github.event_name }}
+            Pull request number: ${{ github.event.pull_request.number }}
+
+            Follow CLAUDE.md. Review the pull request diff for concrete bugs,
+            security issues, accessibility problems, and performance regressions.
+            Prioritize actionable findings and explain their impact. Avoid
+            speculative issues, style-only feedback, and requests to build
+            features outside the change's scope. Do not modify any files.
+
+            For a pull request, use gh pr comment to publish one concise review.
+            If there are no actionable findings, say so clearly.
+            For workflow_dispatch, review the latest commit with git show HEAD
+            and report the result in your final response without posting a comment.
+          claude_args: >-
+            --max-turns 15
+            --allowedTools "Read,Glob,Grep,Bash(git show:*),Bash(git diff:*),Bash(git log:*),Bash(gh pr diff:*),Bash(gh pr view:*),Bash(gh pr comment:*)"
+            --disallowedTools "Edit,Write,NotebookEdit"

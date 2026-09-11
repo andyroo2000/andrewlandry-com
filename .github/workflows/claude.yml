@@ -1,0 +1,38 @@
+name: Claude PR Follow-up
+
+on:
+  issue_comment:
+    types: [created]
+
+permissions:
+  contents: read
+
+concurrency:
+  group: claude-follow-up-${{ github.event.issue.number }}
+  cancel-in-progress: true
+
+jobs:
+  claude:
+    # Only trusted collaborators can invoke a paid review in this public repo.
+    if: >-
+      github.event.issue.pull_request &&
+      contains(github.event.comment.body, '@claude') &&
+      contains(fromJSON('["OWNER", "MEMBER", "COLLABORATOR"]'), github.event.comment.author_association)
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    permissions:
+      contents: read
+      pull-requests: read
+      issues: read
+      id-token: write
+    steps:
+      - uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262 # v4
+        with:
+          persist-credentials: false
+      - uses: anthropics/claude-code-action@4169884de317bc1b4cb1b47f4476d76fed92b384 # v1
+        with:
+          claude_code_oauth_token: ${{ secrets.CLAUDE_CODE_OAUTH_TOKEN }}
+          claude_args: >-
+            --max-turns 15
+            --allowedTools "Read,Glob,Grep,Bash(gh pr diff:*),Bash(gh pr view:*),Bash(gh pr comment:*)"
+            --disallowedTools "Edit,Write,NotebookEdit"
