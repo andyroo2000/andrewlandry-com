@@ -1,0 +1,48 @@
+---
+import Switcher from '../components/Switcher.astro';
+interface Props { title: string; theme?: string; design?: string; }
+const { title, theme = '', design } = Astro.props;
+---
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="description" content="Photographs, music, and things worth keeping. A personal collection by Andrew Landry." />
+    <meta name="robots" content="noindex, nofollow" />
+    <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=DM+Mono:wght@400;500&family=Space+Grotesk:wght@400;500;600;700&family=Libre+Caslon+Display&family=Instrument+Serif:ital@0;1&display=swap" rel="stylesheet" />
+    <title>{title}</title>
+  </head>
+  <body class={theme}>
+    <a href="#main" class="skip">Skip to content</a>
+    <slot />
+    {design && <Switcher current={design} />}
+    <dialog id="photo-viewer" aria-label="Photograph viewer">
+      <button class="close-viewer" autofocus aria-label="Close photograph">Close ×</button>
+      <img alt="" />
+      <p></p>
+    </dialog>
+    <script>
+      const viewer = document.querySelector<HTMLDialogElement>('#photo-viewer');
+      document.querySelectorAll<HTMLAnchorElement>('[data-photo]').forEach(link => {
+        link.addEventListener('click', event => {
+          if (!viewer || event.metaKey || event.ctrlKey || event.shiftKey || event.altKey) return;
+          event.preventDefault();
+          const img = viewer.querySelector('img')!;
+          img.src = link.href;
+          img.alt = link.dataset.caption || 'Photograph by Andrew Landry';
+          viewer.querySelector('p')!.textContent = img.alt;
+          viewer.showModal();
+        });
+      });
+      viewer?.querySelector('button')?.addEventListener('click', () => viewer.close());
+      viewer?.addEventListener('click', event => { if (event.target === viewer) viewer.close(); });
+    </script>
+  </body>
+</html>
+<style is:global>
+  *{box-sizing:border-box}html{scroll-behavior:smooth}body{margin:0;font-family:'DM Sans',sans-serif;color:#222;background:#fff}a{color:inherit;text-decoration:none}button{font:inherit;color:inherit}button,a{-webkit-tap-highlight-color:transparent}button{cursor:pointer}img{display:block;width:100%;height:auto}h1,h2,h3,p,figure{margin:0}a:focus-visible,button:focus-visible,summary:focus-visible{outline:3px solid currentColor;outline-offset:5px}a,button{touch-action:manipulation}::selection{background:#ff5a3d;color:white}.mono{font-family:'DM Mono',monospace;font-size:12px;letter-spacing:.06em;text-transform:uppercase}.skip{position:fixed;top:-100px;left:15px;background:white;color:black;padding:12px;z-index:100}.skip:focus{top:15px}section[id]{scroll-margin-top:35px}.photo-link{display:block;overflow:hidden}.photo-link img{transition:transform .6s cubic-bezier(.2,.7,.2,1)}.photo-link:hover img{transform:scale(1.025)}button:disabled{cursor:default}dialog{border:0;padding:60px 24px 20px;background:#111;color:#fff;max-width:95vw;width:1100px;max-height:94dvh}dialog::backdrop{background:#000c;backdrop-filter:blur(7px)}dialog img{max-height:75dvh;object-fit:contain}dialog p{text-align:center;font-size:14px;padding:15px}.close-viewer{position:absolute;right:20px;top:15px;border:0;background:transparent;padding:8px}body:has(dialog[open]){overflow:hidden}@media(prefers-reduced-motion:reduce){html{scroll-behavior:auto}*,*::before,*::after{animation:none!important;transition:none!important}}
+</style>

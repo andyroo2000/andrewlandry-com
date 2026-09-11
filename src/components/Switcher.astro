@@ -1,0 +1,12 @@
+---
+import { designs } from '../data/designs';
+const { current } = Astro.props;
+---
+<nav class="design-switcher" aria-label="Design directions">
+  <a class="all-designs" href="/" aria-label="Compare all six designs"><span>▦</span> All designs</a>
+  <span class="switch-divider"></span>
+  {designs.map(d => <a href={`/designs/${d.slug}/`} aria-label={`${d.number}: ${d.name}`} aria-current={current === d.slug ? 'page' : undefined} title={d.name}>{d.number}</a>)}
+</nav>
+<style>
+.design-switcher{position:fixed;bottom:20px;left:50%;transform:translateX(-50%);display:flex;align-items:center;gap:4px;padding:7px;border:1px solid #ffffff40;border-radius:50px;background:#202020ee;backdrop-filter:blur(18px);color:#fff;box-shadow:0 5px 30px #0003;z-index:50;font-family:'DM Sans',sans-serif;font-size:12px;white-space:nowrap}.design-switcher a{display:grid;place-items:center;min-width:35px;height:35px;border-radius:50px;transition:background .2s}.design-switcher a:hover{background:#ffffff25}.design-switcher a[aria-current]{background:#fff;color:#111}.design-switcher .all-designs{display:flex;gap:7px;padding:0 12px}.all-designs span{font-size:20px}.switch-divider{width:1px;height:18px;background:#ffffff30;margin:0 3px}@media(max-width:420px){.design-switcher{bottom:12px;gap:0}.design-switcher a{min-width:31px}.design-switcher .all-designs{padding:0 9px}}
+</style>

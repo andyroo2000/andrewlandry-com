@@ -1,7 +1,25 @@
 # andrewlandry.com
 
-Scaffolding for Andrew Landry's personal website, built with Astro and TypeScript.
-The only page is the unstyled Astro starter. Design and content work have not begun.
+Andrew Landry's personal website, built with Astro and TypeScript.
+
+The current project contains six independently designed concepts and a comparison
+page at `/`. These are design studies, not the final site. Each direction has its
+own responsive layout, working photo enlargement, and on-demand music playback.
+
+| Route | Direction |
+| --- | --- |
+| `/designs/contact-sheet/` | Graphic black, white, and vermilion portfolio |
+| `/designs/after-hours/` | Cinematic dark photography and listening room |
+| `/designs/field-notes/` | Tactile personal journal and photographic keepsakes |
+| `/designs/blue-frequency/` | Cobalt and lemon art-poster composition |
+| `/designs/still-life/` | Restrained serif gallery with generous whitespace |
+| `/designs/soft-signal/` | Playful modular collection with category filters |
+
+Direction notes are in `docs/design-directions.md`. The six random inspiration
+seeds were generated outside the repository and are not included in any page.
+Images are web derivatives from Andrew's former portfolio; source URLs are in
+`docs/asset-sources.json`. Google Fonts supply display typography, with local
+system fallbacks. YouTube loads only after a visitor chooses to play music.
 
 ## Development
 
@@ -24,8 +42,9 @@ npm run dev
 - Astro generates static pages; TypeScript uses strict checking.
 - Content will live in the repository, using Content Collections when needed.
 - Styling will use custom CSS. Interactive components can be added as needed.
-- No CMS, database, deployment workflow, or hosting connection is configured.
-- Cloudflare Workers Static Assets is the planned hosting target.
+- No CMS or database is configured.
+- A private Sites deployment is used to compare the design studies.
+- Cloudflare Workers Static Assets remains the planned host for the final site.
 
 ## GitHub checks and reviews
 

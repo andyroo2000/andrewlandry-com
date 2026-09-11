@@ -1,0 +1,11 @@
+---
+import { Image, getImage } from 'astro:assets';
+import { photos, type PhotoKey } from '../data/photos';
+interface Props { photo: PhotoKey; eager?: boolean; }
+const { photo, eager = false } = Astro.props;
+const p = photos[photo];
+const full = await getImage({src:p.src,width:1800,format:'webp'});
+---
+<a href={full.src} class="photo-link" data-photo data-caption={`${p.caption} — Andrew Landry, ${p.year}`} aria-label={`Enlarge: ${p.alt}`}>
+  <Image src={p.src} alt={p.alt} widths={[480,900,1500]} sizes="(max-width: 700px) 100vw, 70vw" width={1500} loading={eager ? 'eager' : 'lazy'} format="webp" />
+</a>

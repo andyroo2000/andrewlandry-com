@@ -1,0 +1,22 @@
+---
+interface Props { label?: string; }
+const { label = 'Synth and Chill' } = Astro.props;
+---
+<div class="music-player">
+  <button class="music-start" data-music aria-label={`Play ${label}`}><span class="play-circle">▶</span><span><strong>{label}</strong><small>Original music · Watch & listen</small></span><span class="player-wave" aria-hidden="true">▂ ▅ ▃ ▇ ▄ ▂ ▅ ▇ ▃</span></button>
+</div>
+<script>
+  document.querySelectorAll<HTMLButtonElement>('[data-music]').forEach(button => {
+    button.addEventListener('click', () => {
+      const frame = document.createElement('iframe');
+      frame.src = 'https://www.youtube-nocookie.com/embed/FOmErto1Jc8?autoplay=1';
+      frame.title = 'Synth and Chill — music by Andrew Landry';
+      frame.allow = 'autoplay; encrypted-media; picture-in-picture';
+      frame.allowFullscreen = true;
+      button.replaceWith(frame);
+    });
+  });
+</script>
+<style>
+.music-player{width:100%;border:1px solid currentColor}.music-start{border:0;background:transparent;text-align:left;width:100%;padding:22px;display:flex;align-items:center;gap:20px;min-height:115px}.play-circle{border:1px solid currentColor;border-radius:50%;width:50px;height:50px;display:grid;place-items:center;flex-shrink:0;font-size:14px;padding-left:3px}strong{font-weight:500;display:block;font-size:20px}small{display:block;font-family:'DM Mono',monospace;font-size:11px;margin-top:8px;opacity:.7}.player-wave{margin-left:auto;letter-spacing:2px;white-space:nowrap}.music-start:hover .play-circle{background:var(--player-hover,#ffffff25)}.music-player :global(iframe){display:block;width:100%;aspect-ratio:16/9;border:0}@media(max-width:500px){.player-wave{display:none}.music-start{padding:18px}}
+</style>
