@@ -27,8 +27,26 @@ npm run dev
 - Astro generates static pages; TypeScript uses strict checking.
 - The page content and custom CSS live in `src/pages/index.astro`.
 - Space Grotesk is loaded from Google Fonts with a system sans-serif fallback.
-- No CMS, database, deployment workflow, or hosting connection is configured.
-- Cloudflare Workers Static Assets is the planned hosting target.
+- No CMS, database, or server-side application is needed.
+- Cloudflare Workers Static Assets serves the generated `dist/` directory.
+
+## Deployment
+
+The **Deploy** workflow checks, builds, and publishes pushes to `main` to
+<https://andrewlandry-com.andrewlandry.workers.dev/>. It verifies that the served
+homepage matches the generated build. Manual runs are available from GitHub
+Actions on `main`; deployment runs are serialized.
+
+GitHub stores `CLOUDFLARE_API_TOKEN` as an Actions secret and
+`CLOUDFLARE_ACCOUNT_ID` as an Actions variable. The deployment token needs
+`Account / Workers Scripts / Edit` for the hosting account. No credentials are
+stored in this repository. Wrangler is pinned in `package-lock.json`.
+
+For a local deployment, authenticate with `npx wrangler login`, then run
+`npm run check`, `npm run build`, and `npm run deploy`. Validate packaging without
+publishing with `npx wrangler deploy --dry-run` after building.
+
+Custom-domain routing is configured separately from this initial deployment.
 
 ## GitHub checks and reviews
 
