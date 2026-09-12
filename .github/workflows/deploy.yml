@@ -19,7 +19,7 @@ jobs:
     timeout-minutes: 10
     environment:
       name: production
-      url: https://andrewlandry-com.andrewlandry.workers.dev
+      url: https://andrewlandry.com
     steps:
       - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
         with:
@@ -38,15 +38,20 @@ jobs:
           CLOUDFLARE_ACCOUNT_ID: ${{ vars.CLOUDFLARE_ACCOUNT_ID }}
       - name: Verify deployed page
         run: |
-          for attempt in 1 2 3 4 5; do
-            echo "Verifying deployment (attempt $attempt/5)"
-            if curl --fail --silent --show-error --connect-timeout 10 --max-time 20 \
-              https://andrewlandry-com.andrewlandry.workers.dev/ \
-              --output /tmp/deployed-index.html && \
-              cmp --silent dist/index.html /tmp/deployed-index.html; then
-              exit 0
+          for site_url in https://andrewlandry.com/ https://www.andrewlandry.com/; do
+            verified=false
+            for attempt in 1 2 3 4 5; do
+              echo "Verifying $site_url (attempt $attempt/5)"
+              if curl --fail --silent --show-error --connect-timeout 10 --max-time 20 \
+                "$site_url" --output /tmp/deployed-index.html && \
+                cmp --silent dist/index.html /tmp/deployed-index.html; then
+                verified=true
+                break
+              fi
+              sleep 5
+            done
+            if [ "$verified" != true ]; then
+              echo "The deployed page at $site_url does not match this build."
+              exit 1
             fi
-            sleep 5
           done
-          echo "The deployed page does not match this build."
-          exit 1
