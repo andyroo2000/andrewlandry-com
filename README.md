@@ -33,8 +33,9 @@ npm run dev
 ## Deployment
 
 The **Deploy** workflow checks, builds, and publishes pushes to `main` to
-<https://andrewlandry-com.andrewlandry.workers.dev/>. It verifies that the served
-homepage matches the generated build. Manual runs are available from GitHub
+<https://andrewlandry.com/>. Both the main domain and
+<https://www.andrewlandry.com/> serve the site. The workflow verifies that the
+homepage at both addresses matches the generated build. Manual runs are available from GitHub
 Actions on `main`; deployment runs are serialized.
 
 GitHub stores `CLOUDFLARE_API_TOKEN` as an Actions secret and
@@ -46,7 +47,9 @@ For a local deployment, authenticate with `npx wrangler login`, then run
 `npm run check`, `npm run build`, and `npm run deploy`. Validate packaging without
 publishing with `npx wrangler deploy --dry-run` after building.
 
-Custom-domain routing is configured separately from this initial deployment.
+Both custom domains are declared in `wrangler.jsonc`; Cloudflare manages their
+DNS records and HTTPS certificates. The `workers.dev` address remains available
+at <https://andrewlandry-com.andrewlandry.workers.dev/>.
 
 ## GitHub checks and reviews
 
