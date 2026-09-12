@@ -3,15 +3,16 @@
 Andrew Landry's personal website, built with Astro and TypeScript.
 
 The current project contains six independently designed concepts and a comparison
-page at `/`. These are design studies, not the final site. Each direction has its
-own responsive layout, working photo enlargement, and on-demand music playback.
+page at `/`. These are design studies, not the final site. Blue Frequency is now a minimal ID page linking to GitHub, LinkedIn, Instagram,
+and YouTube. The other five concepts retain their photographic and music content.
+All directions have responsive layouts.
 
 | Route | Direction |
 | --- | --- |
 | `/designs/contact-sheet/` | Graphic black, white, and vermilion portfolio |
 | `/designs/after-hours/` | Cinematic dark photography and listening room |
 | `/designs/field-notes/` | Tactile personal journal and photographic keepsakes |
-| `/designs/blue-frequency/` | Cobalt and lemon art-poster composition |
+| `/designs/blue-frequency/` | Cobalt and lemon personal links page |
 | `/designs/still-life/` | Restrained serif gallery with generous whitespace |
 | `/designs/soft-signal/` | Playful modular collection with category filters |
 

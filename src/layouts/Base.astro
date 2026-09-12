@@ -1,14 +1,14 @@
 ---
 import Switcher from '../components/Switcher.astro';
-interface Props { title: string; theme?: string; design?: string; }
-const { title, theme = '', design } = Astro.props;
+interface Props { title: string; theme?: string; design?: string; description?: string; }
+const { title, theme = '', design, description = 'Photographs, music, and things worth keeping. A personal collection by Andrew Landry.' } = Astro.props;
 ---
 <!doctype html>
 <html lang="en">
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <meta name="description" content="Photographs, music, and things worth keeping. A personal collection by Andrew Landry." />
+    <meta name="description" content={description} />
     <meta name="robots" content="noindex, nofollow" />
     <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
     <link rel="preconnect" href="https://fonts.googleapis.com" />
