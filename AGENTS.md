@@ -18,8 +18,10 @@ only when a feature needs them. Never commit credentials, environment files,
 or private media originals.
 
 The site is currently a single Blue Frequency ID page with social profile links.
-Photos, videos, a biography, a CMS, and deployment are future work. Add them only
-in response to follow-up requests; do not infer content from the former site.
+Photos, videos, a biography, and a CMS are future work. Add them only in response
+to follow-up requests; do not infer content from the former site. GitHub Actions
+deploys `main` to Cloudflare Workers Static Assets after a successful check and
+build. Keep deployment credentials in GitHub Actions secrets and variables.
 
 ## Code review
 
