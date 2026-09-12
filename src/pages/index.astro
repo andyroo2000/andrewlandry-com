@@ -1,17 +1,170 @@
 ---
-
+const links = [
+  { name: 'GitHub', handle: 'andyroo2000', href: 'https://github.com/andyroo2000' },
+  { name: 'LinkedIn', handle: 'Andrew Landry', href: 'https://www.linkedin.com/in/andrew-landry-8520623/' },
+  { name: 'Instagram', handle: 'andrewlandry', href: 'https://www.instagram.com/andrewlandry/' },
+  { name: 'YouTube', handle: 'AndrewLandry', href: 'https://www.youtube.com/@AndrewLandry' },
+];
 ---
-
+<!doctype html>
 <html lang="en">
-	<head>
-		<meta charset="utf-8" />
-		<link rel="icon" type="image/svg+xml" href="/favicon.svg" />
-		<link rel="icon" href="/favicon.ico" />
-		<meta name="viewport" content="width=device-width" />
-		<meta name="generator" content={Astro.generator} />
-		<title>Astro</title>
-	</head>
-	<body>
-		<h1>Astro</h1>
-	</body>
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="description" content="Andrew Landry’s links: GitHub, LinkedIn, Instagram, and YouTube." />
+    <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&display=swap" rel="stylesheet" />
+    <title>Andrew Landry</title>
+  </head>
+  <body class="blue-frequency">
+    <a href="#main" class="skip">Skip to content</a>
+  <main id="main" class="id-page">
+    <section class="identity" aria-label="Andrew Landry">
+      <h1>ANDREW<br /><span>LANDRY</span></h1>
+    </section>
+    <section class="links-panel" aria-label="Social profiles">
+      <div class="link-sheet">
+        <header class="sheet-heading"><h2>Elsewhere.</h2></header>
+        <nav aria-label="Andrew’s profiles">
+          {links.map(link => (
+            <a href={link.href} class="profile-link">
+              <span class="link-copy"><strong>{link.name}</strong><span>{link.handle}</span></span>
+              <span class="link-arrow" aria-hidden="true">↗</span>
+            </a>
+          ))}
+        </nav>
+        <div class="seal" aria-hidden="true">AL</div>
+      </div>
+    </section>
+  </main>
+  </body>
 </html>
+<style>
+  :global(*) { box-sizing: border-box; }
+  :global(body) { margin: 0; }
+  h1, h2 { margin: 0; }
+  a { color: inherit; text-decoration: none; touch-action: manipulation; }
+  a:focus-visible { outline: 3px solid currentColor; outline-offset: 5px; }
+  ::selection { background: var(--lemon); color: var(--blue); }
+  .skip { position: fixed; top: -100px; left: 15px; background: #fff; color: #000; padding: 12px; z-index: 100; }
+  .skip:focus { top: 15px; }
+  @media (prefers-reduced-motion: reduce) {
+    *, *::before, *::after { animation: none !important; transition: none !important; }
+  }
+  :global(.blue-frequency) {
+    --blue: #2446ee;
+    --lemon: #f2f76c;
+    background: var(--blue);
+    color: #fff;
+    font-family: 'Space Grotesk', sans-serif;
+  }
+  .id-page {
+    min-height: 100svh;
+    display: grid;
+    grid-template-columns: 55fr 45fr;
+  }
+  .identity {
+    padding: 60px 7.5%;
+    display: flex;
+    align-items: center;
+  }
+  h1 {
+    font-size: clamp(65px, 11.2vw, 210px);
+    line-height: .98;
+    letter-spacing: -.04em;
+    font-weight: 600;
+  }
+  h1 span { color: var(--lemon); }
+  .links-panel {
+    background: var(--lemon);
+    color: var(--blue);
+    padding: 95px 10% 95px 0;
+    display: flex;
+    align-items: center;
+  }
+  .link-sheet {
+    position: relative;
+    width: calc(100% - 20px);
+    background: #fff;
+    padding: 30px 32px 18px;
+    transform: translateX(-30px) rotate(-4deg);
+    box-shadow: 8px 8px 0 var(--blue);
+  }
+  .sheet-heading {
+    border-bottom: 1px solid var(--blue);
+    padding-bottom: 22px;
+  }
+  h2 {
+    font-size: 22px;
+    font-weight: 500;
+    letter-spacing: -.03em;
+  }
+  .profile-link {
+    display: flex;
+    align-items: center;
+    gap: 20px;
+    min-height: 103px;
+    padding: 22px 0;
+    border-bottom: 1px solid #2446ee35;
+  }
+  .profile-link:last-child { border-bottom: 0; }
+  .link-copy { display: flex; flex-direction: column; gap: 8px; }
+  .link-copy strong {
+    font-size: clamp(27px, 2.4vw, 39px);
+    line-height: 1.05;
+    font-weight: 500;
+    letter-spacing: -.045em;
+  }
+  .link-copy>span { font-size: 15px; }
+  .link-arrow { margin-left: auto; font-size: 29px; transition: transform .2s; }
+  .profile-link:hover .link-arrow { transform: translate(4px,-4px); }
+  .profile-link:hover strong { text-decoration: underline; text-decoration-thickness: 2px; text-underline-offset: 6px; }
+  .seal {
+    width: 88px;
+    height: 88px;
+    border: 1px solid var(--blue);
+    border-radius: 50%;
+    background: var(--lemon);
+    color: var(--blue);
+    font-size: 42px;
+    font-weight: 700;
+    letter-spacing: -.12em;
+    display: grid;
+    place-items: center;
+    padding-right: 5px;
+    position: absolute;
+    top: -49px;
+    right: -12px;
+    transform: rotate(16deg);
+    pointer-events: none;
+  }
+  @media (min-width: 1900px) {
+    .link-sheet { max-width: 700px; }
+  }
+  @media (max-width: 1100px) and (min-width: 701px) {
+    h1 { font-size: 10.4vw; }
+    .links-panel { padding-right: 8%; }
+    .link-sheet { width: 100%; padding: 26px 24px 14px; transform: translateX(-20px) rotate(-4deg); }
+    .link-copy strong { font-size: 30px; }
+    .seal { width: 76px; height: 76px; font-size: 37px; top: -42px; }
+  }
+  @media (max-width: 700px) {
+    .id-page { grid-template-columns: 1fr; }
+    .identity { padding: 45px 7% 40px; min-height: 280px; }
+    h1 { font-size: 17vw; line-height: .96; }
+    .links-panel { padding: 70px 10% 60px; }
+    .link-sheet { width: 100%; padding: 26px 26px 12px; transform: rotate(-3deg); box-shadow: 8px 8px 0 var(--blue); }
+    .profile-link { min-height: 98px; padding: 20px 0; }
+    .link-copy strong { font-size: 32px; }
+    .link-copy>span { font-size: 14px; }
+    .link-arrow { font-size: 27px; }
+    .seal { width: 76px; height: 76px; font-size: 37px; top: -44px; right: -9px; }
+  }
+  @media (max-width: 370px) {
+    .identity { min-height: 245px; }
+    .link-sheet { padding-left: 21px; padding-right: 21px; }
+    .link-copy strong { font-size: 29px; }
+  }
+</style>

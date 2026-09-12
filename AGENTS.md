@@ -17,9 +17,9 @@ rendering. Prefer custom CSS and small focused components. Add dependencies
 only when a feature needs them. Never commit credentials, environment files,
 or private media originals.
 
-The initial project is intentionally an untouched minimal Astro starter. Design,
-content migration, a CMS, and deployment are future work. Build them only in
-response to follow-up requests; do not infer a design from the former site.
+The site is currently a single Blue Frequency ID page with social profile links.
+Photos, videos, a biography, a CMS, and deployment are future work. Add them only
+in response to follow-up requests; do not infer content from the former site.
 
 ## Code review
 

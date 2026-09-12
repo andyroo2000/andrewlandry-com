@@ -1,7 +1,10 @@
 # andrewlandry.com
 
-Scaffolding for Andrew Landry's personal website, built with Astro and TypeScript.
-The only page is the unstyled Astro starter. Design and content work have not begun.
+Andrew Landry's personal website, built with Astro and TypeScript.
+
+The single page at `/` uses the Blue Frequency design: cobalt and lemon colors,
+oversized typography, and a tilted card linking to GitHub, LinkedIn, Instagram,
+and YouTube. It contains no biography, photos, videos, or client-side JavaScript.
 
 ## Development
 
@@ -22,8 +25,8 @@ npm run dev
 ## Architecture
 
 - Astro generates static pages; TypeScript uses strict checking.
-- Content will live in the repository, using Content Collections when needed.
-- Styling will use custom CSS. Interactive components can be added as needed.
+- The page content and custom CSS live in `src/pages/index.astro`.
+- Space Grotesk is loaded from Google Fonts with a system sans-serif fallback.
 - No CMS, database, deployment workflow, or hosting connection is configured.
 - Cloudflare Workers Static Assets is the planned hosting target.
 
