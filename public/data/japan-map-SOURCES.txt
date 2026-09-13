@@ -1,0 +1,18 @@
+Japan Cycling Trips — map data
+
+OpenStreetMap contributors, Open Database License (ODbL) 1.0.
+https://www.openstreetmap.org/copyright
+
+Download the geographic datasets used by this page:
+/data/hokkaido-coastline.json
+/data/hokkaido-lakes.json
+/data/japan-transfers.json
+/data/japan-map-places.json
+
+Sources, transformations, and license details:
+/data/hokkaido-coastline-LICENSE.txt
+/data/japan-map-features-LICENSE.txt
+/data/japan-map-places-LICENSE.txt
+
+Cycling tracks are Andrew Landry's recorded Strava routes, independent of OSM.
+The flight arc is an illustration between Haneda and New Chitose airports.

@@ -1,0 +1,543 @@
+[
+  {
+    "name": "Abashiri",
+    "japanese": "網走",
+    "coordinates": [
+      144.273203,
+      44.020603
+    ],
+    "trips": [
+      "2026"
+    ]
+  },
+  {
+    "name": "Aibetsu",
+    "japanese": "愛別",
+    "coordinates": [
+      142.57768,
+      43.906739
+    ],
+    "trips": [
+      "2026"
+    ]
+  },
+  {
+    "name": "Akabira",
+    "japanese": "赤平",
+    "coordinates": [
+      142.044032,
+      43.557851
+    ],
+    "trips": [
+      "2025"
+    ]
+  },
+  {
+    "name": "Asahikawa",
+    "japanese": "旭川",
+    "coordinates": [
+      142.364974,
+      43.770625
+    ],
+    "trips": [
+      "2025",
+      "2026"
+    ]
+  },
+  {
+    "name": "Ashoro",
+    "japanese": "足寄",
+    "coordinates": [
+      143.553882,
+      43.244829
+    ],
+    "trips": [
+      "2026"
+    ]
+  },
+  {
+    "name": "Betsukai",
+    "japanese": "別海",
+    "coordinates": [
+      145.117078,
+      43.39406
+    ],
+    "trips": [
+      "2026"
+    ]
+  },
+  {
+    "name": "Biei",
+    "japanese": "美瑛",
+    "coordinates": [
+      142.466929,
+      43.588238
+    ],
+    "trips": [
+      "2025"
+    ]
+  },
+  {
+    "name": "Chippubetsu",
+    "japanese": "秩父別",
+    "coordinates": [
+      141.958389,
+      43.767281
+    ],
+    "trips": [
+      "2025"
+    ]
+  },
+  {
+    "name": "Ebetsu",
+    "japanese": "江別",
+    "coordinates": [
+      141.535894,
+      43.103736
+    ],
+    "trips": [
+      "2025"
+    ]
+  },
+  {
+    "name": "Enbetsu",
+    "japanese": "遠別",
+    "coordinates": [
+      141.792087,
+      44.722419
+    ],
+    "trips": [
+      "2025"
+    ]
+  },
+  {
+    "name": "Esashi",
+    "japanese": "枝幸",
+    "coordinates": [
+      142.581421,
+      44.938672
+    ],
+    "trips": [
+      "2025"
+    ]
+  },
+  {
+    "name": "Fukagawa",
+    "japanese": "深川",
+    "coordinates": [
+      142.054068,
+      43.72343
+    ],
+    "trips": [
+      "2026"
+    ]
+  },
+  {
+    "name": "Furano",
+    "japanese": "富良野",
+    "coordinates": [
+      142.383496,
+      43.342308
+    ],
+    "trips": [
+      "2025"
+    ]
+  },
+  {
+    "name": "Haboro",
+    "japanese": "羽幌",
+    "coordinates": [
+      141.697372,
+      44.360839
+    ],
+    "trips": [
+      "2025"
+    ]
+  },
+  {
+    "name": "Hamatonbetsu",
+    "japanese": "浜頓別",
+    "coordinates": [
+      142.359551,
+      45.123713
+    ],
+    "trips": [
+      "2025"
+    ]
+  },
+  {
+    "name": "Kamifurano",
+    "japanese": "上富良野",
+    "coordinates": [
+      142.467282,
+      43.455557
+    ],
+    "trips": [
+      "2025"
+    ]
+  },
+  {
+    "name": "Kamikawa",
+    "japanese": "上川",
+    "coordinates": [
+      142.770388,
+      43.84704
+    ],
+    "trips": [
+      "2026"
+    ]
+  },
+  {
+    "name": "Kamishihoro",
+    "japanese": "上士幌",
+    "coordinates": [
+      143.295943,
+      43.232698
+    ],
+    "trips": [
+      "2026"
+    ]
+  },
+  {
+    "name": "Kamisunagawa",
+    "japanese": "上砂川",
+    "coordinates": [
+      141.984274,
+      43.482551
+    ],
+    "trips": [
+      "2025"
+    ]
+  },
+  {
+    "name": "Kembuchi",
+    "japanese": "剣淵",
+    "coordinates": [
+      142.361427,
+      44.095904
+    ],
+    "trips": [
+      "2025"
+    ]
+  },
+  {
+    "name": "Kitami",
+    "japanese": "北見",
+    "coordinates": [
+      143.894635,
+      43.802939
+    ],
+    "trips": [
+      "2026"
+    ]
+  },
+  {
+    "name": "Kunneppu",
+    "japanese": "訓子府",
+    "coordinates": [
+      143.74177,
+      43.725226
+    ],
+    "trips": [
+      "2026"
+    ]
+  },
+  {
+    "name": "Naie",
+    "japanese": "奈井江",
+    "coordinates": [
+      141.882845,
+      43.425472
+    ],
+    "trips": [
+      "2025"
+    ]
+  },
+  {
+    "name": "Nakafurano",
+    "japanese": "中富良野",
+    "coordinates": [
+      142.425097,
+      43.40542
+    ],
+    "trips": [
+      "2025"
+    ]
+  },
+  {
+    "name": "Nakashibetsu",
+    "japanese": "中標津",
+    "coordinates": [
+      144.971673,
+      43.55516
+    ],
+    "trips": [
+      "2026"
+    ]
+  },
+  {
+    "name": "Nayoro",
+    "japanese": "名寄",
+    "coordinates": [
+      142.463162,
+      44.355806
+    ],
+    "trips": [
+      "2025"
+    ]
+  },
+  {
+    "name": "Numata",
+    "japanese": "沼田",
+    "coordinates": [
+      141.93395,
+      43.806811
+    ],
+    "trips": [
+      "2025"
+    ]
+  },
+  {
+    "name": "Obira",
+    "japanese": "小平",
+    "coordinates": [
+      141.66277,
+      44.015154
+    ],
+    "trips": [
+      "2025"
+    ]
+  },
+  {
+    "name": "Okoppe",
+    "japanese": "興部",
+    "coordinates": [
+      143.122493,
+      44.469895
+    ],
+    "trips": [
+      "2025"
+    ]
+  },
+  {
+    "name": "Oumu",
+    "japanese": "雄武",
+    "coordinates": [
+      142.961806,
+      44.582763
+    ],
+    "trips": [
+      "2025"
+    ]
+  },
+  {
+    "name": "Pippu",
+    "japanese": "比布",
+    "coordinates": [
+      142.477241,
+      43.875661
+    ],
+    "trips": [
+      "2025"
+    ]
+  },
+  {
+    "name": "Rausu",
+    "japanese": "羅臼",
+    "coordinates": [
+      145.189743,
+      44.021875
+    ],
+    "trips": [
+      "2026"
+    ]
+  },
+  {
+    "name": "Rebun",
+    "japanese": "礼文",
+    "coordinates": [
+      141.047695,
+      45.303015
+    ],
+    "trips": [
+      "2025"
+    ]
+  },
+  {
+    "name": "Rishiri",
+    "japanese": "利尻",
+    "coordinates": [
+      141.139629,
+      45.187034
+    ],
+    "trips": [
+      "2025"
+    ]
+  },
+  {
+    "name": "Rishirifuji",
+    "japanese": "利尻富士",
+    "coordinates": [
+      141.214487,
+      45.24748
+    ],
+    "trips": [
+      "2025"
+    ]
+  },
+  {
+    "name": "Rumoi",
+    "japanese": "留萌",
+    "coordinates": [
+      141.636817,
+      43.941029
+    ],
+    "trips": [
+      "2025"
+    ]
+  },
+  {
+    "name": "Sapporo",
+    "japanese": "札幌",
+    "coordinates": [
+      141.354292,
+      43.061936
+    ],
+    "trips": [
+      "2025",
+      "2026"
+    ]
+  },
+  {
+    "name": "Sarufutsu",
+    "japanese": "猿払",
+    "coordinates": [
+      142.108761,
+      45.330569
+    ],
+    "trips": [
+      "2025"
+    ]
+  },
+  {
+    "name": "Shari",
+    "japanese": "斜里",
+    "coordinates": [
+      144.672065,
+      43.912406
+    ],
+    "trips": [
+      "2026"
+    ]
+  },
+  {
+    "name": "Shibecha",
+    "japanese": "標茶",
+    "coordinates": [
+      144.600726,
+      43.303382
+    ],
+    "trips": [
+      "2026"
+    ]
+  },
+  {
+    "name": "Shibetsu",
+    "japanese": "士別",
+    "coordinates": [
+      142.400164,
+      44.178511
+    ],
+    "trips": [
+      "2025"
+    ]
+  },
+  {
+    "name": "Shibetsu",
+    "japanese": "標津",
+    "coordinates": [
+      145.131435,
+      43.661188
+    ],
+    "trips": [
+      "2026"
+    ]
+  },
+  {
+    "name": "Shimokawa",
+    "japanese": "下川",
+    "coordinates": [
+      142.634994,
+      44.302602
+    ],
+    "trips": [
+      "2025"
+    ]
+  },
+  {
+    "name": "Teshikaga",
+    "japanese": "弟子屈",
+    "coordinates": [
+      144.459407,
+      43.485291
+    ],
+    "trips": [
+      "2026"
+    ]
+  },
+  {
+    "name": "Teshio",
+    "japanese": "天塩",
+    "coordinates": [
+      141.745384,
+      44.888385
+    ],
+    "trips": [
+      "2025"
+    ]
+  },
+  {
+    "name": "Tohma",
+    "japanese": "当麻",
+    "coordinates": [
+      142.508335,
+      43.828157
+    ],
+    "trips": [
+      "2026"
+    ]
+  },
+  {
+    "name": "Tomamae",
+    "japanese": "苫前",
+    "coordinates": [
+      141.652785,
+      44.306092
+    ],
+    "trips": [
+      "2025"
+    ]
+  },
+  {
+    "name": "Toyotomi",
+    "japanese": "豊富",
+    "coordinates": [
+      141.777519,
+      45.102781
+    ],
+    "trips": [
+      "2025"
+    ]
+  },
+  {
+    "name": "Wakkanai",
+    "japanese": "稚内",
+    "coordinates": [
+      141.673984,
+      45.415737
+    ],
+    "trips": [
+      "2025"
+    ]
+  }
+]
