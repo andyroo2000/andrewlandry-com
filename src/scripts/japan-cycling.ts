@@ -102,13 +102,13 @@ if (root) {
   function hasModifier(event: KeyboardEvent) {
     return [event.altKey, event.ctrlKey, event.metaKey, event.shiftKey, event.isComposing].some(Boolean);
   }
-  function isEditing(target: EventTarget | null) {
-    return target instanceof Element && target.closest('input, textarea, select, [contenteditable="true"], [role="slider"]');
+  function ownsArrowKeys(target: EventTarget | null) {
+    return target instanceof Element && target.closest('video, input, textarea, select, [contenteditable="true"], [role="slider"]');
   }
   document.addEventListener('keydown', event => {
     if (event.code === 'Space' && toggleYouTube(event)) return;
     if (!['ArrowLeft', 'ArrowRight'].includes(event.key)) return;
-    if (hasModifier(event) || isEditing(event.target)) return;
+    if (hasModifier(event) || ownsArrowKeys(event.target)) return;
     event.preventDefault();
     skipItem(event.key === 'ArrowLeft' ? -1 : 1);
   }, { ...options, capture: true });
@@ -199,8 +199,6 @@ if (root) {
         pendingYouTubeSound = undefined;
       }
       setPlaying(event.data === 1);
-      const playbackChanged = [1, 2].includes(event.data);
-      if (document.activeElement === iframe && playbackChanged) root!.focus({ preventScroll: true });
     }
     const initialize = () => {
       if (disposed || !window.YT) return;

@@ -63,8 +63,10 @@ location card; Left/Right keys move to the previous/next story while preserving
 play/pause state. The index in `src/data/japan-trip-items.json` contains all
 140/110 item cuts, measured against the encoded video start timestamp. It uses
 YouTube's seek API directly and does not require chapter markers or new uploads.
-YouTube iframe key events do not bubble to the page, so focus returns to the
-page after play/pause; Space still toggles YouTube playback there.
+Native player controls retain keyboard focus and their usual arrow-key seeking.
+Story shortcuts work when focus is on the page or the previous/next buttons;
+YouTube iframe key events do not bubble to the page. Space toggles YouTube
+playback when the page itself is focused.
 Both local previews and YouTube start playing muted on load, including links
 to a specific story time. Native player controls enable sound or pause playback.
 If the browser blocks autoplay, those controls remain available for manual play.
