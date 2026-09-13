@@ -1,0 +1,3684 @@
+{
+  "2025": [
+    {
+      "id": "2025-1-001",
+      "at": 0,
+      "kind": "photo",
+      "capturedAt": "2025-06-29T17:03:57.000+09:00",
+      "coordinates": [
+        141.355942,
+        43.05238
+      ],
+      "place": "Sapporo"
+    },
+    {
+      "id": "2025-1-002",
+      "at": 4.021029,
+      "kind": "video",
+      "capturedAt": "2025-06-30T09:15:57.000+09:00",
+      "coordinates": [
+        141.355117,
+        43.045856
+      ],
+      "place": "Sapporo"
+    },
+    {
+      "id": "2025-1-003",
+      "at": 9.021029,
+      "kind": "photo",
+      "capturedAt": "2025-06-30T11:19:14.000+09:00",
+      "coordinates": [
+        141.350433,
+        43.068853
+      ],
+      "place": "Sapporo"
+    },
+    {
+      "id": "2025-1-004",
+      "at": 13.021029,
+      "kind": "photo",
+      "capturedAt": "2025-06-30T14:41:05.000+09:00",
+      "coordinates": [
+        142.016572,
+        43.762272
+      ],
+      "place": "Chippubetsu",
+      "routePosition": {
+        "activity": "14960298756",
+        "segment": 0,
+        "fraction": 0.1205246
+      }
+    },
+    {
+      "id": "2025-1-005",
+      "at": 17.021029,
+      "kind": "photo",
+      "capturedAt": "2025-06-30T15:07:52.000+09:00",
+      "coordinates": [
+        141.979933,
+        43.794597
+      ],
+      "place": "Chippubetsu",
+      "routePosition": {
+        "activity": "14960298756",
+        "segment": 0,
+        "fraction": 0.2297782
+      }
+    },
+    {
+      "id": "2025-1-006",
+      "at": 21.021029,
+      "kind": "photo",
+      "capturedAt": "2025-06-30T15:10:28.000+09:00",
+      "coordinates": [
+        141.974228,
+        43.795517
+      ],
+      "place": "Chippubetsu",
+      "routePosition": {
+        "activity": "14960298756",
+        "segment": 0,
+        "fraction": 0.2410644
+      }
+    },
+    {
+      "id": "2025-1-007",
+      "at": 25.021029,
+      "kind": "video",
+      "capturedAt": "2025-06-30T15:59:02.700+09:00",
+      "coordinates": [
+        141.8912,
+        43.8446
+      ],
+      "place": "Near Numata",
+      "routePosition": {
+        "activity": "14960298756",
+        "segment": 0,
+        "fraction": 0.4387895
+      }
+    },
+    {
+      "id": "2025-1-008",
+      "at": 51.821029,
+      "kind": "photo",
+      "capturedAt": "2025-06-30T16:12:11.000+09:00",
+      "coordinates": [
+        141.88002,
+        43.85197
+      ],
+      "place": "Near Numata",
+      "routePosition": {
+        "activity": "14960298756",
+        "segment": 0,
+        "fraction": 0.4576249
+      }
+    },
+    {
+      "id": "2025-1-009",
+      "at": 55.821029,
+      "kind": "photo",
+      "capturedAt": "2025-06-30T17:58:07.000+09:00",
+      "coordinates": [
+        141.646438,
+        43.938447
+      ],
+      "place": "Rumoi",
+      "routePosition": {
+        "activity": "14960298756",
+        "segment": 0,
+        "fraction": 0.9914397
+      }
+    },
+    {
+      "id": "2025-1-010",
+      "at": 59.821029,
+      "kind": "photo",
+      "capturedAt": "2025-06-30T18:17:37.000+09:00",
+      "coordinates": [
+        141.644638,
+        43.940883
+      ],
+      "place": "Rumoi",
+      "routePosition": {
+        "activity": "14960298756",
+        "segment": 0,
+        "fraction": 1
+      }
+    },
+    {
+      "id": "2025-1-011",
+      "at": 63.821029,
+      "kind": "photo",
+      "capturedAt": "2025-06-30T20:33:54.000+09:00",
+      "coordinates": [
+        141.644822,
+        43.940913
+      ],
+      "place": "Rumoi",
+      "routePosition": {
+        "activity": "14960298756",
+        "segment": 0,
+        "fraction": 1
+      }
+    },
+    {
+      "id": "2025-1-012",
+      "at": 67.821029,
+      "kind": "photo",
+      "capturedAt": "2025-06-30T19:49:55.000+09:00",
+      "coordinates": [
+        141.644805,
+        43.940808
+      ],
+      "place": "Rumoi",
+      "routePosition": {
+        "activity": "14960298756",
+        "segment": 0,
+        "fraction": 1
+      }
+    },
+    {
+      "id": "2025-1-013",
+      "at": 71.821029,
+      "kind": "photo",
+      "capturedAt": "2025-07-01T06:55:37.000+09:00",
+      "coordinates": [
+        141.647903,
+        43.93977
+      ],
+      "place": "Rumoi",
+      "routePosition": {
+        "activity": "14960298756",
+        "segment": 0,
+        "fraction": 1
+      }
+    },
+    {
+      "id": "2025-1-014",
+      "at": 75.821029,
+      "kind": "photo",
+      "capturedAt": "2025-07-01T07:00:04.000+09:00",
+      "coordinates": [
+        141.648163,
+        43.939912
+      ],
+      "place": "Rumoi",
+      "routePosition": {
+        "activity": "14960298756",
+        "segment": 0,
+        "fraction": 1
+      }
+    },
+    {
+      "id": "2025-1-015",
+      "at": 79.821029,
+      "kind": "photo",
+      "capturedAt": "2025-07-01T07:09:13.000+09:00",
+      "coordinates": [
+        141.64653,
+        43.938767
+      ],
+      "place": "Rumoi",
+      "routePosition": {
+        "activity": "14960298756",
+        "segment": 0,
+        "fraction": 1
+      }
+    },
+    {
+      "id": "2025-1-016",
+      "at": 83.821029,
+      "kind": "photo",
+      "capturedAt": "2025-07-01T07:16:29.000+09:00",
+      "coordinates": [
+        141.64357,
+        43.940758
+      ],
+      "place": "Rumoi",
+      "routePosition": {
+        "activity": "14960298756",
+        "segment": 0,
+        "fraction": 1
+      }
+    },
+    {
+      "id": "2025-1-017",
+      "at": 87.821029,
+      "kind": "photo",
+      "capturedAt": "2025-07-01T10:44:35.000+09:00",
+      "coordinates": [
+        141.683913,
+        43.962192
+      ],
+      "place": "Rumoi",
+      "routePosition": {
+        "activity": "14977663772",
+        "segment": 0,
+        "fraction": 0.0975289
+      }
+    },
+    {
+      "id": "2025-1-018",
+      "at": 91.821029,
+      "kind": "photo",
+      "capturedAt": "2025-07-01T12:04:18.000+09:00"
+    },
+    {
+      "id": "2025-1-019",
+      "at": 95.821029,
+      "kind": "photo",
+      "capturedAt": "2025-07-01T12:25:20.000+09:00",
+      "coordinates": [
+        141.662797,
+        44.074422
+      ],
+      "place": "Near Obira",
+      "routePosition": {
+        "activity": "14977663772",
+        "segment": 0,
+        "fraction": 0.3596964
+      }
+    },
+    {
+      "id": "2025-1-020",
+      "at": 99.821029,
+      "kind": "video",
+      "capturedAt": "2025-07-01T12:28:05.000+09:00",
+      "coordinates": [
+        141.6628,
+        44.0743
+      ],
+      "place": "Near Obira",
+      "routePosition": {
+        "activity": "14977663772",
+        "segment": 0,
+        "fraction": 0.3631855
+      }
+    },
+    {
+      "id": "2025-1-021",
+      "at": 109.854362,
+      "kind": "photo",
+      "capturedAt": "2025-07-01T12:56:05.000+09:00",
+      "coordinates": [
+        141.657242,
+        44.119256
+      ],
+      "place": "Near Obira",
+      "routePosition": {
+        "activity": "14977663772",
+        "segment": 0,
+        "fraction": 0.4424286
+      }
+    },
+    {
+      "id": "2025-1-022",
+      "at": 113.854362,
+      "kind": "photo",
+      "capturedAt": "2025-07-01T14:00:09.000+09:00",
+      "coordinates": [
+        141.657958,
+        44.156039
+      ],
+      "place": "Near Obira",
+      "routePosition": {
+        "activity": "14977663772",
+        "segment": 0,
+        "fraction": 0.5160174
+      }
+    },
+    {
+      "id": "2025-1-023",
+      "at": 117.854362,
+      "kind": "photo",
+      "capturedAt": "2025-07-01T14:09:00.000+09:00",
+      "coordinates": [
+        141.659133,
+        44.160203
+      ],
+      "place": "Near Obira",
+      "routePosition": {
+        "activity": "14977663772",
+        "segment": 0,
+        "fraction": 0.5237337
+      }
+    },
+    {
+      "id": "2025-1-024",
+      "at": 121.854362,
+      "kind": "photo",
+      "capturedAt": "2025-07-01T15:04:05.000+09:00",
+      "coordinates": [
+        141.66275,
+        44.244995
+      ],
+      "place": "Near Tomamae",
+      "routePosition": {
+        "activity": "14977663772",
+        "segment": 0,
+        "fraction": 0.6941094
+      }
+    },
+    {
+      "id": "2025-1-025",
+      "at": 125.854362,
+      "kind": "video",
+      "capturedAt": "2025-07-01T15:55:23.000+09:00",
+      "coordinates": [
+        141.6534,
+        44.3057
+      ],
+      "place": "Tomamae",
+      "routePosition": {
+        "activity": "14977663772",
+        "segment": 0,
+        "fraction": 0.8635517
+      }
+    },
+    {
+      "id": "2025-1-026",
+      "at": 141.187696,
+      "kind": "photo",
+      "capturedAt": "2025-07-02T07:03:57.000+09:00"
+    },
+    {
+      "id": "2025-1-027",
+      "at": 145.187696,
+      "kind": "photo",
+      "capturedAt": "2025-07-02T09:40:18.000+09:00",
+      "coordinates": [
+        141.710997,
+        44.366792
+      ],
+      "place": "Haboro",
+      "routePosition": {
+        "activity": "14981233339",
+        "segment": 0,
+        "fraction": 0.0166193
+      }
+    },
+    {
+      "id": "2025-1-028",
+      "at": 149.187696,
+      "kind": "photo",
+      "capturedAt": "2025-07-02T13:53:40.000+09:00",
+      "coordinates": [
+        141.816558,
+        44.637855
+      ],
+      "place": "Near Enbetsu",
+      "routePosition": {
+        "activity": "14981233339",
+        "segment": 0,
+        "fraction": 0.7875181
+      }
+    },
+    {
+      "id": "2025-1-029",
+      "at": 153.187696,
+      "kind": "photo",
+      "capturedAt": "2025-07-02T15:12:08.000+09:00",
+      "coordinates": [
+        141.792633,
+        44.721578
+      ],
+      "place": "Enbetsu",
+      "routePosition": {
+        "activity": "14981233339",
+        "segment": 0,
+        "fraction": 0.9928124
+      }
+    },
+    {
+      "id": "2025-1-030",
+      "at": 157.187696,
+      "kind": "video",
+      "capturedAt": "2025-07-02T18:51:41.000+09:00"
+    },
+    {
+      "id": "2025-1-031",
+      "at": 217.221029,
+      "kind": "video",
+      "capturedAt": "2025-07-03T08:03:47.000+09:00",
+      "coordinates": [
+        141.7442,
+        44.8765
+      ],
+      "place": "Teshio",
+      "routePosition": {
+        "activity": "14981235846",
+        "segment": 0,
+        "fraction": 1
+      }
+    },
+    {
+      "id": "2025-1-032",
+      "at": 277.254362,
+      "kind": "photo",
+      "capturedAt": "2025-07-03T09:20:38.000+09:00",
+      "coordinates": [
+        141.73047,
+        44.92363
+      ],
+      "place": "Teshio",
+      "routePosition": {
+        "activity": "14991043821",
+        "segment": 0,
+        "fraction": 0.0837718
+      }
+    },
+    {
+      "id": "2025-1-033",
+      "at": 281.254362,
+      "kind": "photo",
+      "capturedAt": "2025-07-03T09:30:12.000+09:00",
+      "coordinates": [
+        141.716155,
+        44.939237
+      ],
+      "place": "Near Teshio",
+      "routePosition": {
+        "activity": "14991043821",
+        "segment": 0,
+        "fraction": 0.1136582
+      }
+    },
+    {
+      "id": "2025-1-034",
+      "at": 285.254362,
+      "kind": "photo",
+      "capturedAt": "2025-07-03T11:15:07.000+09:00",
+      "coordinates": [
+        141.680512,
+        45.127755
+      ],
+      "place": "Near Toyotomi",
+      "routePosition": {
+        "activity": "14991043821",
+        "segment": 0,
+        "fraction": 0.4316105
+      }
+    },
+    {
+      "id": "2025-1-035",
+      "at": 289.254362,
+      "kind": "photo",
+      "capturedAt": "2025-07-03T12:48:13.000+09:00",
+      "coordinates": [
+        141.714338,
+        45.25217
+      ],
+      "place": "Near Toyotomi",
+      "routePosition": {
+        "activity": "14991043821",
+        "segment": 0,
+        "fraction": 0.6946287
+      }
+    },
+    {
+      "id": "2025-1-036",
+      "at": 293.254362,
+      "kind": "photo",
+      "capturedAt": "2025-07-03T12:50:47.000+09:00",
+      "coordinates": [
+        141.715713,
+        45.252675
+      ],
+      "place": "Near Toyotomi",
+      "routePosition": {
+        "activity": "14991043821",
+        "segment": 0,
+        "fraction": 0.6969793
+      }
+    },
+    {
+      "id": "2025-1-037",
+      "at": 297.254362,
+      "kind": "photo",
+      "capturedAt": "2025-07-03T13:05:14.000+09:00",
+      "coordinates": [
+        141.71588,
+        45.252558
+      ],
+      "place": "Near Toyotomi",
+      "routePosition": {
+        "activity": "14991043821",
+        "segment": 0,
+        "fraction": 0.6971569
+      }
+    },
+    {
+      "id": "2025-1-038",
+      "at": 301.254362,
+      "kind": "photo",
+      "capturedAt": "2025-07-03T13:04:23.000+09:00",
+      "coordinates": [
+        141.715928,
+        45.252578
+      ],
+      "place": "Near Toyotomi",
+      "routePosition": {
+        "activity": "14991043821",
+        "segment": 0,
+        "fraction": 0.6971465
+      }
+    },
+    {
+      "id": "2025-1-039",
+      "at": 305.254362,
+      "kind": "photo",
+      "capturedAt": "2025-07-03T14:44:21.000+09:00",
+      "coordinates": [
+        141.685395,
+        45.399008
+      ],
+      "place": "Wakkanai",
+      "routePosition": {
+        "activity": "14991043821",
+        "segment": 0,
+        "fraction": 0.9648521
+      }
+    },
+    {
+      "id": "2025-1-040",
+      "at": 309.254362,
+      "kind": "photo",
+      "capturedAt": "2025-07-04T08:13:16.000+09:00",
+      "coordinates": [
+        141.677825,
+        45.416462
+      ],
+      "place": "Wakkanai",
+      "routePosition": {
+        "activity": "14991043821",
+        "segment": 0,
+        "fraction": 1
+      }
+    },
+    {
+      "id": "2025-1-041",
+      "at": 313.254362,
+      "kind": "video",
+      "capturedAt": "2025-07-04T08:43:27.000+09:00",
+      "coordinates": [
+        141.682,
+        45.4151
+      ],
+      "place": "Wakkanai",
+      "routePosition": {
+        "activity": "14991043821",
+        "segment": 0,
+        "fraction": 1
+      }
+    },
+    {
+      "id": "2025-1-042",
+      "at": 331.487696,
+      "kind": "video",
+      "capturedAt": "2025-07-04T11:46:33.000+09:00",
+      "coordinates": [
+        141.645,
+        45.4456
+      ],
+      "place": "Wakkanai",
+      "routePosition": {
+        "activity": "15001241847",
+        "segment": 0,
+        "fraction": 0.4474392
+      }
+    },
+    {
+      "id": "2025-1-043",
+      "at": 355.921029,
+      "kind": "photo",
+      "capturedAt": "2025-07-04T11:51:12.000+09:00",
+      "coordinates": [
+        141.643495,
+        45.448837
+      ],
+      "place": "Wakkanai",
+      "routePosition": {
+        "activity": "15001241847",
+        "segment": 0,
+        "fraction": 0.4899368
+      }
+    },
+    {
+      "id": "2025-1-044",
+      "at": 359.921029,
+      "kind": "photo",
+      "capturedAt": "2025-07-04T11:55:08.000+09:00",
+      "coordinates": [
+        141.643953,
+        45.44863
+      ],
+      "place": "Wakkanai",
+      "routePosition": {
+        "activity": "15001241847",
+        "segment": 0,
+        "fraction": 0.4906145
+      }
+    },
+    {
+      "id": "2025-1-045",
+      "at": 363.921029,
+      "kind": "photo",
+      "capturedAt": "2025-07-04T12:44:01.000+09:00",
+      "coordinates": [
+        141.682678,
+        45.415295
+      ],
+      "place": "Wakkanai",
+      "routePosition": {
+        "activity": "15001241847",
+        "segment": 0,
+        "fraction": 1
+      }
+    },
+    {
+      "id": "2025-1-046",
+      "at": 367.921029,
+      "kind": "video",
+      "capturedAt": "2025-07-04T13:15:10.000+09:00",
+      "coordinates": [
+        141.6811,
+        45.4011
+      ],
+      "place": "Wakkanai",
+      "routePosition": {
+        "activity": "15001244574",
+        "segment": 0,
+        "fraction": 0.3456111
+      }
+    },
+    {
+      "id": "2025-1-047",
+      "at": 382.254362,
+      "kind": "photo",
+      "capturedAt": "2025-07-04T14:26:19.000+09:00",
+      "coordinates": [
+        141.694197,
+        45.396492
+      ],
+      "place": "Wakkanai",
+      "routePosition": {
+        "activity": "15001244574",
+        "segment": 0,
+        "fraction": 0.5102154
+      }
+    },
+    {
+      "id": "2025-1-048",
+      "at": 386.254362,
+      "kind": "video",
+      "capturedAt": "2025-07-04T19:48:08.000+09:00",
+      "coordinates": [
+        141.1384,
+        45.1868
+      ],
+      "place": "Rishiri",
+      "routePosition": {
+        "activity": "15003096355",
+        "segment": 0,
+        "fraction": 0.9806945
+      }
+    },
+    {
+      "id": "2025-1-049",
+      "at": 404.587696,
+      "kind": "photo",
+      "capturedAt": "2025-07-04T20:27:54.000+09:00",
+      "coordinates": [
+        141.135239,
+        45.185978
+      ],
+      "place": "Rishiri",
+      "routePosition": {
+        "activity": "15003096355",
+        "segment": 0,
+        "fraction": 1
+      }
+    },
+    {
+      "id": "2025-1-050",
+      "at": 408.587696,
+      "kind": "video",
+      "capturedAt": "2025-07-04T18:05:34.000+09:00",
+      "coordinates": [
+        141.301,
+        45.2764
+      ],
+      "place": "Near Rishirifuji",
+      "routePosition": {
+        "activity": "15001244574",
+        "segment": 0,
+        "fraction": 1
+      }
+    },
+    {
+      "id": "2025-1-051",
+      "at": 448.487696,
+      "kind": "video",
+      "capturedAt": "2025-07-04T18:03:01.000+09:00",
+      "coordinates": [
+        141.3149,
+        45.2837
+      ],
+      "place": "Near Rishirifuji",
+      "routePosition": {
+        "activity": "15001244574",
+        "segment": 0,
+        "fraction": 1
+      }
+    },
+    {
+      "id": "2025-1-052",
+      "at": 473.321029,
+      "kind": "video",
+      "storyDate": "2025-07-05"
+    },
+    {
+      "id": "2025-1-053",
+      "at": 488.321029,
+      "kind": "photo",
+      "capturedAt": "2025-07-05T09:50:51.000+09:00",
+      "coordinates": [
+        141.192428,
+        45.251525
+      ],
+      "place": "Rishirifuji",
+      "routePosition": {
+        "activity": "15014789232",
+        "segment": 0,
+        "fraction": 0.2478056
+      }
+    },
+    {
+      "id": "2025-1-054",
+      "at": 492.321029,
+      "kind": "photo",
+      "capturedAt": "2025-07-05T09:55:39.000+09:00",
+      "coordinates": [
+        141.200745,
+        45.256005
+      ],
+      "place": "Rishirifuji",
+      "routePosition": {
+        "activity": "15014789232",
+        "segment": 0,
+        "fraction": 0.265079
+      }
+    },
+    {
+      "id": "2025-1-055",
+      "at": 496.321029,
+      "kind": "photo",
+      "capturedAt": "2025-07-05T11:10:00.000+09:00",
+      "coordinates": [
+        141.238695,
+        45.234362
+      ],
+      "place": "Rishirifuji",
+      "routePosition": {
+        "activity": "15014789232",
+        "segment": 0,
+        "fraction": 0.3446007
+      }
+    },
+    {
+      "id": "2025-1-056",
+      "at": 500.321029,
+      "kind": "photo",
+      "capturedAt": "2025-07-05T13:19:32.000+09:00",
+      "coordinates": [
+        141.286178,
+        45.118042
+      ],
+      "place": "Near Rishiri",
+      "routePosition": {
+        "activity": "15014789232",
+        "segment": 0,
+        "fraction": 0.69014
+      }
+    },
+    {
+      "id": "2025-1-057",
+      "at": 504.321029,
+      "kind": "video",
+      "capturedAt": "2025-07-05T16:57:18.474+09:00"
+    },
+    {
+      "id": "2025-1-058",
+      "at": 564.354362,
+      "kind": "photo",
+      "capturedAt": "2025-07-06T09:09:49.000+09:00",
+      "coordinates": [
+        141.227905,
+        45.241597
+      ],
+      "place": "Rishirifuji",
+      "routePosition": {
+        "activity": "15019641688",
+        "segment": 0,
+        "fraction": 1
+      }
+    },
+    {
+      "id": "2025-1-059",
+      "at": 568.354362,
+      "kind": "video",
+      "capturedAt": "2025-07-06T10:12:48.000+09:00",
+      "coordinates": [
+        141.0463,
+        45.2974
+      ],
+      "place": "Rebun",
+      "routePosition": {
+        "activity": "15019641688",
+        "segment": 0,
+        "fraction": 1
+      }
+    },
+    {
+      "id": "2025-1-060",
+      "at": 628.387696,
+      "kind": "photo",
+      "capturedAt": "2025-07-06T11:34:29.000+09:00",
+      "coordinates": [
+        141.053603,
+        45.34272
+      ],
+      "place": "Rebun",
+      "routePosition": {
+        "activity": "15021289273",
+        "segment": 0,
+        "fraction": 0.1628638
+      }
+    },
+    {
+      "id": "2025-1-061",
+      "at": 632.387696,
+      "kind": "photo",
+      "capturedAt": "2025-07-06T11:38:42.000+09:00",
+      "coordinates": [
+        141.054628,
+        45.344425
+      ],
+      "place": "Rebun",
+      "routePosition": {
+        "activity": "15021289273",
+        "segment": 0,
+        "fraction": 0.1697501
+      }
+    },
+    {
+      "id": "2025-1-062",
+      "at": 636.387696,
+      "kind": "photo",
+      "capturedAt": "2025-07-06T12:03:12.000+09:00",
+      "coordinates": [
+        141.053969,
+        45.38993
+      ],
+      "place": "Near Rebun",
+      "routePosition": {
+        "activity": "15021289273",
+        "segment": 0,
+        "fraction": 0.3128154
+      }
+    },
+    {
+      "id": "2025-1-063",
+      "at": 640.387696,
+      "kind": "photo",
+      "capturedAt": "2025-07-06T12:45:25.000+09:00",
+      "coordinates": [
+        141.034256,
+        45.438013
+      ],
+      "place": "Near Rebun",
+      "routePosition": {
+        "activity": "15021289273",
+        "segment": 0,
+        "fraction": 0.4990639
+      }
+    },
+    {
+      "id": "2025-1-064",
+      "at": 644.387696,
+      "kind": "photo",
+      "capturedAt": "2025-07-06T14:23:39.000+09:00",
+      "coordinates": [
+        141.05075,
+        45.336028
+      ],
+      "place": "Rebun",
+      "routePosition": {
+        "activity": "15021289273",
+        "segment": 0,
+        "fraction": 0.8744083
+      }
+    },
+    {
+      "id": "2025-1-065",
+      "at": 648.387696,
+      "kind": "photo",
+      "capturedAt": "2025-07-07T09:56:16.000+09:00",
+      "coordinates": [
+        141.697845,
+        45.414562
+      ],
+      "place": "Wakkanai",
+      "routePosition": {
+        "activity": "15030059216",
+        "segment": 0,
+        "fraction": 1
+      }
+    },
+    {
+      "id": "2025-1-066",
+      "at": 652.387696,
+      "kind": "video",
+      "capturedAt": "2025-07-07T10:49:41.951+09:00",
+      "coordinates": [
+        141.6943,
+        45.3966
+      ],
+      "place": "Wakkanai",
+      "routePosition": {
+        "activity": "15032573721",
+        "segment": 0,
+        "fraction": 0.0534576
+      }
+    },
+    {
+      "id": "2025-1-067",
+      "at": 677.387696,
+      "kind": "photo",
+      "capturedAt": "2025-07-07T12:21:55.000+09:00",
+      "coordinates": [
+        141.772125,
+        45.39045
+      ],
+      "place": "Near Wakkanai",
+      "routePosition": {
+        "activity": "15032573721",
+        "segment": 0,
+        "fraction": 0.1859733
+      }
+    },
+    {
+      "id": "2025-1-068",
+      "at": 681.387696,
+      "kind": "photo",
+      "capturedAt": "2025-07-07T14:49:57.000+09:00",
+      "coordinates": [
+        141.908583,
+        45.278412
+      ],
+      "place": "Near Sarufutsu",
+      "routePosition": {
+        "activity": "15032573721",
+        "segment": 0,
+        "fraction": 0.5595169
+      }
+    },
+    {
+      "id": "2025-1-069",
+      "at": 685.387696,
+      "kind": "video",
+      "capturedAt": "2025-07-07T16:42:31.000+09:00",
+      "coordinates": [
+        142.1749,
+        45.3328
+      ],
+      "place": "Near Sarufutsu",
+      "routePosition": {
+        "activity": "15032573721",
+        "segment": 0,
+        "fraction": 0.9923312
+      }
+    },
+    {
+      "id": "2025-1-070",
+      "at": 725.987696,
+      "kind": "photo",
+      "capturedAt": "2025-07-07T19:29:18.000+09:00",
+      "coordinates": [
+        142.176942,
+        45.329433
+      ],
+      "place": "Near Sarufutsu",
+      "routePosition": {
+        "activity": "15032573721",
+        "segment": 0,
+        "fraction": 1
+      }
+    },
+    {
+      "id": "2025-1-071",
+      "at": 729.987696,
+      "kind": "video",
+      "capturedAt": "2025-07-08T07:13:36.000+09:00",
+      "coordinates": [
+        142.1762,
+        45.33
+      ],
+      "place": "Near Sarufutsu",
+      "routePosition": {
+        "activity": "15032573721",
+        "segment": 0,
+        "fraction": 1
+      }
+    },
+    {
+      "id": "2025-1-072",
+      "at": 746.521029,
+      "kind": "photo",
+      "capturedAt": "2025-07-08T11:00:21.000+09:00",
+      "coordinates": [
+        142.325212,
+        45.173697
+      ],
+      "place": "Near Hamatonbetsu",
+      "routePosition": {
+        "activity": "15042347349",
+        "segment": 0,
+        "fraction": 0.3833712
+      }
+    },
+    {
+      "id": "2025-1-073",
+      "at": 750.521029,
+      "kind": "photo",
+      "capturedAt": "2025-07-08T11:23:55.000+09:00",
+      "coordinates": [
+        142.361817,
+        45.140778
+      ],
+      "place": "Hamatonbetsu",
+      "routePosition": {
+        "activity": "15042347349",
+        "segment": 0,
+        "fraction": 0.468235
+      }
+    },
+    {
+      "id": "2025-1-074",
+      "at": 754.521029,
+      "kind": "photo",
+      "capturedAt": "2025-07-08T11:39:11.000+09:00",
+      "coordinates": [
+        142.364747,
+        45.125111
+      ],
+      "place": "Hamatonbetsu",
+      "routePosition": {
+        "activity": "15042347349",
+        "segment": 0,
+        "fraction": 0.4943399
+      }
+    },
+    {
+      "id": "2025-1-075",
+      "at": 758.521029,
+      "kind": "photo",
+      "capturedAt": "2025-07-08T13:33:41.000+09:00",
+      "coordinates": [
+        142.482863,
+        45.060314
+      ],
+      "place": "Near Hamatonbetsu",
+      "routePosition": {
+        "activity": "15042347349",
+        "segment": 0,
+        "fraction": 0.7255149
+      }
+    },
+    {
+      "id": "2025-1-076",
+      "at": 762.521029,
+      "kind": "video",
+      "capturedAt": "2025-07-08T16:49:41.263+09:00"
+    },
+    {
+      "id": "2025-1-077",
+      "at": 822.554362,
+      "kind": "photo",
+      "capturedAt": "2025-07-08T13:59:25.000+09:00",
+      "coordinates": [
+        142.507142,
+        45.042736
+      ],
+      "place": "Near Esashi",
+      "routePosition": {
+        "activity": "15042347349",
+        "segment": 0,
+        "fraction": 0.7814486
+      }
+    },
+    {
+      "id": "2025-1-078",
+      "at": 826.554362,
+      "kind": "photo",
+      "capturedAt": "2025-07-08T14:00:00.000+09:00",
+      "coordinates": [
+        142.507155,
+        45.042831
+      ],
+      "place": "Near Esashi",
+      "routePosition": {
+        "activity": "15042347349",
+        "segment": 0,
+        "fraction": 0.7815337
+      }
+    },
+    {
+      "id": "2025-1-079",
+      "at": 830.554362,
+      "kind": "photo",
+      "capturedAt": "2025-07-08T14:50:00.000+09:00",
+      "coordinates": [
+        142.560137,
+        44.975903
+      ],
+      "place": "Esashi",
+      "routePosition": {
+        "activity": "15042347349",
+        "segment": 0,
+        "fraction": 0.9135167
+      }
+    },
+    {
+      "id": "2025-1-080",
+      "at": 834.554362,
+      "kind": "video",
+      "capturedAt": "2025-07-08T18:35:41.000+09:00",
+      "coordinates": [
+        142.5665,
+        44.9346
+      ],
+      "place": "Esashi",
+      "routePosition": {
+        "activity": "15042347349",
+        "segment": 0,
+        "fraction": 1
+      }
+    },
+    {
+      "id": "2025-1-081",
+      "at": 875.787696,
+      "kind": "photo",
+      "capturedAt": "2025-07-08T18:58:39.000+09:00",
+      "coordinates": [
+        142.566605,
+        44.93463
+      ],
+      "place": "Esashi",
+      "routePosition": {
+        "activity": "15042347349",
+        "segment": 0,
+        "fraction": 1
+      }
+    },
+    {
+      "id": "2025-1-082",
+      "at": 879.787696,
+      "kind": "photo",
+      "capturedAt": "2025-07-08T19:13:11.000+09:00",
+      "coordinates": [
+        142.566712,
+        44.934588
+      ],
+      "place": "Esashi",
+      "routePosition": {
+        "activity": "15042347349",
+        "segment": 0,
+        "fraction": 1
+      }
+    },
+    {
+      "id": "2025-1-083",
+      "at": 883.787696,
+      "kind": "video",
+      "capturedAt": "2025-07-08T17:38:16.732+09:00"
+    },
+    {
+      "id": "2025-1-084",
+      "at": 939.587696,
+      "kind": "video",
+      "capturedAt": "2025-07-09T10:21:49.000+09:00",
+      "coordinates": [
+        142.6811,
+        44.8142
+      ],
+      "place": "Near Esashi",
+      "routePosition": {
+        "activity": "15054541103",
+        "segment": 0,
+        "fraction": 0.2524306
+      }
+    },
+    {
+      "id": "2025-1-085",
+      "at": 994.887696,
+      "kind": "photo",
+      "capturedAt": "2025-07-09T11:07:15.000+09:00",
+      "coordinates": [
+        142.718262,
+        44.781567
+      ],
+      "place": "Near Esashi",
+      "routePosition": {
+        "activity": "15054541103",
+        "segment": 0,
+        "fraction": 0.3465424
+      }
+    },
+    {
+      "id": "2025-1-086",
+      "at": 998.887696,
+      "kind": "photo",
+      "capturedAt": "2025-07-09T12:29:47.000+09:00",
+      "coordinates": [
+        142.779433,
+        44.694917
+      ],
+      "place": "Near Oumu",
+      "routePosition": {
+        "activity": "15054541103",
+        "segment": 0,
+        "fraction": 0.5156201
+      }
+    },
+    {
+      "id": "2025-1-087",
+      "at": 1002.887696,
+      "kind": "photo",
+      "capturedAt": "2025-07-09T12:52:01.000+09:00",
+      "coordinates": [
+        142.80977,
+        44.704075
+      ],
+      "place": "Near Oumu",
+      "routePosition": {
+        "activity": "15054541103",
+        "segment": 0,
+        "fraction": 0.5555157
+      }
+    },
+    {
+      "id": "2025-1-088",
+      "at": 1006.887696,
+      "kind": "photo",
+      "capturedAt": "2025-07-09T12:53:13.000+09:00",
+      "coordinates": [
+        142.809738,
+        44.704138
+      ],
+      "place": "Near Oumu",
+      "routePosition": {
+        "activity": "15054541103",
+        "segment": 0,
+        "fraction": 0.5555499
+      }
+    },
+    {
+      "id": "2025-1-089",
+      "at": 1010.887696,
+      "kind": "photo",
+      "capturedAt": "2025-07-09T13:27:09.000+09:00",
+      "coordinates": [
+        142.84137,
+        44.685688
+      ],
+      "place": "Near Oumu",
+      "routePosition": {
+        "activity": "15054541103",
+        "segment": 0,
+        "fraction": 0.5944095
+      }
+    },
+    {
+      "id": "2025-1-090",
+      "at": 1014.887696,
+      "kind": "photo",
+      "capturedAt": "2025-07-09T14:57:17.000+09:00",
+      "coordinates": [
+        142.947722,
+        44.59452
+      ],
+      "place": "Oumu",
+      "routePosition": {
+        "activity": "15054541103",
+        "segment": 0,
+        "fraction": 0.805122
+      }
+    },
+    {
+      "id": "2025-1-091",
+      "at": 1018.887696,
+      "kind": "photo",
+      "capturedAt": "2025-07-09T15:30:42.000+09:00",
+      "coordinates": [
+        142.958878,
+        44.585812
+      ],
+      "place": "Oumu",
+      "routePosition": {
+        "activity": "15054541103",
+        "segment": 0,
+        "fraction": 0.8207923
+      }
+    },
+    {
+      "id": "2025-1-092",
+      "at": 1022.887696,
+      "kind": "photo",
+      "capturedAt": "2025-07-09T17:17:13.000+09:00",
+      "coordinates": [
+        143.05777,
+        44.52673
+      ],
+      "place": "Near Okoppe",
+      "routePosition": {
+        "activity": "15054541103",
+        "segment": 0,
+        "fraction": 1
+      }
+    },
+    {
+      "id": "2025-1-093",
+      "at": 1026.887696,
+      "kind": "video",
+      "capturedAt": "2025-07-09T18:38:30.000+09:00",
+      "coordinates": [
+        143.0576,
+        44.5268
+      ],
+      "place": "Near Okoppe",
+      "routePosition": {
+        "activity": "15054541103",
+        "segment": 0,
+        "fraction": 1
+      }
+    },
+    {
+      "id": "2025-1-094",
+      "at": 1072.887696,
+      "kind": "photo",
+      "capturedAt": "2025-07-10T11:48:27.000+09:00",
+      "coordinates": [
+        142.876738,
+        44.589578
+      ],
+      "place": "Near Oumu",
+      "routePosition": {
+        "activity": "15065731110",
+        "segment": 0,
+        "fraction": 0.3252455
+      }
+    },
+    {
+      "id": "2025-1-095",
+      "at": 1076.887696,
+      "kind": "photo",
+      "capturedAt": "2025-07-10T13:17:52.000+09:00",
+      "coordinates": [
+        142.788147,
+        44.52827
+      ],
+      "place": "Near Oumu",
+      "routePosition": {
+        "activity": "15065731110",
+        "segment": 0,
+        "fraction": 0.4846883
+      }
+    },
+    {
+      "id": "2025-1-096",
+      "at": 1080.887696,
+      "kind": "video",
+      "capturedAt": "2025-07-10T13:20:26.506+09:00",
+      "coordinates": [
+        142.7864,
+        44.5274
+      ],
+      "place": "Near Oumu",
+      "routePosition": {
+        "activity": "15065731110",
+        "segment": 0,
+        "fraction": 0.4901936
+      }
+    },
+    {
+      "id": "2025-1-097",
+      "at": 1095.521029,
+      "kind": "photo",
+      "capturedAt": "2025-07-10T13:27:58.000+09:00",
+      "coordinates": [
+        142.753342,
+        44.523133
+      ],
+      "place": "Near Oumu",
+      "routePosition": {
+        "activity": "15065731110",
+        "segment": 0,
+        "fraction": 0.5280483
+      }
+    },
+    {
+      "id": "2025-1-098",
+      "at": 1099.521029,
+      "kind": "photo",
+      "capturedAt": "2025-07-10T13:33:29.000+09:00",
+      "coordinates": [
+        142.744797,
+        44.523388
+      ],
+      "place": "Near Oumu",
+      "routePosition": {
+        "activity": "15065731110",
+        "segment": 0,
+        "fraction": 0.5417234
+      }
+    },
+    {
+      "id": "2025-1-099",
+      "at": 1103.521029,
+      "kind": "video",
+      "capturedAt": "2025-07-10T16:22:16.000+09:00",
+      "coordinates": [
+        142.6316,
+        44.3325
+      ],
+      "place": "Shimokawa",
+      "routePosition": {
+        "activity": "15065731110",
+        "segment": 0,
+        "fraction": 0.9353688
+      }
+    },
+    {
+      "id": "2025-2-001",
+      "at": 1163.554362,
+      "kind": "video",
+      "capturedAt": "2025-07-10T19:48:07.040+09:00"
+    },
+    {
+      "id": "2025-2-002",
+      "at": 1206.854362,
+      "kind": "video",
+      "capturedAt": "2025-07-10T18:34:09.379+09:00",
+      "coordinates": [
+        142.6402,
+        44.3037
+      ],
+      "place": "Shimokawa",
+      "routePosition": {
+        "activity": "15065731110",
+        "segment": 0,
+        "fraction": 1
+      }
+    },
+    {
+      "id": "2025-2-003",
+      "at": 1228.654362,
+      "kind": "photo",
+      "capturedAt": "2025-07-10T18:50:19.000+09:00",
+      "coordinates": [
+        142.639617,
+        44.302863
+      ],
+      "place": "Shimokawa",
+      "routePosition": {
+        "activity": "15065731110",
+        "segment": 0,
+        "fraction": 1
+      }
+    },
+    {
+      "id": "2025-2-004",
+      "at": 1232.654362,
+      "kind": "video",
+      "capturedAt": "2025-07-10T18:52:14.000+09:00",
+      "coordinates": [
+        142.6402,
+        44.3027
+      ],
+      "place": "Shimokawa",
+      "routePosition": {
+        "activity": "15065731110",
+        "segment": 0,
+        "fraction": 1
+      }
+    },
+    {
+      "id": "2025-2-005",
+      "at": 1262.987696,
+      "kind": "photo",
+      "capturedAt": "2025-07-11T08:40:25.000+09:00",
+      "coordinates": [
+        142.43643,
+        44.301113
+      ],
+      "place": "Near Nayoro",
+      "routePosition": {
+        "activity": "15076918874",
+        "segment": 0,
+        "fraction": 0.1895522
+      }
+    },
+    {
+      "id": "2025-2-006",
+      "at": 1266.987696,
+      "kind": "photo",
+      "capturedAt": "2025-07-11T10:09:48.000+09:00",
+      "coordinates": [
+        142.402205,
+        44.245922
+      ],
+      "place": "Near Shibetsu",
+      "routePosition": {
+        "activity": "15076918874",
+        "segment": 0,
+        "fraction": 0.3077216
+      }
+    },
+    {
+      "id": "2025-2-007",
+      "at": 1270.987696,
+      "kind": "photo",
+      "capturedAt": "2025-07-11T10:29:05.000+09:00",
+      "coordinates": [
+        142.401887,
+        44.205842
+      ],
+      "place": "Shibetsu",
+      "routePosition": {
+        "activity": "15076918874",
+        "segment": 0,
+        "fraction": 0.3467559
+      }
+    },
+    {
+      "id": "2025-2-008",
+      "at": 1274.987696,
+      "kind": "photo",
+      "capturedAt": "2025-07-11T10:33:58.000+09:00",
+      "coordinates": [
+        142.40193,
+        44.196792
+      ],
+      "place": "Shibetsu",
+      "routePosition": {
+        "activity": "15076918874",
+        "segment": 0,
+        "fraction": 0.3568907
+      }
+    },
+    {
+      "id": "2025-2-009",
+      "at": 1278.987696,
+      "kind": "photo",
+      "capturedAt": "2025-07-11T10:36:04.000+09:00",
+      "coordinates": [
+        142.40193,
+        44.195817
+      ],
+      "place": "Shibetsu",
+      "routePosition": {
+        "activity": "15076918874",
+        "segment": 0,
+        "fraction": 0.361249
+      }
+    },
+    {
+      "id": "2025-2-010",
+      "at": 1282.987696,
+      "kind": "photo",
+      "capturedAt": "2025-07-11T10:40:12.000+09:00",
+      "coordinates": [
+        142.394945,
+        44.194205
+      ],
+      "place": "Shibetsu",
+      "routePosition": {
+        "activity": "15076918874",
+        "segment": 0,
+        "fraction": 0.3684549
+      }
+    },
+    {
+      "id": "2025-2-011",
+      "at": 1286.987696,
+      "kind": "photo",
+      "capturedAt": "2025-07-11T11:04:54.000+09:00",
+      "coordinates": [
+        142.395737,
+        44.1734
+      ],
+      "place": "Shibetsu",
+      "routePosition": {
+        "activity": "15076918874",
+        "segment": 0,
+        "fraction": 0.3912822
+      }
+    },
+    {
+      "id": "2025-2-012",
+      "at": 1290.987696,
+      "kind": "photo",
+      "capturedAt": "2025-07-11T11:06:56.000+09:00",
+      "coordinates": [
+        142.394592,
+        44.17317
+      ],
+      "place": "Shibetsu",
+      "routePosition": {
+        "activity": "15076918874",
+        "segment": 0,
+        "fraction": 0.3925091
+      }
+    },
+    {
+      "id": "2025-2-013",
+      "at": 1294.987696,
+      "kind": "photo",
+      "capturedAt": "2025-07-11T11:12:25.000+09:00",
+      "coordinates": [
+        142.394395,
+        44.169522
+      ],
+      "place": "Shibetsu",
+      "routePosition": {
+        "activity": "15076918874",
+        "segment": 0,
+        "fraction": 0.3977305
+      }
+    },
+    {
+      "id": "2025-2-014",
+      "at": 1298.987696,
+      "kind": "photo",
+      "capturedAt": "2025-07-11T11:58:49.000+09:00",
+      "coordinates": [
+        142.362503,
+        44.098633
+      ],
+      "place": "Kembuchi",
+      "routePosition": {
+        "activity": "15076918874",
+        "segment": 0,
+        "fraction": 0.4906625
+      }
+    },
+    {
+      "id": "2025-2-015",
+      "at": 1302.987696,
+      "kind": "photo",
+      "capturedAt": "2025-07-11T12:00:49.000+09:00",
+      "coordinates": [
+        142.363205,
+        44.096686
+      ],
+      "place": "Kembuchi",
+      "routePosition": {
+        "activity": "15076918874",
+        "segment": 0,
+        "fraction": 0.4937617
+      }
+    },
+    {
+      "id": "2025-2-016",
+      "at": 1306.987696,
+      "kind": "photo",
+      "capturedAt": "2025-07-11T12:12:56.000+09:00",
+      "coordinates": [
+        142.372192,
+        44.088
+      ],
+      "place": "Kembuchi",
+      "routePosition": {
+        "activity": "15076918874",
+        "segment": 0,
+        "fraction": 0.5092957
+      }
+    },
+    {
+      "id": "2025-2-017",
+      "at": 1310.987696,
+      "kind": "photo",
+      "capturedAt": "2025-07-11T16:22:24.000+09:00",
+      "coordinates": [
+        142.46553,
+        43.862188
+      ],
+      "place": "Pippu",
+      "routePosition": {
+        "activity": "15076918874",
+        "segment": 0,
+        "fraction": 0.8543099
+      }
+    },
+    {
+      "id": "2025-2-018",
+      "at": 1314.987696,
+      "kind": "photo",
+      "capturedAt": "2025-07-11T16:33:52.000+09:00",
+      "coordinates": [
+        142.459763,
+        43.84795
+      ],
+      "place": "Pippu",
+      "routePosition": {
+        "activity": "15076918874",
+        "segment": 0,
+        "fraction": 0.8774738
+      }
+    },
+    {
+      "id": "2025-2-019",
+      "at": 1318.987696,
+      "kind": "photo",
+      "capturedAt": "2025-07-11T20:32:23.000+09:00",
+      "coordinates": [
+        142.362122,
+        43.770092
+      ],
+      "place": "Asahikawa",
+      "routePosition": {
+        "activity": "15076918874",
+        "segment": 0,
+        "fraction": 1
+      }
+    },
+    {
+      "id": "2025-2-020",
+      "at": 1322.987696,
+      "kind": "video",
+      "capturedAt": "2025-07-11T21:41:05.000+09:00"
+    },
+    {
+      "id": "2025-2-021",
+      "at": 1364.887696,
+      "kind": "video",
+      "capturedAt": "2025-07-11T21:41:05.000+09:00"
+    },
+    {
+      "id": "2025-2-022",
+      "at": 1424.921029,
+      "kind": "photo",
+      "capturedAt": "2025-07-12T08:08:19.000+09:00",
+      "coordinates": [
+        142.360262,
+        43.77082
+      ],
+      "place": "Asahikawa",
+      "routePosition": {
+        "activity": "15076918874",
+        "segment": 0,
+        "fraction": 1
+      }
+    },
+    {
+      "id": "2025-2-023",
+      "at": 1428.921029,
+      "kind": "video",
+      "capturedAt": "2025-07-12T10:54:54.419+09:00",
+      "coordinates": [
+        142.3587,
+        43.7675
+      ],
+      "place": "Asahikawa",
+      "routePosition": {
+        "activity": "15088093972",
+        "segment": 0,
+        "fraction": 0.0106665
+      }
+    },
+    {
+      "id": "2025-2-024",
+      "at": 1448.421029,
+      "kind": "photo",
+      "capturedAt": "2025-07-12T15:55:43.000+09:00",
+      "coordinates": [
+        142.459213,
+        43.557292
+      ],
+      "place": "Biei",
+      "routePosition": {
+        "activity": "15088093972",
+        "segment": 0,
+        "fraction": 0.718862
+      }
+    },
+    {
+      "id": "2025-2-025",
+      "at": 1452.421029,
+      "kind": "photo",
+      "capturedAt": "2025-07-12T16:44:52.000+09:00",
+      "coordinates": [
+        142.46985,
+        43.493417
+      ],
+      "place": "Kamifurano",
+      "routePosition": {
+        "activity": "15088093972",
+        "segment": 0,
+        "fraction": 0.8970311
+      }
+    },
+    {
+      "id": "2025-2-026",
+      "at": 1456.421029,
+      "kind": "photo",
+      "capturedAt": "2025-07-12T17:00:35.000+09:00",
+      "coordinates": [
+        142.468017,
+        43.461645
+      ],
+      "place": "Kamifurano",
+      "routePosition": {
+        "activity": "15088093972",
+        "segment": 0,
+        "fraction": 0.978656
+      }
+    },
+    {
+      "id": "2025-2-027",
+      "at": 1460.421029,
+      "kind": "photo",
+      "capturedAt": "2025-07-12T18:36:38.000+09:00",
+      "coordinates": [
+        142.474045,
+        43.461375
+      ],
+      "place": "Kamifurano",
+      "routePosition": {
+        "activity": "15088093972",
+        "segment": 0,
+        "fraction": 1
+      }
+    },
+    {
+      "id": "2025-2-028",
+      "at": 1464.421029,
+      "kind": "photo",
+      "capturedAt": "2025-07-12T17:02:58.000+09:00",
+      "coordinates": [
+        142.471328,
+        43.461945
+      ],
+      "place": "Kamifurano",
+      "routePosition": {
+        "activity": "15088093972",
+        "segment": 0,
+        "fraction": 0.9841814
+      }
+    },
+    {
+      "id": "2025-2-029",
+      "at": 1468.421029,
+      "kind": "video",
+      "capturedAt": "2025-07-13T20:07:19.000+09:00"
+    },
+    {
+      "id": "2025-2-030",
+      "at": 1516.321029,
+      "kind": "photo",
+      "capturedAt": "2025-07-13T07:54:21.000+09:00",
+      "coordinates": [
+        142.476563,
+        43.457947
+      ],
+      "place": "Kamifurano",
+      "routePosition": {
+        "activity": "15106512632",
+        "segment": 0,
+        "fraction": 0.0095245
+      }
+    },
+    {
+      "id": "2025-2-031",
+      "at": 1520.321029,
+      "kind": "photo",
+      "capturedAt": "2025-07-13T11:13:23.000+09:00",
+      "coordinates": [
+        142.334288,
+        43.4259
+      ],
+      "place": "Near Nakafurano",
+      "routePosition": {
+        "activity": "15106512632",
+        "segment": 0,
+        "fraction": 0.4285438
+      }
+    },
+    {
+      "id": "2025-2-032",
+      "at": 1524.321029,
+      "kind": "photo",
+      "capturedAt": "2025-07-13T08:17:20.000+09:00",
+      "coordinates": [
+        142.462142,
+        43.408578
+      ],
+      "place": "Nakafurano",
+      "routePosition": {
+        "activity": "15106512632",
+        "segment": 0,
+        "fraction": 0.0816272
+      }
+    },
+    {
+      "id": "2025-2-033",
+      "at": 1528.321029,
+      "kind": "photo",
+      "capturedAt": "2025-07-13T09:00:01.000+09:00",
+      "coordinates": [
+        142.401612,
+        43.348872
+      ],
+      "place": "Furano",
+      "routePosition": {
+        "activity": "15106512632",
+        "segment": 0,
+        "fraction": 0.1896847
+      }
+    },
+    {
+      "id": "2025-2-034",
+      "at": 1532.321029,
+      "kind": "photo",
+      "capturedAt": "2025-07-13T14:24:07.000+09:00",
+      "coordinates": [
+        142.084961,
+        43.539372
+      ],
+      "place": "Akabira",
+      "routePosition": {
+        "activity": "15106512632",
+        "segment": 0,
+        "fraction": 0.7933922
+      }
+    },
+    {
+      "id": "2025-2-035",
+      "at": 1536.321029,
+      "kind": "video",
+      "capturedAt": "2025-07-13T15:25:08.325+09:00",
+      "coordinates": [
+        141.9898,
+        43.4933
+      ],
+      "place": "Kamisunagawa",
+      "routePosition": {
+        "activity": "15106512632",
+        "segment": 0,
+        "fraction": 0.9313209
+      }
+    },
+    {
+      "id": "2025-2-036",
+      "at": 1586.721029,
+      "kind": "photo",
+      "capturedAt": "2025-07-13T21:42:36.000+09:00",
+      "coordinates": [
+        142.02185,
+        43.465728
+      ],
+      "place": "Kamisunagawa",
+      "routePosition": {
+        "activity": "15106512632",
+        "segment": 0,
+        "fraction": 1
+      }
+    },
+    {
+      "id": "2025-2-037",
+      "at": 1590.721029,
+      "kind": "photo",
+      "capturedAt": "2025-07-14T15:02:25.000+09:00",
+      "coordinates": [
+        141.394975,
+        43.069905
+      ],
+      "place": "Sapporo",
+      "routePosition": {
+        "activity": "15107291429",
+        "segment": 0,
+        "fraction": 0.9545744
+      }
+    },
+    {
+      "id": "2025-2-038",
+      "at": 1594.721029,
+      "kind": "photo",
+      "capturedAt": "2025-07-14T08:01:15.000+09:00",
+      "coordinates": [
+        141.89415,
+        43.447747
+      ],
+      "place": "Naie",
+      "routePosition": {
+        "activity": "15107291429",
+        "segment": 0,
+        "fraction": 0.1656261
+      }
+    },
+    {
+      "id": "2025-2-039",
+      "at": 1598.721029,
+      "kind": "photo",
+      "capturedAt": "2025-07-14T13:26:32.000+09:00",
+      "coordinates": [
+        141.531447,
+        43.098061
+      ],
+      "place": "Ebetsu",
+      "routePosition": {
+        "activity": "15107291429",
+        "segment": 0,
+        "fraction": 0.7775594
+      }
+    },
+    {
+      "id": "2025-2-040",
+      "at": 1602.721029,
+      "kind": "photo",
+      "capturedAt": "2025-07-14T16:09:07.000+09:00"
+    },
+    {
+      "id": "2025-2-041",
+      "at": 1606.721029,
+      "kind": "photo",
+      "capturedAt": "2025-07-14T16:34:09.000+09:00",
+      "coordinates": [
+        141.357345,
+        43.043922
+      ],
+      "place": "Sapporo",
+      "routePosition": {
+        "activity": "15107291429",
+        "segment": 0,
+        "fraction": 1
+      }
+    }
+  ],
+  "2026": [
+    {
+      "id": "2026-1-001",
+      "at": 0,
+      "kind": "photo",
+      "capturedAt": "2026-06-29T07:29:49.000+09:00",
+      "coordinates": [
+        139.781905,
+        35.55048
+      ],
+      "place": "Haneda Airport"
+    },
+    {
+      "id": "2026-1-002",
+      "at": 4.021029,
+      "kind": "photo",
+      "capturedAt": "2026-06-29T10:48:44.000+09:00",
+      "coordinates": [
+        141.680938,
+        42.786575
+      ],
+      "place": "New Chitose Airport"
+    },
+    {
+      "id": "2026-1-003",
+      "at": 8.021029,
+      "kind": "photo",
+      "capturedAt": "2026-06-29T12:35:20.000+09:00",
+      "coordinates": [
+        141.350997,
+        43.057094
+      ],
+      "place": "Sapporo"
+    },
+    {
+      "id": "2026-1-004",
+      "at": 12.021029,
+      "kind": "video",
+      "capturedAt": "2026-06-29T12:41:43.429+09:00",
+      "coordinates": [
+        141.351,
+        43.057
+      ],
+      "place": "Sapporo"
+    },
+    {
+      "id": "2026-1-005",
+      "at": 18.321029,
+      "kind": "photo",
+      "capturedAt": "2026-06-29T14:05:36.000+09:00",
+      "coordinates": [
+        141.354888,
+        43.055661
+      ],
+      "place": "Sapporo"
+    },
+    {
+      "id": "2026-1-006",
+      "at": 22.321029,
+      "kind": "video",
+      "capturedAt": "2026-06-30T11:11:20.000+09:00",
+      "coordinates": [
+        142.0983,
+        43.7322
+      ],
+      "place": "Fukagawa"
+    },
+    {
+      "id": "2026-1-007",
+      "at": 26.821029,
+      "kind": "photo",
+      "recap": true,
+      "recapDate": "2026-06-30"
+    },
+    {
+      "id": "2026-1-008",
+      "at": 30.821029,
+      "kind": "video",
+      "capturedAt": "2026-06-30T14:12:41.123+09:00",
+      "coordinates": [
+        142.4598,
+        43.8402
+      ],
+      "place": "Tohma",
+      "routePosition": {
+        "activity": "19129076576",
+        "segment": 0,
+        "fraction": 0.1712977
+      }
+    },
+    {
+      "id": "2026-1-009",
+      "at": 42.021029,
+      "kind": "video",
+      "capturedAt": "2026-06-30T14:15:20.571+09:00",
+      "coordinates": [
+        142.4598,
+        43.8402
+      ],
+      "place": "Tohma",
+      "routePosition": {
+        "activity": "19129076576",
+        "segment": 0,
+        "fraction": 0.182339
+      }
+    },
+    {
+      "id": "2026-1-010",
+      "at": 54.921029,
+      "kind": "video",
+      "capturedAt": "2026-06-30T14:57:03.000+09:00",
+      "coordinates": [
+        142.5445,
+        43.8967
+      ],
+      "place": "Aibetsu",
+      "routePosition": {
+        "activity": "19129076576",
+        "segment": 0,
+        "fraction": 0.3106419
+      }
+    },
+    {
+      "id": "2026-1-011",
+      "at": 62.321029,
+      "kind": "video",
+      "capturedAt": "2026-06-30T15:11:55.873+09:00",
+      "coordinates": [
+        142.5687,
+        43.8992
+      ],
+      "place": "Aibetsu",
+      "routePosition": {
+        "activity": "19129076576",
+        "segment": 0,
+        "fraction": 0.344822
+      }
+    },
+    {
+      "id": "2026-1-012",
+      "at": 77.021029,
+      "kind": "photo",
+      "capturedAt": "2026-06-30T15:39:29.000+09:00",
+      "coordinates": [
+        142.57338,
+        43.908475
+      ],
+      "place": "Aibetsu",
+      "routePosition": {
+        "activity": "19129076576",
+        "segment": 0,
+        "fraction": 0.3716753
+      }
+    },
+    {
+      "id": "2026-1-013",
+      "at": 81.021029,
+      "kind": "video",
+      "capturedAt": "2026-06-30T15:47:45.973+09:00",
+      "coordinates": [
+        142.5769,
+        43.9066
+      ],
+      "place": "Aibetsu",
+      "routePosition": {
+        "activity": "19129076576",
+        "segment": 0,
+        "fraction": 0.3778882
+      }
+    },
+    {
+      "id": "2026-1-014",
+      "at": 94.221029,
+      "kind": "video",
+      "capturedAt": "2026-06-30T16:02:46.000+09:00",
+      "coordinates": [
+        142.6086,
+        43.901
+      ],
+      "place": "Aibetsu",
+      "routePosition": {
+        "activity": "19129076576",
+        "segment": 0,
+        "fraction": 0.4205754
+      }
+    },
+    {
+      "id": "2026-1-015",
+      "at": 118.821029,
+      "kind": "photo",
+      "capturedAt": "2026-06-30T16:28:15.000+09:00",
+      "coordinates": [
+        142.677872,
+        43.879395
+      ],
+      "place": "Near Kamikawa",
+      "routePosition": {
+        "activity": "19129076576",
+        "segment": 0,
+        "fraction": 0.5078988
+      }
+    },
+    {
+      "id": "2026-1-016",
+      "at": 122.821029,
+      "kind": "video",
+      "capturedAt": "2026-06-30T18:16:17.000+09:00",
+      "coordinates": [
+        142.8069,
+        43.8246
+      ],
+      "place": "Kamikawa",
+      "routePosition": {
+        "activity": "19129076576",
+        "segment": 0,
+        "fraction": 0.7582954
+      }
+    },
+    {
+      "id": "2026-1-017",
+      "at": 140.521029,
+      "kind": "photo",
+      "capturedAt": "2026-06-30T19:08:23.000+09:00",
+      "coordinates": [
+        142.906678,
+        43.7705
+      ],
+      "place": "Near Sounkyo",
+      "routePosition": {
+        "activity": "19129076576",
+        "segment": 0,
+        "fraction": 0.9168388
+      }
+    },
+    {
+      "id": "2026-1-018",
+      "at": 144.521029,
+      "kind": "video",
+      "capturedAt": "2026-06-30T19:37:25.000+09:00",
+      "coordinates": [
+        142.9427,
+        43.7335
+      ],
+      "place": "Sounkyo",
+      "routePosition": {
+        "activity": "19129076576",
+        "segment": 0,
+        "fraction": 0.9854006
+      }
+    },
+    {
+      "id": "2026-1-019",
+      "at": 152.521029,
+      "kind": "photo",
+      "capturedAt": "2026-06-30T20:21:53.000+09:00",
+      "coordinates": [
+        142.946197,
+        43.72682
+      ],
+      "place": "Sounkyo",
+      "routePosition": {
+        "activity": "19129076576",
+        "segment": 0,
+        "fraction": 1
+      }
+    },
+    {
+      "id": "2026-1-020",
+      "at": 156.521029,
+      "kind": "photo",
+      "capturedAt": "2026-07-01T08:22:15.000+09:00",
+      "coordinates": [
+        142.950942,
+        43.725383
+      ],
+      "place": "Sounkyo",
+      "routePosition": {
+        "activity": "19129076576",
+        "segment": 0,
+        "fraction": 1
+      }
+    },
+    {
+      "id": "2026-1-021",
+      "at": 160.521029,
+      "kind": "photo",
+      "capturedAt": "2026-07-01T09:55:53.000+09:00",
+      "coordinates": [
+        142.947267,
+        43.725353
+      ],
+      "place": "Sounkyo",
+      "routePosition": {
+        "activity": "19129076576",
+        "segment": 0,
+        "fraction": 1
+      }
+    },
+    {
+      "id": "2026-1-022",
+      "at": 164.521029,
+      "kind": "photo",
+      "capturedAt": "2026-07-01T10:05:17.000+09:00",
+      "coordinates": [
+        142.947463,
+        43.726667
+      ],
+      "place": "Sounkyo",
+      "routePosition": {
+        "activity": "19129076576",
+        "segment": 0,
+        "fraction": 1
+      }
+    },
+    {
+      "id": "2026-1-023",
+      "at": 168.521029,
+      "kind": "photo",
+      "capturedAt": "2026-07-01T11:45:38.000+09:00",
+      "coordinates": [
+        143.020889,
+        43.687458
+      ],
+      "place": "Near Sounkyo",
+      "routePosition": {
+        "activity": "19133737963",
+        "segment": 0,
+        "fraction": 0.1419901
+      }
+    },
+    {
+      "id": "2026-1-024",
+      "at": 172.521029,
+      "kind": "photo",
+      "capturedAt": "2026-07-01T12:09:10.000+09:00",
+      "coordinates": [
+        143.041139,
+        43.67667
+      ],
+      "place": "Near Sounkyo",
+      "routePosition": {
+        "activity": "19133737963",
+        "segment": 0,
+        "fraction": 0.1775573
+      }
+    },
+    {
+      "id": "2026-1-025",
+      "at": 176.521029,
+      "kind": "video",
+      "capturedAt": "2026-07-01T13:52:56.872+09:00",
+      "coordinates": [
+        143.1662,
+        43.6551
+      ],
+      "place": "Near Mikuni Pass",
+      "routePosition": {
+        "activity": "19133737963",
+        "segment": 0,
+        "fraction": 0.3798165
+      }
+    },
+    {
+      "id": "2026-1-026",
+      "at": 222.221029,
+      "kind": "video",
+      "capturedAt": "2026-07-01T17:29:20.000+09:00"
+    },
+    {
+      "id": "2026-1-027",
+      "at": 271.554362,
+      "kind": "photo",
+      "capturedAt": "2026-07-01T13:41:15.000+09:00",
+      "coordinates": [
+        143.164003,
+        43.654695
+      ],
+      "place": "Near Mikuni Pass",
+      "routePosition": {
+        "activity": "19133737963",
+        "segment": 0,
+        "fraction": 0.3734676
+      }
+    },
+    {
+      "id": "2026-1-028",
+      "at": 275.554362,
+      "kind": "photo",
+      "recap": true,
+      "recapDate": "2026-07-01",
+      "capturedAt": "2026-07-01T16:04:22.000+09:00",
+      "coordinates": [
+        143.50203,
+        43.756233
+      ],
+      "place": "Onneyu",
+      "routePosition": {
+        "activity": "19133737963",
+        "segment": 0,
+        "fraction": 0.9871471
+      }
+    },
+    {
+      "id": "2026-1-029",
+      "at": 279.554362,
+      "kind": "photo",
+      "recap": true,
+      "recapDate": "2026-07-02",
+      "capturedAt": "2026-07-02T16:53:14.000+09:00",
+      "coordinates": [
+        144.189178,
+        44.007439
+      ],
+      "place": "Near Abashiri",
+      "routePosition": {
+        "activity": "19147424531",
+        "segment": 0,
+        "fraction": 0.9063721
+      }
+    },
+    {
+      "id": "2026-1-030",
+      "at": 283.554362,
+      "kind": "photo",
+      "capturedAt": "2026-07-02T09:19:52.000+09:00"
+    },
+    {
+      "id": "2026-1-031",
+      "at": 287.554362,
+      "kind": "photo",
+      "capturedAt": "2026-07-02T08:45:20.000+09:00"
+    },
+    {
+      "id": "2026-1-032",
+      "at": 291.554362,
+      "kind": "photo",
+      "capturedAt": "2026-07-02T11:48:33.000+09:00",
+      "coordinates": [
+        143.833145,
+        43.806647
+      ],
+      "place": "Kitami",
+      "routePosition": {
+        "activity": "19147424531",
+        "segment": 0,
+        "fraction": 0.3562241
+      }
+    },
+    {
+      "id": "2026-1-033",
+      "at": 295.554362,
+      "kind": "photo",
+      "capturedAt": "2026-07-02T13:11:40.000+09:00",
+      "coordinates": [
+        143.948137,
+        43.86073
+      ],
+      "place": "Near Kitami",
+      "routePosition": {
+        "activity": "19147424531",
+        "segment": 0,
+        "fraction": 0.5164754
+      }
+    },
+    {
+      "id": "2026-1-034",
+      "at": 299.554362,
+      "kind": "photo",
+      "capturedAt": "2026-07-02T13:24:22.000+09:00",
+      "coordinates": [
+        143.948242,
+        43.860808
+      ],
+      "place": "Near Kitami",
+      "routePosition": {
+        "activity": "19147424531",
+        "segment": 0,
+        "fraction": 0.5166138
+      }
+    },
+    {
+      "id": "2026-1-035",
+      "at": 303.554362,
+      "kind": "photo",
+      "capturedAt": "2026-07-02T13:47:19.000+09:00",
+      "coordinates": [
+        143.948442,
+        43.860787
+      ],
+      "place": "Near Kitami",
+      "routePosition": {
+        "activity": "19147424531",
+        "segment": 0,
+        "fraction": 0.5168639
+      }
+    },
+    {
+      "id": "2026-1-036",
+      "at": 307.554362,
+      "kind": "photo",
+      "capturedAt": "2026-07-01T15:43:16.000+09:00",
+      "coordinates": [
+        143.44925,
+        43.736705
+      ],
+      "place": "Onneyu",
+      "routePosition": {
+        "activity": "19133737963",
+        "segment": 0,
+        "fraction": 0.9066754
+      }
+    },
+    {
+      "id": "2026-1-037",
+      "at": 311.554362,
+      "kind": "photo",
+      "capturedAt": "2026-07-01T16:04:11.000+09:00",
+      "coordinates": [
+        143.502075,
+        43.756267
+      ],
+      "place": "Onneyu",
+      "routePosition": {
+        "activity": "19133737963",
+        "segment": 0,
+        "fraction": 0.9868879
+      }
+    },
+    {
+      "id": "2026-1-038",
+      "at": 315.554362,
+      "kind": "photo",
+      "capturedAt": "2026-07-02T10:05:56.000+09:00",
+      "coordinates": [
+        143.631728,
+        43.783097
+      ],
+      "place": "Near Kunneppu",
+      "routePosition": {
+        "activity": "19147424531",
+        "segment": 0,
+        "fraction": 0.1351113
+      }
+    },
+    {
+      "id": "2026-1-039",
+      "at": 319.554362,
+      "kind": "photo",
+      "capturedAt": "2026-07-02T11:59:05.000+09:00",
+      "coordinates": [
+        143.854767,
+        43.808178
+      ],
+      "place": "Kitami",
+      "routePosition": {
+        "activity": "19147424531",
+        "segment": 0,
+        "fraction": 0.374188
+      }
+    },
+    {
+      "id": "2026-1-040",
+      "at": 323.554362,
+      "kind": "photo",
+      "capturedAt": "2026-07-02T13:05:23.000+09:00",
+      "coordinates": [
+        143.941955,
+        43.852475
+      ],
+      "place": "Near Kitami",
+      "routePosition": {
+        "activity": "19147424531",
+        "segment": 0,
+        "fraction": 0.5007595
+      }
+    },
+    {
+      "id": "2026-1-041",
+      "at": 327.554362,
+      "kind": "photo",
+      "capturedAt": "2026-07-02T17:06:05.000+09:00",
+      "coordinates": [
+        144.222197,
+        44.011969
+      ],
+      "place": "Abashiri",
+      "routePosition": {
+        "activity": "19147424531",
+        "segment": 0,
+        "fraction": 0.9438811
+      }
+    },
+    {
+      "id": "2026-1-042",
+      "at": 331.554362,
+      "kind": "video",
+      "capturedAt": "2026-07-02T19:15:52.000+09:00",
+      "coordinates": [
+        144.2639,
+        44.0219
+      ],
+      "place": "Abashiri",
+      "routePosition": {
+        "activity": "19147424531",
+        "segment": 0,
+        "fraction": 1
+      }
+    },
+    {
+      "id": "2026-1-043",
+      "at": 356.887696,
+      "kind": "photo",
+      "recap": true,
+      "recapDate": "2026-07-03",
+      "capturedAt": "2026-07-03T10:50:55.000+09:00",
+      "coordinates": [
+        144.327483,
+        43.965825
+      ],
+      "place": "Near Abashiri",
+      "routePosition": {
+        "activity": "19160672037",
+        "segment": 0,
+        "fraction": 0.2057273
+      }
+    },
+    {
+      "id": "2026-1-044",
+      "at": 360.887696,
+      "kind": "photo",
+      "capturedAt": "2026-07-03T09:37:39.000+09:00",
+      "coordinates": [
+        144.300262,
+        43.980113
+      ],
+      "place": "Abashiri",
+      "routePosition": {
+        "activity": "19160672037",
+        "segment": 0,
+        "fraction": 0.0722124
+      }
+    },
+    {
+      "id": "2026-1-045",
+      "at": 364.887696,
+      "kind": "photo",
+      "capturedAt": "2026-07-03T14:36:16.000+09:00",
+      "coordinates": [
+        144.665008,
+        43.911275
+      ],
+      "place": "Shari",
+      "routePosition": {
+        "activity": "19160672037",
+        "segment": 0,
+        "fraction": 0.5678982
+      }
+    },
+    {
+      "id": "2026-1-046",
+      "at": 368.887696,
+      "kind": "photo",
+      "capturedAt": "2026-07-03T14:52:39.000+09:00",
+      "coordinates": [
+        144.664872,
+        43.911275
+      ],
+      "place": "Shari",
+      "routePosition": {
+        "activity": "19160672037",
+        "segment": 0,
+        "fraction": 0.568672
+      }
+    },
+    {
+      "id": "2026-1-047",
+      "at": 372.887696,
+      "kind": "video",
+      "capturedAt": "2026-07-03T15:27:19.000+09:00",
+      "coordinates": [
+        144.7451,
+        43.9145
+      ],
+      "place": "Near Shari",
+      "routePosition": {
+        "activity": "19160672037",
+        "segment": 0,
+        "fraction": 0.6474164
+      }
+    },
+    {
+      "id": "2026-1-048",
+      "at": 381.287696,
+      "kind": "photo",
+      "capturedAt": "2026-07-03T17:02:45.000+09:00",
+      "coordinates": [
+        144.913253,
+        44.006497
+      ],
+      "place": "Near Shiretoko Pass",
+      "routePosition": {
+        "activity": "19160672037",
+        "segment": 0,
+        "fraction": 0.8699144
+      }
+    },
+    {
+      "id": "2026-1-049",
+      "at": 385.287696,
+      "kind": "photo",
+      "capturedAt": "2026-07-03T17:37:13.000+09:00",
+      "coordinates": [
+        144.959975,
+        44.054142
+      ],
+      "place": "Near Shiretoko Pass",
+      "routePosition": {
+        "activity": "19160672037",
+        "segment": 0,
+        "fraction": 0.9491637
+      }
+    },
+    {
+      "id": "2026-1-050",
+      "at": 389.287696,
+      "kind": "video",
+      "capturedAt": "2026-07-03T20:15:53.000+09:00"
+    },
+    {
+      "id": "2026-1-051",
+      "at": 401.287696,
+      "kind": "video",
+      "capturedAt": "2026-07-03T20:19:18.000+09:00"
+    },
+    {
+      "id": "2026-1-052",
+      "at": 418.387696,
+      "kind": "video",
+      "capturedAt": "2026-07-03T20:24:57.619+09:00"
+    },
+    {
+      "id": "2026-1-053",
+      "at": 478.421029,
+      "kind": "video",
+      "capturedAt": "2026-07-03T20:31:23.741+09:00"
+    },
+    {
+      "id": "2026-1-054",
+      "at": 494.454362,
+      "kind": "video",
+      "capturedAt": "2026-07-03T20:09:10.000+09:00"
+    },
+    {
+      "id": "2026-1-055",
+      "at": 550.087696,
+      "kind": "video",
+      "capturedAt": "2026-07-03T18:22:35.535+09:00",
+      "coordinates": [
+        145.0007,
+        44.0732
+      ],
+      "place": "Near Shiretoko Pass",
+      "routePosition": {
+        "activity": "19160672037",
+        "segment": 0,
+        "fraction": 1
+      }
+    },
+    {
+      "id": "2026-1-056",
+      "at": 610.087696,
+      "kind": "photo",
+      "recap": true,
+      "recapDate": "2026-07-04",
+      "capturedAt": "2026-07-04T13:54:20.000+09:00",
+      "coordinates": [
+        145.104264,
+        44.053386
+      ],
+      "place": "Shiretoko Pass",
+      "routePosition": {
+        "activity": "19171306821",
+        "segment": 0,
+        "fraction": 0.4176125
+      }
+    },
+    {
+      "id": "2026-1-057",
+      "at": 614.087696,
+      "kind": "video",
+      "capturedAt": "2026-07-04T10:04:32.000+09:00",
+      "coordinates": [
+        145.0087,
+        44.083
+      ],
+      "place": "Near Shiretoko Pass",
+      "routePosition": {
+        "activity": "19171306821",
+        "segment": 0,
+        "fraction": 0.075749
+      }
+    },
+    {
+      "id": "2026-1-058",
+      "at": 643.321029,
+      "kind": "photo",
+      "capturedAt": "2026-07-04T13:13:39.000+09:00",
+      "coordinates": [
+        145.102097,
+        44.054497
+      ],
+      "place": "Shiretoko Pass",
+      "routePosition": {
+        "activity": "19171306821",
+        "segment": 0,
+        "fraction": 0.4041771
+      }
+    },
+    {
+      "id": "2026-1-059",
+      "at": 647.321029,
+      "kind": "photo",
+      "capturedAt": "2026-07-04T10:45:37.000+09:00",
+      "coordinates": [
+        145.02295,
+        44.091197
+      ],
+      "place": "Near Shiretoko Pass",
+      "routePosition": {
+        "activity": "19171306821",
+        "segment": 0,
+        "fraction": 0.1509326
+      }
+    },
+    {
+      "id": "2026-1-060",
+      "at": 651.321029,
+      "kind": "photo",
+      "capturedAt": "2026-07-04T13:18:12.000+09:00",
+      "coordinates": [
+        145.104814,
+        44.05408
+      ],
+      "place": "Shiretoko Pass",
+      "routePosition": {
+        "activity": "19171306821",
+        "segment": 0,
+        "fraction": 0.414541
+      }
+    },
+    {
+      "id": "2026-1-061",
+      "at": 655.321029,
+      "kind": "video",
+      "capturedAt": "2026-07-04T15:39:24.000+09:00"
+    },
+    {
+      "id": "2026-1-062",
+      "at": 683.521029,
+      "kind": "video",
+      "capturedAt": "2026-07-04T15:49:01.000+09:00"
+    },
+    {
+      "id": "2026-1-063",
+      "at": 743.554362,
+      "kind": "video",
+      "capturedAt": "2026-07-04T16:13:49.344+09:00"
+    },
+    {
+      "id": "2026-1-064",
+      "at": 803.587696,
+      "kind": "video",
+      "capturedAt": "2026-07-04T19:26:30.605+09:00",
+      "coordinates": [
+        145.1928,
+        44.0202
+      ],
+      "place": "Rausu",
+      "routePosition": {
+        "activity": "19185331258",
+        "segment": 0,
+        "fraction": 0.5021616
+      }
+    },
+    {
+      "id": "2026-1-065",
+      "at": 813.587696,
+      "kind": "photo",
+      "capturedAt": "2026-07-05T08:42:27.000+09:00",
+      "coordinates": [
+        145.148972,
+        43.971908
+      ],
+      "place": "Near Rausu",
+      "routePosition": {
+        "activity": "19185331258",
+        "segment": 0,
+        "fraction": 1
+      }
+    },
+    {
+      "id": "2026-1-066",
+      "at": 817.587696,
+      "kind": "photo",
+      "recap": true,
+      "recapDate": "2026-07-05",
+      "capturedAt": "2026-07-05T15:23:57.000+09:00",
+      "coordinates": [
+        144.97792,
+        43.537353
+      ],
+      "place": "Nakashibetsu",
+      "routePosition": {
+        "activity": "19185337800",
+        "segment": 0,
+        "fraction": 0.7320703
+      }
+    },
+    {
+      "id": "2026-1-067",
+      "at": 821.587696,
+      "kind": "video",
+      "capturedAt": "2026-07-05T14:56:41.000+09:00",
+      "coordinates": [
+        144.9775,
+        43.5377
+      ],
+      "place": "Nakashibetsu",
+      "routePosition": {
+        "activity": "19185337800",
+        "segment": 0,
+        "fraction": 0.7319342
+      }
+    },
+    {
+      "id": "2026-1-068",
+      "at": 841.687696,
+      "kind": "photo",
+      "capturedAt": "2026-07-05T11:25:49.000+09:00",
+      "coordinates": [
+        145.059294,
+        43.773278
+      ],
+      "place": "Near Shibetsu",
+      "routePosition": {
+        "activity": "19185337800",
+        "segment": 0,
+        "fraction": 0.3185527
+      }
+    },
+    {
+      "id": "2026-1-069",
+      "at": 845.687696,
+      "kind": "video",
+      "capturedAt": "2026-07-05T19:04:31.000+09:00"
+    },
+    {
+      "id": "2026-1-070",
+      "at": 905.721029,
+      "kind": "video",
+      "capturedAt": "2026-07-05T18:57:46.000+09:00",
+      "coordinates": [
+        145.124358,
+        43.39363
+      ],
+      "place": "Betsukai",
+      "routePosition": {
+        "activity": "19185337800",
+        "segment": 0,
+        "fraction": 1
+      }
+    },
+    {
+      "id": "2026-1-071",
+      "at": 920.321029,
+      "kind": "photo",
+      "recap": true,
+      "recapDate": "2026-07-06",
+      "capturedAt": "2026-07-06T14:49:41.000+09:00",
+      "coordinates": [
+        144.6082,
+        43.473417
+      ],
+      "place": "Near Teshikaga",
+      "routePosition": {
+        "activity": "19197656923",
+        "segment": 0,
+        "fraction": 0.7921634
+      }
+    },
+    {
+      "id": "2026-1-072",
+      "at": 924.321029,
+      "kind": "photo",
+      "capturedAt": "2026-07-06T12:18:57.000+09:00",
+      "coordinates": [
+        144.767045,
+        43.413447
+      ],
+      "place": "Near Shibecha",
+      "routePosition": {
+        "activity": "19197656923",
+        "segment": 0,
+        "fraction": 0.5328996
+      }
+    },
+    {
+      "id": "2026-1-073",
+      "at": 928.321029,
+      "kind": "photo",
+      "capturedAt": "2026-07-06T15:34:14.000+09:00",
+      "coordinates": [
+        144.477767,
+        43.47902
+      ],
+      "place": "Teshikaga",
+      "routePosition": {
+        "activity": "19197656923",
+        "segment": 0,
+        "fraction": 0.9523413
+      }
+    },
+    {
+      "id": "2026-1-074",
+      "at": 932.321029,
+      "kind": "photo",
+      "capturedAt": "2026-07-06T16:15:51.000+09:00",
+      "coordinates": [
+        144.452483,
+        43.48753
+      ],
+      "place": "Teshikaga",
+      "routePosition": {
+        "activity": "19197656923",
+        "segment": 0,
+        "fraction": 1
+      }
+    },
+    {
+      "id": "2026-1-075",
+      "at": 936.321029,
+      "kind": "photo",
+      "capturedAt": "2026-07-06T18:43:52.000+09:00",
+      "coordinates": [
+        144.452713,
+        43.488262
+      ],
+      "place": "Teshikaga",
+      "routePosition": {
+        "activity": "19197656923",
+        "segment": 0,
+        "fraction": 1
+      }
+    },
+    {
+      "id": "2026-1-076",
+      "at": 940.321029,
+      "kind": "photo",
+      "capturedAt": "2026-07-06T18:45:31.000+09:00",
+      "coordinates": [
+        144.45305,
+        43.488042
+      ],
+      "place": "Teshikaga",
+      "routePosition": {
+        "activity": "19197656923",
+        "segment": 0,
+        "fraction": 1
+      }
+    },
+    {
+      "id": "2026-1-077",
+      "at": 944.321029,
+      "kind": "photo",
+      "capturedAt": "2026-07-06T18:18:40.000+09:00",
+      "coordinates": [
+        144.45253,
+        43.488158
+      ],
+      "place": "Teshikaga",
+      "routePosition": {
+        "activity": "19197656923",
+        "segment": 0,
+        "fraction": 1
+      }
+    },
+    {
+      "id": "2026-1-078",
+      "at": 948.321029,
+      "kind": "photo",
+      "capturedAt": "2026-07-06T19:07:51.000+09:00",
+      "coordinates": [
+        144.452575,
+        43.487542
+      ],
+      "place": "Teshikaga",
+      "routePosition": {
+        "activity": "19197656923",
+        "segment": 0,
+        "fraction": 1
+      }
+    },
+    {
+      "id": "2026-1-079",
+      "at": 952.321029,
+      "kind": "photo",
+      "recap": true,
+      "recapDate": "2026-07-07",
+      "capturedAt": "2026-07-07T11:50:47.000+09:00",
+      "coordinates": [
+        144.232437,
+        43.462742
+      ],
+      "place": "Near Lake Akan",
+      "routePosition": {
+        "activity": "19209523543",
+        "segment": 0,
+        "fraction": 0.5765874
+      }
+    },
+    {
+      "id": "2026-1-080",
+      "at": 956.321029,
+      "kind": "video",
+      "capturedAt": "2026-07-07T13:56:08.178+09:00"
+    },
+    {
+      "id": "2026-1-081",
+      "at": 1016.354362,
+      "kind": "photo",
+      "capturedAt": "2026-07-07T16:39:58.000+09:00",
+      "coordinates": [
+        144.092864,
+        43.434387
+      ],
+      "place": "Lake Akan",
+      "routePosition": {
+        "activity": "19209523543",
+        "segment": 0,
+        "fraction": 1
+      }
+    },
+    {
+      "id": "2026-1-082",
+      "at": 1020.354362,
+      "kind": "photo",
+      "capturedAt": "2026-07-07T16:36:12.000+09:00",
+      "coordinates": [
+        144.093445,
+        43.43378
+      ],
+      "place": "Lake Akan",
+      "routePosition": {
+        "activity": "19209523543",
+        "segment": 0,
+        "fraction": 1
+      }
+    },
+    {
+      "id": "2026-1-083",
+      "at": 1024.354362,
+      "kind": "photo",
+      "recap": true,
+      "recapDate": "2026-07-08",
+      "capturedAt": "2026-07-08T11:55:12.000+09:00",
+      "coordinates": [
+        143.69548,
+        43.307113
+      ],
+      "place": "Near Ashoro",
+      "routePosition": {
+        "activity": "19223666923",
+        "segment": 0,
+        "fraction": 0.7033897
+      }
+    },
+    {
+      "id": "2026-1-084",
+      "at": 1028.354362,
+      "kind": "photo",
+      "capturedAt": "2026-07-08T12:01:14.000+09:00",
+      "coordinates": [
+        143.685425,
+        43.302083
+      ],
+      "place": "Near Ashoro",
+      "routePosition": {
+        "activity": "19223666923",
+        "segment": 0,
+        "fraction": 0.7210547
+      }
+    },
+    {
+      "id": "2026-1-085",
+      "at": 1032.354362,
+      "kind": "photo",
+      "capturedAt": "2026-07-08T14:30:53.000+09:00",
+      "coordinates": [
+        143.547072,
+        43.242937
+      ],
+      "place": "Ashoro",
+      "routePosition": {
+        "activity": "19223666923",
+        "segment": 0,
+        "fraction": 1
+      }
+    },
+    {
+      "id": "2026-1-086",
+      "at": 1036.354362,
+      "kind": "photo",
+      "capturedAt": "2026-07-08T13:55:12.000+09:00",
+      "coordinates": [
+        143.547072,
+        43.24618
+      ],
+      "place": "Ashoro",
+      "routePosition": {
+        "activity": "19223666923",
+        "segment": 0,
+        "fraction": 1
+      }
+    },
+    {
+      "id": "2026-1-087",
+      "at": 1040.354362,
+      "kind": "video",
+      "capturedAt": "2026-07-08T18:39:11.000+09:00",
+      "coordinates": [
+        143.5524,
+        43.2423
+      ],
+      "place": "Ashoro",
+      "routePosition": {
+        "activity": "19223666923",
+        "segment": 0,
+        "fraction": 1
+      }
+    },
+    {
+      "id": "2026-1-088",
+      "at": 1059.354362,
+      "kind": "photo",
+      "recap": true,
+      "recapDate": "2026-07-09",
+      "capturedAt": "2026-07-09T12:02:45.000+09:00",
+      "coordinates": [
+        143.340363,
+        43.248905
+      ],
+      "place": "Kamishihoro",
+      "routePosition": {
+        "activity": "19239062959",
+        "segment": 0,
+        "fraction": 0.4673588
+      }
+    },
+    {
+      "id": "2026-1-089",
+      "at": 1063.354362,
+      "kind": "photo",
+      "capturedAt": "2026-07-09T15:04:43.000+09:00",
+      "coordinates": [
+        143.225175,
+        43.371872
+      ],
+      "place": "Nukabira",
+      "routePosition": {
+        "activity": "19239062959",
+        "segment": 0,
+        "fraction": 0.9263342
+      }
+    },
+    {
+      "id": "2026-1-090",
+      "at": 1067.354362,
+      "kind": "photo",
+      "capturedAt": "2026-07-09T10:10:01.000+09:00",
+      "coordinates": [
+        143.53032,
+        43.227117
+      ],
+      "place": "Ashoro",
+      "routePosition": {
+        "activity": "19239062959",
+        "segment": 0,
+        "fraction": 0.0715896
+      }
+    },
+    {
+      "id": "2026-1-091",
+      "at": 1071.354362,
+      "kind": "photo",
+      "capturedAt": "2026-07-09T13:18:29.000+09:00",
+      "coordinates": [
+        143.295137,
+        43.233538
+      ],
+      "place": "Kamishihoro",
+      "routePosition": {
+        "activity": "19239062959",
+        "segment": 0,
+        "fraction": 0.570697
+      }
+    },
+    {
+      "id": "2026-1-092",
+      "at": 1075.354362,
+      "kind": "photo",
+      "capturedAt": "2026-07-09T12:43:54.000+09:00",
+      "coordinates": [
+        143.292495,
+        43.231778
+      ],
+      "place": "Kamishihoro",
+      "routePosition": {
+        "activity": "19239062959",
+        "segment": 0,
+        "fraction": 0.5596768
+      }
+    },
+    {
+      "id": "2026-2-001",
+      "at": 1079.354362,
+      "kind": "photo",
+      "recap": true,
+      "recapDate": "2026-07-10",
+      "capturedAt": "2026-07-10T09:50:58.000+09:00",
+      "coordinates": [
+        143.152725,
+        43.435537
+      ],
+      "place": "Near Nukabira",
+      "routePosition": {
+        "activity": "19252739443",
+        "segment": 0,
+        "fraction": 0.1739339
+      }
+    },
+    {
+      "id": "2026-2-002",
+      "at": 1083.354362,
+      "kind": "video",
+      "capturedAt": "2026-07-10T09:53:27.000+09:00",
+      "coordinates": [
+        143.1506,
+        43.4372
+      ],
+      "place": "Near Nukabira",
+      "routePosition": {
+        "activity": "19252739443",
+        "segment": 0,
+        "fraction": 0.1772407
+      }
+    },
+    {
+      "id": "2026-2-003",
+      "at": 1105.354362,
+      "kind": "photo",
+      "capturedAt": "2026-07-10T12:28:10.000+09:00",
+      "coordinates": [
+        143.13678,
+        43.569145
+      ],
+      "place": "Mikuni Pass",
+      "routePosition": {
+        "activity": "19252739443",
+        "segment": 0,
+        "fraction": 0.4482886
+      }
+    },
+    {
+      "id": "2026-2-004",
+      "at": 1109.354362,
+      "kind": "photo",
+      "capturedAt": "2026-07-10T12:44:16.000+09:00",
+      "coordinates": [
+        143.122253,
+        43.56992
+      ],
+      "place": "Mikuni Pass",
+      "routePosition": {
+        "activity": "19252739443",
+        "segment": 0,
+        "fraction": 0.4717522
+      }
+    },
+    {
+      "id": "2026-2-005",
+      "at": 1113.354362,
+      "kind": "photo",
+      "capturedAt": "2026-07-10T13:24:45.000+09:00",
+      "coordinates": [
+        143.129272,
+        43.57933
+      ],
+      "place": "Mikuni Pass",
+      "routePosition": {
+        "activity": "19252739443",
+        "segment": 0,
+        "fraction": 0.5095148
+      }
+    },
+    {
+      "id": "2026-2-006",
+      "at": 1117.354362,
+      "kind": "photo",
+      "capturedAt": "2026-07-10T13:58:26.000+09:00",
+      "coordinates": [
+        143.129228,
+        43.579455
+      ],
+      "place": "Mikuni Pass",
+      "routePosition": {
+        "activity": "19252739443",
+        "segment": 0,
+        "fraction": 0.5098579
+      }
+    },
+    {
+      "id": "2026-2-007",
+      "at": 1121.354362,
+      "kind": "photo",
+      "capturedAt": "2026-07-10T13:43:21.000+09:00",
+      "coordinates": [
+        143.129258,
+        43.579067
+      ],
+      "place": "Mikuni Pass",
+      "routePosition": {
+        "activity": "19252739443",
+        "segment": 0,
+        "fraction": 0.5097042
+      }
+    },
+    {
+      "id": "2026-2-008",
+      "at": 1125.354362,
+      "kind": "video",
+      "capturedAt": "2026-07-10T13:11:49.000+09:00",
+      "coordinates": [
+        143.1283,
+        43.5782
+      ],
+      "place": "Mikuni Pass",
+      "routePosition": {
+        "activity": "19252739443",
+        "segment": 0,
+        "fraction": 0.5093831
+      }
+    },
+    {
+      "id": "2026-2-009",
+      "at": 1144.987696,
+      "kind": "photo",
+      "capturedAt": "2026-07-10T15:25:47.000+09:00",
+      "coordinates": [
+        143.036025,
+        43.67553
+      ],
+      "place": "Near Sounkyo",
+      "routePosition": {
+        "activity": "19252739443",
+        "segment": 0,
+        "fraction": 0.8349095
+      }
+    },
+    {
+      "id": "2026-2-010",
+      "at": 1148.987696,
+      "kind": "photo",
+      "recap": true,
+      "recapDate": "2026-07-11",
+      "capturedAt": "2026-07-11T17:11:46.000+09:00"
+    },
+    {
+      "id": "2026-2-011",
+      "at": 1152.987696,
+      "kind": "photo",
+      "capturedAt": "2026-07-10T16:19:19.000+09:00",
+      "coordinates": [
+        142.944825,
+        43.728775
+      ],
+      "place": "Sounkyo",
+      "routePosition": {
+        "activity": "19252739443",
+        "segment": 0,
+        "fraction": 1
+      }
+    },
+    {
+      "id": "2026-2-012",
+      "at": 1156.987696,
+      "kind": "photo",
+      "capturedAt": "2026-07-11T10:42:23.000+09:00",
+      "coordinates": [
+        142.711167,
+        43.841867
+      ],
+      "place": "Kamikawa",
+      "routePosition": {
+        "activity": "19267339669",
+        "segment": 0,
+        "fraction": 0.3978145
+      }
+    },
+    {
+      "id": "2026-2-013",
+      "at": 1160.987696,
+      "kind": "photo",
+      "capturedAt": "2026-07-11T10:22:27.000+09:00",
+      "coordinates": [
+        142.765853,
+        43.843645
+      ],
+      "place": "Kamikawa",
+      "routePosition": {
+        "activity": "19267339669",
+        "segment": 0,
+        "fraction": 0.3288022
+      }
+    },
+    {
+      "id": "2026-2-014",
+      "at": 1164.987696,
+      "kind": "video",
+      "capturedAt": "2026-07-11T21:38:33.000+09:00"
+    },
+    {
+      "id": "2026-2-015",
+      "at": 1191.287696,
+      "kind": "video",
+      "capturedAt": "2026-07-11T21:45:54.000+09:00"
+    },
+    {
+      "id": "2026-2-016",
+      "at": 1218.687696,
+      "kind": "video",
+      "capturedAt": "2026-07-11T21:45:54.000+09:00"
+    },
+    {
+      "id": "2026-2-017",
+      "at": 1276.687696,
+      "kind": "photo",
+      "capturedAt": "2026-07-11T13:05:35.000+09:00",
+      "coordinates": [
+        142.380041,
+        43.795339
+      ],
+      "place": "Asahikawa",
+      "routePosition": {
+        "activity": "19267339669",
+        "segment": 0,
+        "fraction": 0.9308342
+      }
+    },
+    {
+      "id": "2026-2-018",
+      "at": 1280.687696,
+      "kind": "photo",
+      "capturedAt": "2026-07-11T20:42:58.000+09:00",
+      "coordinates": [
+        141.350997,
+        43.057003
+      ],
+      "place": "Sapporo",
+      "routePosition": {
+        "activity": "19267339669",
+        "segment": 0,
+        "fraction": 1
+      }
+    }
+  ]
+}

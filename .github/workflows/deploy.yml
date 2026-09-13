@@ -29,6 +29,7 @@ jobs:
           node-version-file: .nvmrc
           cache: npm
       - run: npm ci
+      - run: npm test
       - run: npm run check
       - run: npm run build
       - name: Deploy static site
@@ -38,20 +39,23 @@ jobs:
           CLOUDFLARE_ACCOUNT_ID: ${{ vars.CLOUDFLARE_ACCOUNT_ID }}
       - name: Verify deployed page
         run: |
-          for site_url in https://andrewlandry.com/ https://www.andrewlandry.com/; do
-            verified=false
-            for attempt in 1 2 3 4 5; do
-              echo "Verifying $site_url (attempt $attempt/5)"
-              if curl --fail --silent --show-error --connect-timeout 10 --max-time 20 \
-                "$site_url" --output /tmp/deployed-index.html && \
-                cmp --silent dist/index.html /tmp/deployed-index.html; then
-                verified=true
-                break
+          for site_origin in https://andrewlandry.com https://www.andrewlandry.com; do
+            for page in index.html japan-cycling-trips/index.html; do
+              site_url="$site_origin/${page%index.html}"
+              verified=false
+              for attempt in 1 2 3 4 5; do
+                echo "Verifying $site_url (attempt $attempt/5)"
+                if curl --fail --silent --show-error --connect-timeout 10 --max-time 20 \
+                  "$site_url" --output /tmp/deployed-page.html && \
+                  cmp --silent "dist/$page" /tmp/deployed-page.html; then
+                  verified=true
+                  break
+                fi
+                sleep 5
+              done
+              if [ "$verified" != true ]; then
+                echo "The deployed page at $site_url does not match this build."
+                exit 1
               fi
-              sleep 5
             done
-            if [ "$verified" != true ]; then
-              echo "The deployed page at $site_url does not match this build."
-              exit 1
-            fi
           done

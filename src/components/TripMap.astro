@@ -1,0 +1,149 @@
+---
+import { geoPath } from 'd3-geo';
+import type { GeoPermissibleObjects } from 'd3-geo';
+import geometry from '../../public/data/hokkaido-coastline.json';
+import lakeGeometry from '../../public/data/hokkaido-lakes.json';
+import { buildRouteMap, mapProjection } from '../data/japan-route-map';
+import { buildJourney } from '../data/japan-transfers';
+import { mapPlaces } from '../data/hokkaido-places';
+
+// OpenStreetMap coastlines and Strava GPX, projected once at build time.
+// The browser only moves an SVG group; no map SDK, tiles, or API key.
+const projection = mapProjection;
+const path = geoPath(projection);
+const coastline = path(geometry as GeoPermissibleObjects);
+const lakes = path(lakeGeometry as GeoPermissibleObjects);
+const routes = { '2025': buildRouteMap('2025'), '2026': buildRouteMap('2026') };
+const journeys = { '2025': buildJourney('2025', routes['2025']), '2026': buildJourney('2026', routes['2026']) };
+// A ferry/rail line used in both directions needs only one set of dashes.
+const routeGuides = Object.entries(journeys).map(([year, journey]) => {
+  const seen = new Set<string>();
+  const d = journey.legs.filter(leg => {
+    const forward = leg.points.map(p => p.map(n => n.toFixed(3)).join(',')).join(' ');
+    const reverse = leg.points.toReversed().map(p => p.map(n => n.toFixed(3)).join(',')).join(' ');
+    const key = forward < reverse ? forward : reverse;
+    if (seen.has(key)) return false;
+    seen.add(key);
+    return true;
+  }).map(leg => leg.d).join('');
+  return { year, d };
+});
+const distances = Object.assign({}, routes['2025'].miles, routes['2026'].miles);
+const places = mapPlaces.map(place => ({ ...place, point: projection(place.coordinates) }));
+---
+<div class="trip-map" data-map data-distances={JSON.stringify(distances)} data-journeys={JSON.stringify(journeys)} aria-hidden="true">
+  <svg xmlns="http://www.w3.org/2000/svg" class="map-art" viewBox="0 0 1440 900">
+    <defs>
+      <path id="hokkaido-land" d={coastline} />
+      <mask id="route-land-mask" maskUnits="userSpaceOnUse" x="-1000" y="-1000" width="4000" height="5000" style="mask-type:luminance">
+        <use href="#hokkaido-land" fill="white" />
+        <path d={lakes} fill="black" />
+      </mask>
+      <mask id="map-label-mask" data-label-mask maskUnits="userSpaceOnUse" x="0" y="0" width="1440" height="900" style="mask-type:luminance">
+        <rect data-label-mask-background x="0" y="0" width="1440" height="900" fill="white" />
+        <g data-label-blockers fill="black" />
+      </mask>
+      {routeGuides.map(({ year, d }) => <path id={`journey-path-${year}`} d={d} />)}
+      <pattern id="sea-dots" width="22" height="22" patternUnits="userSpaceOnUse">
+        <circle cx="1" cy="1" r=".7" fill="currentColor" />
+      </pattern>
+    </defs>
+    <rect width="100%" height="100%" fill="url(#sea-dots)" class="sea-dots" />
+    <g data-world>
+      <use href="#hokkaido-land" class="coast-echo outer" />
+      <use href="#hokkaido-land" class="coast-echo inner" />
+      <use href="#hokkaido-land" class="land" />
+      <path d={lakes} class="inland-water" data-lakes />
+      {Object.entries(journeys).map(([year, journey]) => (
+        <g data-route={year} style={year === '2025' ? 'display:none' : undefined}>
+          <g class="route-guides">
+            <use href={`#journey-path-${year}`} class="route-line water-route" />
+            <g mask="url(#route-land-mask)">
+              <use href={`#journey-path-${year}`} class="route-line land-route" />
+            </g>
+          </g>
+          {journey.legs.map(segment => (
+            <g data-journey-segment data-start={segment.start} data-end={segment.end} data-mode={segment.mode} data-activity={segment.activity}
+              stroke-dasharray="1 1" stroke-dashoffset="1" style="visibility:hidden">
+              <path d={segment.d} pathLength="1" class="route-progress-halo" />
+              <path d={segment.d} pathLength="1" class="route-progress water-route" />
+            </g>
+          ))}
+          <g mask="url(#route-land-mask)">
+            {journey.legs.map(segment => (
+              <g data-journey-segment data-start={segment.start} data-end={segment.end} data-mode={segment.mode} data-activity={segment.activity}
+                stroke-dasharray="1 1" stroke-dashoffset="1" style="visibility:hidden">
+                <path d={segment.d} pathLength="1" class="route-progress land-route" />
+              </g>
+            ))}
+          </g>
+        </g>
+      ))}
+    </g>
+    <g class="map-labels" data-map-labels data-places={JSON.stringify(places)} mask="url(#map-label-mask)" lang="ja">
+      {places.map(place => (
+        <g class:list={['map-label', place.kind]} data-map-label={place.name} opacity="0">
+          {place.kind === 'mountain' ? <path class="place-symbol" d="M-5 3 0-5 5 3Z" /> :
+            <circle class="place-symbol" r={place.kind === 'city' ? 3.5 : 2.5} />}
+          <text class="place-name">{place.japanese}</text>
+        </g>
+      ))}
+    </g>
+    <g data-pin data-mode="dot">
+      <g class="pin-location">
+        <circle r="22" class="pin-halo" />
+        <circle r="12" class="pin-pulse" />
+        <circle r="9" class="pin-dot" />
+      </g>
+      <g class="pin-vehicle pin-train">
+        <path class="vehicle-shape" d="M-24-8Q-24-13-19-13H12Q17-13 20-7L25 3V9H-24ZM-25 18H25M-18 15V21M-6 15V21M6 15V21M18 15V21" />
+        <path class="vehicle-detail" d="M-18-7H-12V0H-18ZM-6-7H0V0H-6ZM7-7H13L17 0H7ZM-18 5H18" />
+      </g>
+      <g class="pin-vehicle pin-bus">
+        <path class="vehicle-shape" d="M-15-14Q-15-19-9-19H9Q15-19 15-14V13H11V19H5V13H-5V19H-11V13H-15ZM-15-8H-21V1M15-8H21V1" />
+        <path class="vehicle-detail" d="M-10-11H10V0H-10ZM-9 7H-6M6 7H9M-5-15H5" />
+      </g>
+      <g class="pin-vehicle pin-ferry">
+        <path class="vehicle-shape" d="M-10 0V-13H7V0M-3-13V-20M-20 0H20L12 14H-10ZM-19 21Q-14 17-9 21T1 21T11 21T21 21" />
+        <path class="vehicle-detail" d="M-5-7H2M-11 5H11" />
+      </g>
+      <g class="pin-vehicle pin-plane" data-plane-heading>
+        <path class="vehicle-shape" d="M0-23Q4-23 4-17V-5L21 6V11L4 5V15L10 20V23L0 20-10 23V20L-4 15V5L-21 11V6L-4-5V-17Q-4-23 0-23Z" />
+      </g>
+    </g>
+  </svg>
+</div>
+<style>
+  .trip-map { position: absolute; inset: 0; overflow: hidden; pointer-events: none; }
+  .map-art { width: 100%; height: 100%; display: block; }
+  .sea-dots { color: var(--lemon); opacity: .16; }
+  .land { fill: var(--lemon); }
+  .inland-water { fill: var(--blue); }
+  .coast-echo { fill: none; stroke: var(--lemon); stroke-linejoin: round; }
+  .outer { stroke-width: 100; opacity: .06; }
+  .inner { stroke-width: 45; opacity: .11; }
+  .route-guides { opacity: .65; }
+  .route-line { fill: none; stroke-width: 3; stroke-dasharray: 4 10; stroke-linecap: round; vector-effect: non-scaling-stroke; }
+  .water-route { stroke: var(--lemon); }
+  .land-route { stroke: var(--blue); }
+  .route-progress, .route-progress-halo { fill: none; stroke-width: calc(4.5px / var(--map-scale, 1)); stroke-linecap: round; stroke-linejoin: round; }
+  .route-progress-halo { stroke: #fff; stroke-width: calc(6px / var(--map-scale, 1)); opacity: .3; }
+  .pin-halo { fill: var(--blue); opacity: .15; }
+  .pin-dot { fill: var(--blue); stroke: #fff; stroke-width: 4; }
+  .pin-pulse { fill: none; stroke: #fff; stroke-width: 2; transform-box: fill-box; transform-origin: center; animation: location-pulse 2.4s ease-out infinite; }
+  .pin-vehicle { display: none; }
+  [data-mode='train'] .pin-train, [data-mode='ferry'] .pin-ferry, [data-mode='plane'] .pin-plane, [data-mode='bus'] .pin-bus { display: block; }
+  [data-pin]:not([data-mode='dot']) .pin-location { display: none; }
+  .vehicle-shape { fill: var(--blue); stroke: #fff; stroke-width: 4; stroke-linejoin: round; stroke-linecap: round; paint-order: stroke; }
+  .vehicle-detail { fill: none; stroke: #fff; stroke-width: 2.4; stroke-linecap: round; stroke-linejoin: round; }
+  @keyframes location-pulse { from { transform: scale(.8); opacity: .8; } to { transform: scale(2.5); opacity: 0; } }
+  .map-label { fill: var(--blue); }
+  .place-name { font-family: 'Hiragino Kaku Gothic ProN', 'Yu Gothic', 'Noto Sans JP', sans-serif; font-size: 16px; font-weight: 500; letter-spacing: .07em; }
+  .city .place-name { font-weight: 600; }
+  .mountain .place-name { font-size: 14px; }
+  .mountain .place-symbol { fill: none; stroke: var(--blue); stroke-width: 1.4px; }
+  .map-label[data-active='true'] .place-name { font-size: 18px; font-weight: 700; }
+  .map-label[data-active='true'] .place-symbol { visibility: hidden; }
+  @media (max-width: 900px), (hover: none) { .trip-map { display: none; } }
+  @media (prefers-reduced-motion: reduce) { .pin-pulse { animation: none; opacity: 0; } }
+</style>

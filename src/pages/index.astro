@@ -11,7 +11,7 @@ const links = [
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <meta name="description" content="Andrew Landry’s links: GitHub, LinkedIn, Instagram, and YouTube." />
+    <meta name="description" content="Andrew Landry’s Japan cycling trips and links to GitHub, LinkedIn, Instagram, and YouTube." />
     <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
@@ -23,6 +23,10 @@ const links = [
   <main id="main" class="id-page">
     <section class="identity" aria-label="Andrew Landry">
       <h1>ANDREW<br /><span>LANDRY</span></h1>
+      <a href="/japan-cycling-trips/" class="featured-link" aria-labelledby="featured-trip-title" aria-describedby="featured-trip-detail">
+        <span class="featured-title"><span id="featured-trip-title">Japan Cycling Trips</span><span class="featured-arrow" aria-hidden="true">→</span></span>
+        <span class="featured-subtitle" id="featured-trip-detail">Hokkaido · 2025 &amp; 2026</span>
+      </a>
     </section>
     <section class="links-panel" aria-label="Social profiles">
       <div class="link-sheet">
@@ -68,7 +72,10 @@ const links = [
   .identity {
     padding: 60px 7.5%;
     display: flex;
-    align-items: center;
+    flex-direction: column;
+    justify-content: center;
+    align-items: flex-start;
+    gap: clamp(32px, 4vh, 52px);
   }
   h1 {
     font-size: clamp(65px, 11.2vw, 210px);
@@ -77,6 +84,27 @@ const links = [
     font-weight: 600;
   }
   h1 span { color: var(--lemon); }
+  .featured-link {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    max-width: 100%;
+    padding: 8px 0;
+    color: var(--lemon);
+  }
+  .featured-title {
+    display: flex;
+    align-items: center;
+    gap: 18px;
+    font-size: clamp(24px, 2.1vw, 32px);
+    line-height: 1.15;
+    font-weight: 500;
+    letter-spacing: -.04em;
+  }
+  .featured-subtitle { color: #fff; font-size: 15px; line-height: 1.4; }
+  .featured-arrow { transition: transform .2s; }
+  .featured-link:hover .featured-arrow, .featured-link:focus-visible .featured-arrow { transform: translateX(6px); }
+  .featured-link:hover .featured-title>span:first-child { text-decoration: underline; text-decoration-thickness: 2px; text-underline-offset: 6px; }
   .links-panel {
     background: var(--lemon);
     color: var(--blue);
@@ -152,7 +180,7 @@ const links = [
   }
   @media (max-width: 700px) {
     .id-page { grid-template-columns: 1fr; }
-    .identity { padding: 45px 7% 40px; min-height: 280px; }
+    .identity { padding: 45px 7% 40px; min-height: 280px; gap: 28px; }
     h1 { font-size: 17vw; line-height: .96; }
     .links-panel { padding: 70px 10% 60px; }
     .link-sheet { width: 100%; padding: 26px 26px 12px; transform: rotate(-3deg); box-shadow: 8px 8px 0 var(--blue); }

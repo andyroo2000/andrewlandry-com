@@ -1,0 +1,47 @@
+Map additions: railway, roads, ferry routes, and inland water
+
+Copyright OpenStreetMap contributors. Open Database License (ODbL) 1.0:
+https://www.openstreetmap.org/copyright
+https://opendatacommons.org/licenses/odbl/1-0/
+
+Downloaded September 12, 2026 through https://overpass-api.de/api/interpreter.
+This is mapped geography, not recorded personal train, boat, or flight tracks.
+
+japan-transfers.json
+- Sapporo station (OSM node 4086852685) to Fukagawa station (node 264420469):
+  shortest connected railway alignment through the Hakodate Main Line corridor.
+  Station endpoints are projected onto the railway, with 8-metre simplification.
+  The file lists all 120 constituent OSM ways.
+- Wakkanai–Oshidomari ferry: OSM way 122776536.
+- Oshidomari–Kafuka ferry: OSM way 122776521, also used in reverse.
+- Sapporo–Asahikawa railway: connected rail alignment via Fukagawa from OSM
+  ways listed in the file, simplified to 5 metres. Used in both directions.
+  Both train journeys are stated in https://bike.andrewlandry.com/2026/.
+- New Chitose–Sapporo airport bus: an illustrative standard downtown corridor
+  assembled from OSM driving roads, respecting mapped one-way directions, via
+  the Do-o Expressway, Kitahiroshima exit, and Route 36 to Susukino. This is not
+  the user's recorded bus track or a verified specific service/boarding stop.
+  Corridor reference: https://www.hokto.co.jp/sapporo-chitose/.
+- Ground connections: OSM street paths for Sapporo city/station, Fukagawa and
+  Asahikawa station access, Wakkanai port access, and gaps between the
+  Teshikaga and Ashoro ride recordings. Short straight links connect adjacent
+  recording endpoints or station/port entrances where no track was recorded.
+  These links are illustrative and excluded from cycling totals.
+- The bus and street geometries list their constituent OSM ways, simplified
+  to 5 metres. Original responses: bus-roads, local-roads, rail-asahikawa.
+- Coordinates use longitude/latitude and six decimal places.
+- The site's illustrative Haneda–New Chitose flight arc is calculated separately
+  between the airport media coordinates. It is not an OSM aviation route or a
+  recorded flight track.
+
+hokkaido-lakes.json
+- 26 named lakes, lagoons, reservoirs, and ponds, selected within Hokkaido.
+- Original OSM way/relation IDs are retained in each feature's properties.
+- Multipolygon outer rings and island holes are assembled from member ways.
+- Boundaries are simplified to 15 metres, retaining polygon topology.
+- Six-decimal longitude/latitude. Exterior rings are clockwise for D3's
+  spherical polygon convention; interior rings have the opposite winding.
+
+Private processing scripts and original Overpass responses are retained locally
+under Movies/Japan Bike Trips/work/map-data/transfers. All derived geographic
+data used by the page are downloadable from this directory under ODbL.

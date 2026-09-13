@@ -1,0 +1,20 @@
+Japan trip reference place names — © OpenStreetMap contributors
+
+License: Open Data Commons Open Database License (ODbL) 1.0
+https://opendatacommons.org/licenses/odbl/1-0/
+https://www.openstreetmap.org/copyright
+
+Source: OpenStreetMap city, town and village nodes, retrieved through the
+Overpass API on 2026-09-12 in the region 139–146 E, 41.3–46 N.
+https://overpass-api.de/api/interpreter
+
+Transformations: select named places used as references for the cycling films;
+retain English/Japanese names and node coordinates rounded to six decimals;
+remove City/Town/Village and 市/町/村 suffixes for compact map labels; associate
+each place with the trip year in which it appears. Where English names repeat
+(for example Esashi and Shibetsu), select the node nearest the media location.
+
+The resulting database is japan-map-places.json in this directory, available
+under ODbL 1.0. These town-centre coordinates label places on the map. They do
+not locate a scene: scene pins independently use the original media's GPS.
+This license does not apply to the separate Strava recordings or video media.
