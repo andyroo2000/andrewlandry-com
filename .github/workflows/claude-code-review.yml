@@ -51,6 +51,6 @@ jobs:
             For workflow_dispatch, review the latest commit with git show HEAD
             and report the result in your final response without posting a comment.
           claude_args: >-
-            --max-turns 30
+            --max-turns 15
             --allowedTools "Read,Glob,Grep,Bash(git show:*),Bash(git diff:*),Bash(git log:*),Bash(gh pr diff:*),Bash(gh pr view:*),Bash(gh pr comment:*)"
             --disallowedTools "Edit,Write,NotebookEdit"
