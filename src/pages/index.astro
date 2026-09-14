@@ -1,12 +1,13 @@
 ---
-const description = 'Andrew Landry’s Japan cycling trips and links to GitHub, LinkedIn, Instagram, and YouTube.';
+import ArrowUpRight from '../components/ArrowUpRight.astro';
+
+const description = 'Andrew Landry’s Japan cycling trips, Synth & Chill sessions, and links to GitHub, LinkedIn, and Instagram.';
 const shareImage = 'https://andrewlandry.com/images/social-share.png';
 const shareImageAlt = 'Andrew Landry in white and lemon lettering on cobalt blue, beside a tilted card of social links.';
 const links = [
   { name: 'GitHub', handle: 'andyroo2000', href: 'https://github.com/andyroo2000' },
   { name: 'LinkedIn', handle: 'Andrew Landry', href: 'https://www.linkedin.com/in/andrew-landry-8520623/' },
   { name: 'Instagram', handle: 'andrewlandry', href: 'https://www.instagram.com/andrewlandry/' },
-  { name: 'YouTube', handle: 'AndrewLandry', href: 'https://www.youtube.com/@AndrewLandry' },
 ];
 ---
 <!doctype html>
@@ -42,10 +43,16 @@ const links = [
   <main id="main" class="id-page">
     <section class="identity" aria-label="Andrew Landry">
       <h1>ANDREW<br /><span>LANDRY</span></h1>
-      <a href="/japan-cycling-trips/" class="featured-link" aria-labelledby="featured-trip-title" aria-describedby="featured-trip-detail">
-        <span class="featured-title"><span id="featured-trip-title">Japan Cycling Trips</span><span class="featured-arrow" aria-hidden="true">→</span></span>
-        <span class="featured-subtitle" id="featured-trip-detail">Hokkaido · 2025 &amp; 2026</span>
-      </a>
+      <nav class="featured-pages" aria-label="Films and music">
+        <a href="/japan-cycling-trips/" class="featured-link" aria-labelledby="featured-trip-title" aria-describedby="featured-trip-detail">
+          <span class="featured-title"><span id="featured-trip-title">Japan Cycling Trips</span><span class="featured-arrow" aria-hidden="true">→</span></span>
+          <span class="featured-subtitle" id="featured-trip-detail">Hokkaido · 2025 &amp; 2026</span>
+        </a>
+        <a href="/synth-and-chill/" class="featured-link" aria-labelledby="featured-synth-title" aria-describedby="featured-synth-detail">
+          <span class="featured-title"><span id="featured-synth-title">Synth &amp; Chill</span><span class="featured-arrow" aria-hidden="true">→</span></span>
+          <span class="featured-subtitle" id="featured-synth-detail">Basement synthesizer sessions</span>
+        </a>
+      </nav>
     </section>
     <section class="links-panel" aria-label="Social profiles">
       <div class="link-sheet">
@@ -54,7 +61,7 @@ const links = [
           {links.map(link => (
             <a href={link.href} class="profile-link" target="_blank" rel="noopener noreferrer" aria-label={`${link.name} ${link.handle} (opens in a new tab)`}>
               <span class="link-copy"><strong>{link.name}</strong><span>{link.handle}</span></span>
-              <span class="link-arrow" aria-hidden="true">↗</span>
+              <span class="link-arrow" aria-hidden="true"><ArrowUpRight /></span>
             </a>
           ))}
         </nav>
@@ -103,6 +110,7 @@ const links = [
     font-weight: 600;
   }
   h1 span { color: var(--lemon); }
+  .featured-pages { display: flex; flex-direction: column; gap: 18px; max-width: 100%; }
   .featured-link {
     display: flex;
     flex-direction: column;

@@ -1,5 +1,6 @@
 ---
 import TripMap from '../components/TripMap.astro';
+import ArrowUpRight from '../components/ArrowUpRight.astro';
 import { env } from 'node:process';
 const localPreview = import.meta.env.DEV && Boolean(env.JAPAN_TRIP_MEDIA_DIR);
 ---
@@ -20,7 +21,7 @@ const localPreview = import.meta.env.DEV && Boolean(env.JAPAN_TRIP_MEDIA_DIR);
     <main class="trip-page" tabindex="-1" data-trip-page data-local-preview={localPreview}>
       <TripMap />
       <div class="title-wash" aria-hidden="true"></div>
-      <a href="/" class="home" aria-label="Andrew Landry home"><span class="desktop-home">AL<span aria-hidden="true">↗</span></span><span class="mobile-home"><span aria-hidden="true">←</span> Home</span></a>
+      <a href="/" class="home" aria-label="Andrew Landry home"><span class="desktop-home">AL<span aria-hidden="true"><ArrowUpRight /></span></span><span class="mobile-home"><span aria-hidden="true">←</span> Home</span></a>
       <h1 aria-label="Japan Cycling Trips">Japan<br /><span>Cycling</span><br />Trips<span class="period">.</span></h1>
       <nav class="trip-switcher" aria-label="Choose a cycling trip">
         <button type="button" data-year="2025" aria-pressed="false">2025</button>
@@ -60,7 +61,7 @@ const localPreview = import.meta.env.DEV && Boolean(env.JAPAN_TRIP_MEDIA_DIR);
         <button type="button" class="item-button" data-next-item aria-label="Next story" aria-keyshortcuts="ArrowRight" title="Next story (→)" disabled><span aria-hidden="true">›</span></button>
       </div>
       <div class="map-credit"><a href="https://www.openstreetmap.org/copyright">© OpenStreetMap contributors</a><span> · </span><a href="/data/japan-map-SOURCES.txt">Map data</a></div>
-      <a class="video-fallback" data-video-fallback href="https://youtu.be/K6CPy63peaE" hidden>Open video on YouTube ↗</a>
+      <a class="video-fallback" data-video-fallback href="https://youtu.be/K6CPy63peaE" hidden>Open video on YouTube <ArrowUpRight /></a>
       <noscript><style>.trip-switcher { display: none; }</style></noscript>
     </main>
     <script>
