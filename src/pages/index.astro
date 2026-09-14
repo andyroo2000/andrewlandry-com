@@ -52,7 +52,7 @@ const links = [
         <header class="sheet-heading"><h2>Elsewhere.</h2></header>
         <nav aria-label="Andrew’s profiles">
           {links.map(link => (
-            <a href={link.href} class="profile-link" target="_blank" rel="noopener noreferrer" aria-label={`${link.name} (opens in a new tab)`}>
+            <a href={link.href} class="profile-link" target="_blank" rel="noopener noreferrer" aria-label={`${link.name} ${link.handle} (opens in a new tab)`}>
               <span class="link-copy"><strong>{link.name}</strong><span>{link.handle}</span></span>
               <span class="link-arrow" aria-hidden="true">↗</span>
             </a>
