@@ -1,4 +1,7 @@
 ---
+const description = 'Andrew Landry’s Japan cycling trips and links to GitHub, LinkedIn, Instagram, and YouTube.';
+const shareImage = 'https://andrewlandry.com/images/social-share.png';
+const shareImageAlt = 'Andrew Landry in white and lemon lettering on cobalt blue, beside a tilted card of social links.';
 const links = [
   { name: 'GitHub', handle: 'andyroo2000', href: 'https://github.com/andyroo2000' },
   { name: 'LinkedIn', handle: 'Andrew Landry', href: 'https://www.linkedin.com/in/andrew-landry-8520623/' },
@@ -11,7 +14,23 @@ const links = [
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <meta name="description" content="Andrew Landry’s Japan cycling trips and links to GitHub, LinkedIn, Instagram, and YouTube." />
+    <meta name="description" content={description} />
+    <link rel="canonical" href="https://andrewlandry.com/" />
+    <meta property="og:type" content="website" />
+    <meta property="og:site_name" content="Andrew Landry" />
+    <meta property="og:title" content="Andrew Landry" />
+    <meta property="og:description" content={description} />
+    <meta property="og:url" content="https://andrewlandry.com/" />
+    <meta property="og:image" content={shareImage} />
+    <meta property="og:image:type" content="image/png" />
+    <meta property="og:image:width" content="1200" />
+    <meta property="og:image:height" content="630" />
+    <meta property="og:image:alt" content={shareImageAlt} />
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content="Andrew Landry" />
+    <meta name="twitter:description" content={description} />
+    <meta name="twitter:image" content={shareImage} />
+    <meta name="twitter:image:alt" content={shareImageAlt} />
     <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
