@@ -1,4 +1,5 @@
 ---
+import ArrowUpRight from '../components/ArrowUpRight.astro';
 import { visualModes } from '../scripts/synth-visual-types';
 
 const playlist = 'PLpJqhXBWT7F96to6OoJnsTrG6y6aJtxvi';
@@ -21,7 +22,7 @@ const playlistUrl = `https://www.youtube.com/playlist?list=${playlist}`;
     <div class="paper-grain" aria-hidden="true"></div>
     <div class="room" data-synth-room>
       <header class="masthead">
-        <a class="home" href="/" aria-label="Andrew Landry home">AL<span aria-hidden="true">↗</span></a>
+        <a class="home" href="/" aria-label="Andrew Landry home">AL<span aria-hidden="true"><ArrowUpRight /></span></a>
         <span class="edition">Andrew Landry <span aria-hidden="true">/</span> Basement sessions</span>
         <button class="lights" data-lights aria-pressed="true"><span class="light-icon" aria-hidden="true">◐</span> Lights down</button>
       </header>
@@ -47,7 +48,7 @@ const playlistUrl = `https://www.youtube.com/playlist?list=${playlist}`;
             <button class="track-button" data-previous-track aria-label="Previous track" disabled>‹</button>
             <span class="track-title" data-track-title aria-live="polite">he’s a bad guy</span>
             <button class="track-button" data-next-track aria-label="Next track" disabled>›</button>
-            <a href={playlistUrl} target="_blank" rel="noopener noreferrer">YouTube playlist <span aria-hidden="true">↗</span><span class="sr-only"> (opens in a new tab)</span></a>
+            <a href={playlistUrl} target="_blank" rel="noopener noreferrer">YouTube playlist <ArrowUpRight /><span class="sr-only"> (opens in a new tab)</span></a>
           </div>
         </section>
       </main>

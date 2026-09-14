@@ -3,8 +3,8 @@
 Andrew Landry's personal website, built with Astro and TypeScript.
 
 The homepage at `/` uses the Blue Frequency design: cobalt and lemon colors,
-oversized typography, a featured Japan Cycling Trips link beneath the name,
-and a tilted card linking to GitHub, LinkedIn, Instagram, and YouTube.
+oversized typography, featured Japan Cycling Trips and Synth & Chill links beneath
+the name, and a tilted card linking to GitHub, LinkedIn, and Instagram.
 `/japan-cycling-trips/` extends that design with portrait films and
 a full-screen Hokkaido map that follows playback on desktop. Mobile shows the video.
 
@@ -29,6 +29,7 @@ npm run dev
 
 - Astro generates static pages; TypeScript uses strict checking.
 - Page content and custom CSS live in `src/pages/`.
+- Diagonal link arrows use the shared SVG `ArrowUpRight.astro` component so iOS cannot render them as emoji.
 - Space Grotesk is loaded from Google Fonts with a system sans-serif fallback.
 - No CMS, database, or server-side application is needed.
 - Cloudflare Workers Static Assets serves the generated `dist/` directory.
