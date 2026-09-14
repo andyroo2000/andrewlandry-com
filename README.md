@@ -20,7 +20,7 @@ npm run dev
 | Command | Purpose |
 | --- | --- |
 | `npm run dev` | Start the local development server |
-| `npm test` | Run trip route, navigation, and map-label regression tests |
+| `npm test` | Run trip route, navigation, map-label, and synth audio regression tests |
 | `npm run check` | Check Astro and TypeScript files |
 | `npm run build` | Generate the static site in `dist/` |
 | `npm run preview` | Preview the production build locally |
@@ -199,12 +199,33 @@ Use `?trip=2025` or `?trip=2026` to select a trip and `&t=600` to preview a poin
 in the film. Manage the background server with `npm run astro -- dev status`,
 `npm run astro -- dev logs`, and `npm run astro -- dev stop`.
 
+## Synth and chill
+
+`/synth-and-chill/` embeds Andrew's synthesizer playlist with an explicit
+Start listening button, current track title, and previous/next track controls.
+It starts in lights-down mode with the Signal visualization. A selector and
+adjacent arrows offer nine backgrounds: Signal, Orbit, Drift, Aurora,
+Constellation, Kaleidoscope, Terrain, Ripple, and Mosaic. Depth adjusts their
+shapes and audio response; the animation can be paused independently of playback.
+Reduced-motion preferences pause the background initially, and hidden tabs
+stop drawing.
+
+The visualizers follow YouTube's playback clock using precomputed volume and
+bass/midrange/treble measurements for all 17 playlist videos. Seeking, pausing,
+changing speed, and changing tracks update the response. A missing analysis
+file leaves ambient motion instead of using another track's measurements.
+Only compact numerical measurements are served from `public/data/synth-audio/`;
+the browser plays audio through YouTube, and downloaded media remain outside
+the repository. See that directory's `SOURCES.md` for provenance and regeneration.
+The optional analysis script requires Python, NumPy, and FFmpeg. Its signal
+alignment tests can be run with `python -m unittest discover -s dev -p 'test_synth_audio_analysis.py'`.
+
 ## Deployment
 
 The **Deploy** workflow checks, builds, and publishes pushes to `main` to
 <https://andrewlandry.com/>. Both the main domain and
 <https://www.andrewlandry.com/> serve the site. The workflow verifies that the
-homepage and cycling page at both addresses match the generated build. Manual runs are available from GitHub
+homepage, cycling page, and synth page at both addresses match the generated build. Manual runs are available from GitHub
 Actions on `main`; deployment runs are serialized.
 
 GitHub stores `CLOUDFLARE_API_TOKEN` as an Actions secret and

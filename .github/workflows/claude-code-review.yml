@@ -45,12 +45,13 @@ jobs:
             Prioritize actionable findings and explain their impact. Avoid
             speculative issues, style-only feedback, and requests to build
             features outside the change's scope. Do not modify any files.
+            Group related file reads and reserve turns to publish the final review.
 
             For a pull request, use gh pr comment to publish one concise review.
             If there are no actionable findings, say so clearly.
             For workflow_dispatch, review the latest commit with git show HEAD
             and report the result in your final response without posting a comment.
           claude_args: >-
-            --max-turns 15
+            --max-turns 30
             --allowedTools "Read,Glob,Grep,Bash(git show:*),Bash(git diff:*),Bash(git log:*),Bash(gh pr diff:*),Bash(gh pr view:*),Bash(gh pr comment:*)"
             --disallowedTools "Edit,Write,NotebookEdit"

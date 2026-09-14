@@ -7,10 +7,6 @@ on:
 permissions:
   contents: read
 
-concurrency:
-  group: claude-follow-up-${{ github.event.issue.number }}
-  cancel-in-progress: true
-
 jobs:
   claude:
     # Only trusted collaborators can invoke a paid review in this public repo.
@@ -18,6 +14,10 @@ jobs:
       github.event.issue.pull_request &&
       contains(github.event.comment.body, '@claude') &&
       contains(fromJSON('["OWNER", "MEMBER", "COLLABORATOR"]'), github.event.comment.author_association)
+    # Only eligible review jobs participate; bot progress comments must not cancel them.
+    concurrency:
+      group: claude-follow-up-${{ github.event.issue.number }}
+      cancel-in-progress: true
     runs-on: ubuntu-latest
     timeout-minutes: 15
     permissions:
@@ -33,6 +33,6 @@ jobs:
         with:
           claude_code_oauth_token: ${{ secrets.CLAUDE_CODE_OAUTH_TOKEN }}
           claude_args: >-
-            --max-turns 15
+            --max-turns 30
             --allowedTools "Read,Glob,Grep,Bash(gh pr diff:*),Bash(gh pr view:*),Bash(gh pr comment:*)"
             --disallowedTools "Edit,Write,NotebookEdit"
