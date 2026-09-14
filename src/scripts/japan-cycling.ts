@@ -81,7 +81,7 @@ if (root) {
       player!.seekTo(target, true);
       if (!wasPlaying) player!.pauseVideo();
     }
-    sync(target, true);
+    sync(target);
     // Keep pending state until the player's clock catches up, so rapid clicks
     // continue through items even while YouTube is still seeking/buffering.
     pendingItem = { index, until: performance.now() + 2000 };
@@ -113,11 +113,11 @@ if (root) {
     skipItem(event.key === 'ArrowLeft' ? -1 : 1);
   }, { ...options, capture: true });
 
-  function sync(seconds: number, started = false) {
+  function sync(seconds: number) {
     const waitingForSeek = currentItem(seconds) !== itemAtTime(year, seconds);
     updateNavigation(seconds);
     if (waitingForSeek) return;
-    if (seconds > 0 || started) camera.sync(year, itemAtTime(year, seconds), tripDayAtTime(year, seconds));
+    camera.sync(year, itemAtTime(year, seconds), tripDayAtTime(year, seconds));
   }
   function setPlaying(playing: boolean) {
     root!.classList.toggle('is-playing', playing);
@@ -131,6 +131,7 @@ if (root) {
     previous.disabled = true;
     next.disabled = true;
     camera.showTrip(year);
+    camera.sync(year, itemAtTime(year, initialTime), tripDayAtTime(year, initialTime));
   }
   updateSelection();
 
@@ -144,12 +145,12 @@ if (root) {
     }
     video.addEventListener('loadedmetadata', () => {
       if (initialTime > 0) video.currentTime = Math.min(initialTime, video.duration);
-      sync(video.currentTime, true);
+      sync(video.currentTime);
       initialTime = 0;
     }, options);
-    video.addEventListener('timeupdate', () => sync(video.currentTime, !video.paused), options);
-    video.addEventListener('seeked', () => sync(video.currentTime, true), options);
-    video.addEventListener('play', () => { setPlaying(true); sync(video.currentTime, true); }, options);
+    video.addEventListener('timeupdate', () => sync(video.currentTime), options);
+    video.addEventListener('seeked', () => sync(video.currentTime), options);
+    video.addEventListener('play', () => { setPlaying(true); sync(video.currentTime); }, options);
     video.addEventListener('pause', () => setPlaying(false), options);
     video.addEventListener('ended', () => setPlaying(false), options);
     video.addEventListener('error', () => { fallback.hidden = false; setPlaying(false); }, options);
@@ -176,14 +177,14 @@ if (root) {
     iframe.src = url.href;
     iframe.title = `Hokkaido cycling trip ${year}`;
     function pollYouTube() {
-      if (!disposed && !document.hidden) sync(player!.getCurrentTime(), player!.getPlayerState() === 1);
+      if (!disposed && !document.hidden) sync(player!.getCurrentTime());
     }
     function onYouTubeReady() {
       youtubeReady = true;
       pendingYouTubeSound = { muted: true, readyState: 1 };
       player!.mute();
       player!.loadVideoById({ videoId: trips[year].videoId, startSeconds: initialTime });
-      sync(initialTime, true);
+      sync(initialTime);
       initialTime = 0;
       poll = setInterval(pollYouTube, 250);
     }
