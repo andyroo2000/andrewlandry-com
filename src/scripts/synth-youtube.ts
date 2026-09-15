@@ -4,6 +4,9 @@ export interface SynthPlayer {
   playVideo(): void;
   pauseVideo(): void;
   unMute(): void;
+  isMuted(): boolean;
+  getVolume(): number;
+  setVolume(volume: number): void;
   nextVideo(): void;
   previousVideo(): void;
   setShuffle(shuffle: boolean): void;

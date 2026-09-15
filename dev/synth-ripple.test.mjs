@@ -265,15 +265,18 @@ test('Rain keeps its gentler blur on the short floor canvas and hides it for oth
   assert.equal(layer.removed, true);
 });
 
-test('rare neon objects stay on musical hits, survive seeking, and rotate through all ten designs', () => {
+test('neon objects stay on musical hits at the increased rate, survive seeking, and rotate through all fifteen approved designs', () => {
   const frames = new Uint8Array(480 * 20 * 4);
   for (let second = 1; second < 480; second++) frames.set([240, 230, 0, 0], second * 20 * 4);
   const track = { videoId: 'cameo-song', duration: 480, fps: 20, frames };
   const events = buildRippleEvents(track);
   const cameos = events.filter(event => event.object);
-  assert.ok(cameos.length >= 10 && cameos.length <= 15);
-  assert.deepEqual(new Set(cameos.map(event => event.object)), new Set(['plane', 'satellite', 'ufo', 'astronaut', 'saturn', 'pizza', 'hotdog', 'hamburger', 'godzilla', 'banana']));
-  cameos.slice(1).forEach((event, index) => assert.ok(event.born - cameos[index].born >= 32));
+  assert.ok(cameos.length >= 28 && cameos.length <= 44);
+  assert.deepEqual(new Set(cameos.map(event => event.object)), new Set(['plane', 'satellite', 'ufo', 'astronaut', 'saturn', 'pizza', 'hotdog', 'hamburger', 'godzilla', 'banana', 'tokyo-tower', 'bear', 'crab', 'camera', 'tv']));
+  cameos.slice(1).forEach((event, index) => {
+    const gap = event.born - cameos[index].born;
+    assert.ok(gap >= 32 / 3 && gap <= 50 / 3 + 1, 'bonus objects appear every 11–17 seconds on this steady beat');
+  });
   for (const event of cameos) {
     const [drop, ...extra] = planFor([event]);
     assert.equal(extra.length, 0, 'a cameo produces one recognizable object');
@@ -287,13 +290,13 @@ test('rare neon objects stay on musical hits, survive seeking, and rotate throug
 test('neon outlines reuse their paths and paint a colored halo and bright core', () => {
   const strokes = [];
   const context = { globalAlpha: .88, stroke(path) { strokes.push({ path, width: this.lineWidth, color: this.strokeStyle }); } };
-  for (const object of ['plane', 'satellite', 'ufo', 'astronaut', 'saturn', 'pizza', 'hotdog', 'hamburger', 'godzilla', 'banana']) {
+  for (const object of ['plane', 'satellite', 'ufo', 'astronaut', 'saturn', 'pizza', 'hotdog', 'hamburger', 'godzilla', 'banana', 'tokyo-tower', 'bear', 'crab', 'camera', 'tv']) {
     paintNeonObject(context, object);
     const first = strokes.at(-1).path;
     paintNeonObject(context, object);
     assert.equal(strokes.at(-1).path, first);
     assert.ok(first.data.length > 100);
   }
-  assert.equal(new Set(strokes.map(stroke => stroke.path)).size, 10);
+  assert.equal(new Set(strokes.map(stroke => stroke.path)).size, 15);
   assert.ok(strokes.some(stroke => stroke.width > .1) && strokes.some(stroke => stroke.width < .02));
 });
