@@ -1,4 +1,5 @@
 import type { PlaybackSnapshot } from './synth-audio';
+import { requestedSynthTrack } from './synth-track-links';
 
 export interface SynthPlayer {
   playVideo(): void;
@@ -59,6 +60,8 @@ function loadApi(): Promise<YouTubeApi> {
 
 export async function connectSynthPlayer(iframe: HTMLIFrameElement, events: PlayerEvents, signal: AbortSignal) {
   const url = new URL(iframe.src);
+  const requested = requestedSynthTrack(location.href);
+  if (requested) url.pathname = `/embed/${requested}`;
   url.searchParams.set('origin', location.origin);
   iframe.src = url.href;
   const api = await loadApi();

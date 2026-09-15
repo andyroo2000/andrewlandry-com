@@ -40,7 +40,7 @@ jobs:
       - name: Verify deployed page
         run: |
           for site_origin in https://andrewlandry.com https://www.andrewlandry.com; do
-            for page in index.html japan-cycling-trips/index.html synth-and-chill/index.html; do
+            for page in index.html japan-cycling-trips/index.html synth-and-chill/index.html synth-and-chill/hes-a-bad-guy/index.html; do
               site_url="$site_origin/${page%index.html}"
               verified=false
               for attempt in 1 2 3 4 5; do
