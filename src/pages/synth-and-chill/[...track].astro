@@ -1,7 +1,18 @@
 ---
-import ArrowUpRight from '../components/ArrowUpRight.astro';
-import ThemeHead from '../components/ThemeHead.astro';
+import ArrowUpRight from '../../components/ArrowUpRight.astro';
+import ThemeHead from '../../components/ThemeHead.astro';
 
+import tracks from '../../data/synth-tracks.json';
+import { synthTrackPageTitle } from '../../scripts/synth-track-links';
+
+export function getStaticPaths() {
+  return [
+    { params: { track: undefined }, props: {} },
+    ...tracks.map(track => ({ params: { track: track.slug }, props: { track } })),
+  ];
+}
+interface Props { track?: (typeof tracks)[number] }
+const { track } = Astro.props;
 const playlist = 'PLpJqhXBWT7F96to6OoJnsTrG6y6aJtxvi';
 ---
 <!doctype html>
@@ -15,7 +26,7 @@ const playlist = 'PLpJqhXBWT7F96to6OoJnsTrG6y6aJtxvi';
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&display=swap" rel="stylesheet" />
-    <title>Synth &amp; Chill — Andrew Landry</title>
+    <title>{synthTrackPageTitle(track?.title)}</title>
   </head>
   <body>
     <canvas class="atmosphere" data-synth-canvas aria-hidden="true"></canvas>
@@ -43,7 +54,7 @@ const playlist = 'PLpJqhXBWT7F96to6OoJnsTrG6y6aJtxvi';
         <section class="film" aria-label="Synth and chill YouTube playlist">
           <iframe
             id="synth-youtube"
-            src={`https://www.youtube.com/embed/videoseries?list=${playlist}&playsinline=1&rel=0&enablejsapi=1&controls=0`}
+            src={`https://www.youtube.com/embed/${track?.videoId ?? 'videoseries'}?list=${playlist}&playsinline=1&rel=0&enablejsapi=1&controls=0`}
             title="Synth and chill — synthesizer sessions playlist"
             allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
             referrerpolicy="strict-origin-when-cross-origin"
@@ -51,7 +62,7 @@ const playlist = 'PLpJqhXBWT7F96to6OoJnsTrG6y6aJtxvi';
           ></iframe>
           <div class="film-caption" role="group" aria-label="Playback controls">
             <button class="track-button" data-previous-track aria-label="Previous track" aria-keyshortcuts="ArrowLeft" title="Previous track (←)" disabled><svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="m15 6-6 6 6 6" /></svg> Previous track</button>
-            <span class="track-title" data-track-title aria-live="polite">Synth &amp; chill</span>
+            <span class="track-title" data-track-title aria-live="polite">{track?.title ?? 'Synth & chill'}</span>
             <button class="track-button" data-next-track aria-label="Next track" aria-keyshortcuts="ArrowRight" title="Next track (→)" disabled>Next track <svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="m9 6 6 6-6 6" /></svg></button>
             <label class="volume-control">Volume <input data-volume type="range" min="0" max="100" step="1" value="100" aria-valuetext="100%" disabled /></label>
           </div>
@@ -60,8 +71,8 @@ const playlist = 'PLpJqhXBWT7F96to6OoJnsTrG6y6aJtxvi';
 
     </div>
     <script>
-      import { initSynthVisuals } from '../scripts/synth-visuals';
-      import { initSynthPlayer } from '../scripts/synth-player';
+      import { initSynthVisuals } from '../../scripts/synth-visuals';
+      import { initSynthPlayer } from '../../scripts/synth-player';
       const readPlayback = initSynthPlayer();
       initSynthVisuals(readPlayback);
     </script>

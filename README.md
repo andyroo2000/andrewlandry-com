@@ -204,12 +204,23 @@ in the film. Manage the background server with `npm run astro -- dev status`,
 
 `/synth-and-chill/` embeds Andrew's synthesizer playlist with an explicit
 Start listening button, current track title, and previous/next track controls.
-It starts in lights-down mode with the Signal visualization. A selector and
-adjacent arrows offer nine backgrounds: Signal, Orbit, Drift, Aurora,
-Constellation, Kaleidoscope, Terrain, Ripple, and Mosaic. Depth adjusts their
-shapes and audio response; the animation can be paused independently of playback.
+It uses the dark palette and starts with Terrain; Change visualization switches
+between Terrain and Rain. The transport includes volume, with Space to play/pause
+and left/right arrow keys to change tracks when a focused control does not own them.
 Reduced-motion preferences pause the background initially, and hidden tabs
 stop drawing.
+
+Each current playlist track has a stable URL such as
+`/synth-and-chill/hes-a-bad-guy/`. Opening or refreshing it selects that video
+without autoplay and retains YouTube's current playlist order. The address bar
+updates using `replaceState` as tracks change, so Back still leaves the listening
+session rather than walking through every song.
+
+`src/data/synth-tracks.json` maps permanent slugs to video IDs and display titles.
+Keep existing slugs unchanged when renaming or reordering videos. Add a record
+and redeploy to give a new video its pretty URL; until then, newly added playlist
+videos use a functional `/synth-and-chill/?track=VIDEO_ID` link. Slug changes do
+not require regenerating audio analysis, which remains keyed by video ID.
 
 The visualizers follow YouTube's playback clock using precomputed volume and
 bass/midrange/treble measurements for all 17 playlist videos. Seeking, pausing,

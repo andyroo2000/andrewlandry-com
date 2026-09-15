@@ -1,6 +1,7 @@
 import { connectSynthPlayer, createTrackTitleLoader, readSynthPlayback, youtubeVideoId, type SynthPlayer } from './synth-youtube';
 import { initSynthKeyboard } from './synth-keyboard';
 import { initSynthVolume } from './synth-volume';
+import { syncSynthTrackUrl, synthTrackPageTitle } from './synth-track-links';
 
 export function initSynthPlayer() {
   const iframe = document.querySelector<HTMLIFrameElement>('#synth-youtube');
@@ -37,7 +38,10 @@ export function initSynthPlayer() {
     currentUrl = url;
     title.textContent = `Track ${index + 1}`;
     void loadTitle(url).then(name => {
-      if (!abort.signal.aborted && currentUrl === url) title.textContent = name;
+      if (!abort.signal.aborted && currentUrl === url) {
+        title.textContent = name;
+        document.title = synthTrackPageTitle(name);
+      }
     }).catch(() => { if (currentUrl === url) currentUrl = ''; });
   }
   function updateTrack() {
@@ -46,6 +50,7 @@ export function initSynthPlayer() {
     const index = updateNavigation(player);
     const videoId = youtubeVideoId(player.getVideoUrl());
     if (!videoId) return;
+    syncSynthTrackUrl(videoId);
     // YouTube can append seek timestamps; those do not change the track title.
     const url = `https://www.youtube.com/watch?v=${videoId}`;
     if (url !== currentUrl) updateTitle(url, index);
