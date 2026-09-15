@@ -1,0 +1,50 @@
+---
+import themeScript from '../scripts/site-theme.js?raw';
+---
+<meta name="theme-color" content="#2446ee" />
+<script is:inline set:html={themeScript}></script>
+<style is:global>
+  :root {
+    color-scheme: light;
+    --site-bg: #2446ee;
+    --site-accent: #f2f76c;
+    --site-text: #fffef6;
+    --site-card: #fffef6;
+    --site-ink: #2446ee;
+    --site-rule: #2446ee35;
+    --site-shadow: #142ec2;
+    --site-panel: #f2f76c;
+    --map-land: #f2f76c;
+    --map-ink: #2446ee;
+    --map-pin: #2446ee;
+    --map-water-route: #f2f76c;
+  }
+  :root[data-theme='dark'] {
+    color-scheme: dark;
+    --site-bg: #101835;
+    --site-card: #202c4b;
+    --site-ink: #fffef6;
+    --site-rule: #fffef630;
+    --site-shadow: #080f24;
+    --site-panel: #17213d;
+    --map-land: #2a3c59;
+    --map-ink: #f2f76c;
+    --map-pin: #4467ff;
+    --map-water-route: #fffef6;
+  }
+  @media (prefers-color-scheme: dark) {
+    :root:not([data-theme]) {
+      color-scheme: dark;
+      --site-bg: #101835;
+      --site-card: #202c4b;
+      --site-ink: #fffef6;
+      --site-rule: #fffef630;
+      --site-shadow: #080f24;
+      --site-panel: #17213d;
+      --map-land: #2a3c59;
+      --map-ink: #f2f76c;
+      --map-pin: #4467ff;
+      --map-water-route: #fffef6;
+    }
+  }
+</style>

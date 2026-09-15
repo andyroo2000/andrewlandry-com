@@ -17,7 +17,7 @@ export function initSynthVisuals(readPlayback: PlaybackReader) {
   const abort = new AbortController();
   const options = { signal: abort.signal };
   const size = { width: innerWidth, height: innerHeight };
-  const settings: VisualSettings & { mode: VisualMode } = { mode: DEFAULT_VISUAL_MODE, time: 12, depth: VISUAL_DEPTHS[DEFAULT_VISUAL_MODE], dark: document.body.classList.contains('lights-down'), audio: quietFeatures() };
+  const settings: VisualSettings & { mode: VisualMode } = { mode: DEFAULT_VISUAL_MODE, time: 12, depth: VISUAL_DEPTHS[DEFAULT_VISUAL_MODE], dark: document.documentElement.dataset.theme === 'dark', audio: quietFeatures() };
   const followAudio = createAudioFollower(readPlayback);
   const softenTerrain = createTerrainSoftness(document.querySelector<HTMLElement>('[data-terrain-softness]')!, canvas);
   const rippleFloor = createRippleFloor(canvas);
@@ -65,10 +65,8 @@ export function initSynthVisuals(readPlayback: PlaybackReader) {
     settings.depth = VISUAL_DEPTHS[mode];
     resize();
   }, abort.signal);
-  room.querySelector<HTMLButtonElement>('[data-lights]')!.addEventListener('click', event => {
-    settings.dark = !settings.dark;
-    document.body.classList.toggle('lights-down', settings.dark);
-    (event.currentTarget as HTMLButtonElement).setAttribute('aria-pressed', String(settings.dark));
+  document.addEventListener('site-theme-change', () => {
+    settings.dark = document.documentElement.dataset.theme === 'dark';
     draw();
   }, options);
   motion.addEventListener('click', () => { paused = !paused; updateMotion(); }, options);
