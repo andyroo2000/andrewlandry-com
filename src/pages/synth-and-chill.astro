@@ -2,7 +2,6 @@
 import ArrowUpRight from '../components/ArrowUpRight.astro';
 import ThemeHead from '../components/ThemeHead.astro';
 import ThemeToggle from '../components/ThemeToggle.astro';
-import { TERRAIN_HORIZON } from '../scripts/synth-terrain-style';
 
 const playlist = 'PLpJqhXBWT7F96to6OoJnsTrG6y6aJtxvi';
 const playlistUrl = `https://www.youtube.com/playlist?list=${playlist}`;
@@ -22,7 +21,7 @@ const playlistUrl = `https://www.youtube.com/playlist?list=${playlist}`;
   </head>
   <body>
     <canvas class="atmosphere" data-synth-canvas aria-hidden="true"></canvas>
-    <div class="terrain-softness" data-terrain-softness aria-hidden="true" hidden style={`--terrain-horizon: ${TERRAIN_HORIZON * 100}%`}></div>
+    <div class="terrain-softness" data-terrain-softness aria-hidden="true" hidden></div>
     <div class="paper-grain" aria-hidden="true"></div>
     <div class="room" data-synth-room>
       <header class="masthead">
@@ -88,8 +87,8 @@ const playlistUrl = `https://www.youtube.com/playlist?list=${playlist}`;
     position: fixed; inset: 0; pointer-events: none;
     -webkit-backdrop-filter: blur(var(--terrain-blur, 0px));
     backdrop-filter: blur(var(--terrain-blur, 0px));
-    -webkit-mask-image: linear-gradient(to bottom, transparent var(--terrain-horizon), #000 100%);
-    mask-image: linear-gradient(to bottom, transparent var(--terrain-horizon), #000 100%);
+    -webkit-mask-image: var(--terrain-softness-mask);
+    mask-image: var(--terrain-softness-mask);
   }
   .paper-grain { position: fixed; inset: 0; pointer-events: none; opacity: .17; background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 180 180' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.9' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Cpath fill='%23fff' filter='url(%23n)' opacity='.35' d='M0 0h180v180H0z'/%3E%3C/svg%3E"); }
   .room { position: relative; min-height: 100svh; display: flex; flex-direction: column; padding: 30px 4vw 32px; }

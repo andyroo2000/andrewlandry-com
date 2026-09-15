@@ -1,6 +1,6 @@
 import { ink, type Renderer, type Viewport, type VisualSettings } from './synth-visual-types';
 import { terrainDepth, terrainResponse, terrainShake } from './synth-terrain-style';
-import { createTerrainFieldCache, sampleTerrainHeight, terrainRowTime, TERRAIN_COLUMNS, TERRAIN_HISTORY_SECONDS, TERRAIN_ROWS_PER_SECOND, MOUND_RADIUS_COLUMNS, MOUND_RADIUS_SECONDS, type TerrainField } from './synth-terrain-field';
+import { createTerrainFieldCache, createTerrainFrame, terrainRowTime, TERRAIN_COLUMNS, TERRAIN_HISTORY_SECONDS, TERRAIN_ROWS_PER_SECOND, MOUND_RADIUS_COLUMNS, MOUND_RADIUS_SECONDS, type TerrainHeightSampler } from './synth-terrain-field';
 import { createTerrainCamera, projectTerrainPoint, TERRAIN_FAR_DISTANCE, TERRAIN_FOREGROUND_DISTANCE, type TerrainCamera } from './synth-terrain-camera';
 
 type Vertex = { x: number; y: number };
@@ -10,18 +10,19 @@ const ROW_COUNT = TERRAIN_HISTORY_SECONDS * TERRAIN_ROWS_PER_SECOND;
 const TRAVEL_SPEED = (TERRAIN_FAR_DISTANCE - TERRAIN_FOREGROUND_DISTANCE) / TERRAIN_HISTORY_SECONDS;
 const GRID_SPACING = TRAVEL_SPEED * MOUND_RADIUS_SECONDS / MOUND_RADIUS_COLUMNS;
 const MESH_COLUMN_STEP = 2;
+const TERRAIN_SHAKE_GAIN = 1.25;
 
-function terrainRow(row: number, camera: TerrainCamera, settings: VisualSettings, field: TerrainField | undefined) {
+function terrainRow(row: number, camera: TerrainCamera, settings: VisualSettings, sampleHeight: TerrainHeightSampler) {
   const seconds = settings.timeline?.seconds ?? 0;
   // The leading edge samples the playback clock directly. The rows behind
   // it stay anchored to their recorded times as they drift toward us.
   const recordedAt = row < 0 ? seconds : terrainRowTime(seconds, row);
   const z = TERRAIN_FAR_DISTANCE - (seconds - recordedAt) * TRAVEL_SPEED;
-  const lift = .3 + terrainDepth(settings.depth) * .95;
+  const lift = (.3 + terrainDepth(settings.depth) * .95) * .75;
   const bounds = visibleColumns(camera, z);
   const points = Array.from({ length: bounds * 2 / MESH_COLUMN_STEP + 1 }, (_, index) => {
     const column = index * MESH_COLUMN_STEP - bounds;
-    const height = sampleTerrainHeight(field, wrappedColumn(column), recordedAt);
+    const height = sampleHeight(wrappedColumn(column), recordedAt);
     return projectTerrainPoint(camera, { x: column * GRID_SPACING, y: height * lift, z });
   });
   // Keep the solid mesh dense, but ink only every other recorded cross-section.
@@ -37,7 +38,7 @@ function visibleColumns(camera: TerrainCamera, z: number) {
 }
 
 function wrappedColumn(column: number) {
-  // Repeat the field's flat, matching edges across an unbounded ground plane.
+  // Repeat the seamless field across an unbounded ground plane.
   const period = TERRAIN_COLUMNS - 1;
   return ((column + period / 2) % period + period) % period;
 }
@@ -114,9 +115,11 @@ function drawDistantGround(context: CanvasRenderingContext2D, size: Viewport, ca
 
 export const drawTerrain: Renderer = (context, size, settings) => {
   const field = readField(settings.timeline?.track);
+  const sampleHeight = createTerrainFrame(field, settings.timeline?.seconds ?? 0);
   const response = terrainResponse(settings.audio, settings.timeline);
-  const camera = createTerrainCamera(size, terrainShake(settings.time, settings.audio.deepBass ?? 0));
-  const rows = Array.from({ length: ROW_COUNT + 2 }, (_, row) => terrainRow(row - 1, camera, settings, field));
+  const shake = terrainShake(settings.time, settings.audio.deepBass ?? 0);
+  const camera = createTerrainCamera(size, { x: shake.x * TERRAIN_SHAKE_GAIN, y: shake.y * TERRAIN_SHAKE_GAIN });
+  const rows = Array.from({ length: ROW_COUNT + 2 }, (_, row) => terrainRow(row - 1, camera, settings, sampleHeight));
   context.lineJoin = 'round';
   context.lineCap = 'round';
   context.fillStyle = settings.dark ? '#101835' : '#2446ee';

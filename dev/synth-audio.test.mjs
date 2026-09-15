@@ -31,7 +31,7 @@ test('deep bass follows playback, releases on pause, and does not leak across tr
   assert.equal(follow(1400).audio.deepBass, 0);
 });
 
-test('deep bass keeps terrain blur at 2px at the top and 8px at the bottom, without blurring ripple rain', () => {
+test('deep bass adds up to 8px of masked foreground blur while the original terrain stays sharp', () => {
   const properties = new Map();
   const layer = { style: { setProperty: (name, value) => properties.set(name, value) }, hidden: true };
   const canvas = { style: {} };
@@ -39,8 +39,8 @@ test('deep bass keeps terrain blur at 2px at the top and 8px at the bottom, with
   const settings = { mode: 'terrain', time: 0, depth: .35, dark: true };
   const apply = deepBass => {
     update({ ...settings, audio: { level: 1, bass: 1, mid: 1, high: 1, deepBass } });
-    const top = canvas.style.filter === 'none' ? 0 : parseFloat(canvas.style.filter.slice(5));
-    return Math.hypot(top, parseFloat(properties.get('--terrain-blur')));
+    assert.equal(canvas.style.filter, 'none', 'no full-screen blur reaches the distant terrain');
+    return parseFloat(properties.get('--terrain-blur'));
   };
   for (const level of [undefined, 0, .2, .35]) assert.equal(apply(level), 0);
   assert.equal(layer.hidden, true);
@@ -48,7 +48,6 @@ test('deep bass keeps terrain blur at 2px at the top and 8px at the bottom, with
   assert.ok(apply(.5) > 0);
   assert.ok(apply(.5) < 2);
   assert.ok(Math.abs(apply(1) - 8) < 1e-10);
-  assert.equal(canvas.style.filter, 'blur(2px)');
   assert.equal(layer.hidden, false);
   assert.equal(apply(0), 0);
   assert.equal(layer.hidden, true);

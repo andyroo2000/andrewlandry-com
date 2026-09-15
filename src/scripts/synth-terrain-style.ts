@@ -2,10 +2,22 @@ import type { AudioTimeline } from './synth-audio';
 import type { AudioFeatures } from './synth-audio-data';
 
 export const TERRAIN_HORIZON = .05;
+export const TERRAIN_SETTLE_SECONDS = .3;
 const unit = (value: number) => Math.max(0, Math.min(1, value));
 const energy = (level: number, bass: number, high: number) => level * .55 + bass * .3 + high * .15;
 
 export function terrainDepth(slider: number) { return unit(slider) ** 3; }
+
+export function terrainBirthScale(age: number) {
+  // Age starts at the overshoot crest, exactly when the sound hits.
+  const progress = unit(age / TERRAIN_SETTLE_SECONDS);
+  return 1 + .06 * (1 - progress * progress * (3 - 2 * progress));
+}
+
+export function terrainForegroundWeight(screenPosition: number) {
+  // Keep the upper quarter still and sharp, then build toward the viewer.
+  return unit((screenPosition - .25) / .75) ** 2;
+}
 
 export function terrainBassResponse(level: number) {
   // Blur and camera shake share the same gate for strong, deep bass.
@@ -17,7 +29,7 @@ export function terrainShake(time: number, deepBass: number) {
   const strength = terrainBassResponse(deepBass);
   const phase = time * Math.PI * 2;
   // Quick, uneven vibrations rather than a slow sway. These are maximum
-  // CSS-pixel offsets at the nearest ground; perspective quiets the distance.
+  // CSS-pixel offsets; each visualizer controls where the vibration appears.
   return {
     x: strength * 10 * (Math.sin(phase * 11) * .7 + Math.sin(phase * 17) * .3),
     y: strength * 14 * (Math.sin(phase * 13) * .7 + Math.sin(phase * 19) * .3),
