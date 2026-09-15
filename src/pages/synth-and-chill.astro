@@ -34,7 +34,6 @@ const playlistUrl = `https://www.youtube.com/playlist?list=${playlist}`;
             Change visualization
           </button>
           <ThemeToggle />
-          <button class="motion" data-motion aria-label="Pause background animation"><span data-pause-icon><svg viewBox="0 0 20 20" aria-hidden="true"><path d="M6 4V16M14 4V16" /></svg></span><span data-play-icon hidden><svg viewBox="0 0 20 20" aria-hidden="true"><path d="M5 3L16 10L5 17Z" /></svg></span></button>
         </div>
       </header>
 
@@ -101,7 +100,7 @@ const playlistUrl = `https://www.youtube.com/playlist?list=${playlist}`;
   .edition span { opacity: .55; margin: 0 14px; }
   .room-actions { display: flex; align-items: center; gap: 18px; margin-left: auto; }
   .room-action { display: inline-flex; align-items: center; gap: 10px; background: transparent; font-size: 13px; min-height: 44px; padding: 0 4px; white-space: nowrap; }
-  .room-action:hover, .motion:hover { color: var(--lemon); }
+  .room-action:hover { color: var(--lemon); }
   .change-icon { width: 20px; height: 20px; fill: none; stroke: currentColor; stroke-width: 1.6; stroke-linecap: round; stroke-linejoin: round; }
   .listening-room { flex: 1; display: grid; grid-template-columns: .85fr 1.9fr; align-items: center; gap: 6.5vw; padding: 65px 0 70px; }
   .identity { padding-bottom: 10px; }
@@ -121,9 +120,6 @@ const playlistUrl = `https://www.youtube.com/playlist?list=${playlist}`;
   .track-button { display: grid; place-items: center; width: 44px; height: 44px; background: transparent; font-size: 29px; line-height: 1; }
   .track-button:hover:not(:disabled) { background: var(--lemon); color: #101835; }
   .track-button:disabled { opacity: .25; cursor: default; }
-  .motion { display: grid; place-items: center; width: 44px; height: 44px; background: transparent; }
-  .motion svg { width: 16px; height: 16px; fill: none; stroke: currentColor; stroke-width: 2; }
-  .motion [hidden] { display: none; }
   .sr-only { position: absolute; width: 1px; height: 1px; overflow: hidden; clip-path: inset(50%); white-space: nowrap; }
   @media (min-width: 1700px) { .room { padding-inline: 5vw; } .listening-room { gap: 6vw; } }
   @media (max-width: 1100px) {
@@ -139,7 +135,6 @@ const playlistUrl = `https://www.youtube.com/playlist?list=${playlist}`;
     .room-actions { gap: 6px; }
     .room-action { gap: 6px; font-size: 11px; padding: 0; }
     .change-icon { width: 16px; height: 16px; }
-    .motion { width: 32px; }
     .listening-room { display: flex; flex-direction: column; align-items: stretch; gap: 35px; padding: 42px 0 36px; }
     .identity { position: relative; }
     h1 { font-size: clamp(66px, 14vw, 102px); }
