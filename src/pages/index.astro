@@ -1,7 +1,6 @@
 ---
 import ArrowUpRight from '../components/ArrowUpRight.astro';
 import ThemeHead from '../components/ThemeHead.astro';
-import ThemeToggle from '../components/ThemeToggle.astro';
 
 const description = 'Andrew Landry’s Japan cycling trips, Synth & Chill sessions, and links to GitHub, LinkedIn, and Instagram.';
 const shareImage = 'https://andrewlandry.com/images/social-share.png';
@@ -13,7 +12,7 @@ const links = [
 ];
 ---
 <!doctype html>
-<html lang="en">
+<html lang="en" data-theme="light">
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
@@ -43,7 +42,6 @@ const links = [
   </head>
   <body class="blue-frequency">
     <a href="#main" class="skip">Skip to content</a>
-    <div class="page-settings"><ThemeToggle /></div>
   <main id="main" class="id-page">
     <section class="identity" aria-label="Andrew Landry">
       <h1>ANDREW<br /><span>LANDRY</span></h1>
@@ -94,7 +92,6 @@ const links = [
     color: var(--site-text);
     font-family: 'Space Grotesk', sans-serif;
   }
-  .page-settings { position: absolute; top: 24px; right: 4vw; z-index: 2; color: var(--site-ink); --theme-toggle-accent: var(--site-ink); }
   .id-page {
     min-height: 100svh;
     display: grid;
@@ -212,7 +209,6 @@ const links = [
   }
   @media (max-width: 700px) {
     .id-page { grid-template-columns: 1fr; }
-    .page-settings { top: 12px; right: 7%; color: var(--site-text); --theme-toggle-accent: var(--site-accent); }
     .identity { padding: 75px 7% 40px; min-height: 280px; gap: 28px; }
     h1 { font-size: 17vw; line-height: .96; }
     .links-panel { padding: 70px 10% 60px; }

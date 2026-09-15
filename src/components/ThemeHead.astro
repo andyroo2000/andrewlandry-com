@@ -1,8 +1,10 @@
 ---
-import themeScript from '../scripts/site-theme.js?raw';
+import clearThemePreference from '../scripts/clear-theme-preference.js?raw';
+interface Props { dark?: boolean }
+const { dark = false } = Astro.props;
 ---
-<meta name="theme-color" content="#2446ee" />
-<script is:inline set:html={themeScript}></script>
+<meta name="theme-color" content={dark ? '#101835' : '#2446ee'} />
+<script is:inline set:html={clearThemePreference}></script>
 <style is:global>
   :root {
     color-scheme: light;
@@ -31,20 +33,5 @@ import themeScript from '../scripts/site-theme.js?raw';
     --map-ink: #f2f76c;
     --map-pin: #4467ff;
     --map-water-route: #fffef6;
-  }
-  @media (prefers-color-scheme: dark) {
-    :root:not([data-theme]) {
-      color-scheme: dark;
-      --site-bg: #101835;
-      --site-card: #202c4b;
-      --site-ink: #fffef6;
-      --site-rule: #fffef630;
-      --site-shadow: #080f24;
-      --site-panel: #17213d;
-      --map-land: #2a3c59;
-      --map-ink: #f2f76c;
-      --map-pin: #4467ff;
-      --map-water-route: #fffef6;
-    }
   }
 </style>

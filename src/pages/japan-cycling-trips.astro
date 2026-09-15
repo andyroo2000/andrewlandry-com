@@ -2,12 +2,11 @@
 import TripMap from '../components/TripMap.astro';
 import ArrowUpRight from '../components/ArrowUpRight.astro';
 import ThemeHead from '../components/ThemeHead.astro';
-import ThemeToggle from '../components/ThemeToggle.astro';
 import { env } from 'node:process';
 const localPreview = import.meta.env.DEV && Boolean(env.JAPAN_TRIP_MEDIA_DIR);
 ---
 <!doctype html>
-<html lang="en">
+<html lang="en" data-theme="light">
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
@@ -26,7 +25,6 @@ const localPreview = import.meta.env.DEV && Boolean(env.JAPAN_TRIP_MEDIA_DIR);
       <a href="/" class="home" aria-label="Andrew Landry home"><span class="desktop-home">AL<span aria-hidden="true"><ArrowUpRight /></span></span><span class="mobile-home"><span aria-hidden="true">←</span> Home</span></a>
       <h1 aria-label="Japan Cycling Trips">Japan<br /><span>Cycling</span><br />Trips<span class="period">.</span></h1>
       <div class="trip-settings">
-        <div class="trip-theme"><ThemeToggle /></div>
         <nav class="trip-switcher" aria-label="Choose a cycling trip">
           <button type="button" data-year="2025" aria-pressed="false">2025</button>
           <button type="button" data-year="2026" aria-pressed="true">2026</button>
@@ -91,7 +89,6 @@ const localPreview = import.meta.env.DEV && Boolean(env.JAPAN_TRIP_MEDIA_DIR);
   h1 span { color: var(--lemon); }
   h1 .period { color: #fff; }
   .trip-settings { position: absolute; top: 30px; right: 3.2vw; z-index: 5; display: flex; align-items: center; gap: 20px; }
-  .trip-theme { background: var(--site-bg); padding-inline: 10px; }
   .trip-switcher { display: flex; background: var(--site-card); color: var(--site-ink); padding: 5px; transform: rotate(-3deg); box-shadow: 5px 5px 0 var(--site-shadow); }
   .trip-switcher button { border: 0; border-radius: 0; padding: 12px 18px; background: transparent; color: inherit; font: 500 20px 'Space Grotesk', sans-serif; cursor: pointer; }
   .trip-switcher button[aria-pressed='true'] { color: var(--blue); background: var(--lemon); }
@@ -140,7 +137,6 @@ const localPreview = import.meta.env.DEV && Boolean(env.JAPAN_TRIP_MEDIA_DIR);
     .film::before { display: none; }
     .film-surface { position: absolute; left: 50%; top: 50%; transform: translate(-50%, -50%); width: min(100cqw, calc(100cqh * 9 / 16)); height: auto; aspect-ratio: 9 / 16; }
     .trip-settings { position: static; grid-area: 1 / 2; justify-self: end; margin: 12px 16px 12px 0; gap: 12px; }
-    .trip-theme { padding-inline: 0; }
     .trip-switcher { transform: none; padding: 3px; box-shadow: none; }
     .trip-switcher button { font-size: 16px; min-height: 44px; padding: 8px 14px; }
     .place { position: static; grid-area: 3 / 1 / 4 / -1; justify-self: center; width: calc(100% - 32px); max-width: 480px; margin: 18px 16px; padding: 6px; gap: 0; transform: rotate(-2deg); font-size: 18px; box-shadow: 4px 4px 0 var(--site-shadow); }

@@ -60,10 +60,6 @@ export function initSynthVisuals(readPlayback: PlaybackReader) {
     settings.depth = VISUAL_DEPTHS[mode];
     resize();
   }, abort.signal);
-  document.addEventListener('site-theme-change', () => {
-    settings.dark = document.documentElement.dataset.theme === 'dark';
-    draw();
-  }, options);
   reducedMotion.addEventListener('change', updateMotion, options);
   document.addEventListener('visibilitychange', updateMotion, options);
   window.addEventListener('resize', resize, options);

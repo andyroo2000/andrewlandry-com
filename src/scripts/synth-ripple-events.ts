@@ -1,11 +1,12 @@
 import type { AudioTrack } from './synth-audio-data';
 import { seed, type VisualSettings } from './synth-visual-types';
 
-export type RainObject = 'plane' | 'satellite' | 'ufo' | 'astronaut' | 'saturn' | 'pizza' | 'hotdog' | 'hamburger' | 'godzilla' | 'banana';
+export type RainObject = 'plane' | 'satellite' | 'ufo' | 'astronaut' | 'saturn' | 'pizza' | 'hotdog' | 'hamburger' | 'godzilla' | 'banana' | 'tokyo-tower' | 'bear' | 'crab' | 'camera' | 'tv';
 export const RAIN_ENTRY_SECONDS = .32;
 // Event timestamps mark the sound; the rain launches one entrance earlier.
 export type RippleEvent = { id: number; born: number; band: number; energy: number; object?: RainObject };
-const SKY_OBJECTS: RainObject[] = ['godzilla', 'banana', 'astronaut', 'saturn', 'pizza', 'hotdog', 'hamburger', 'plane', 'satellite', 'ufo'];
+const SKY_OBJECTS: RainObject[] = ['tokyo-tower', 'godzilla', 'bear', 'banana', 'crab', 'astronaut', 'camera', 'saturn', 'tv', 'pizza', 'hotdog', 'hamburger', 'plane', 'satellite', 'ufo'];
+const SKY_OBJECT_RATE = 3;
 // Retain a full accumulation cycle plus the slowest incoming flight.
 export const RIPPLE_HISTORY = 52;
 const MAX_VISIBLE_EVENTS = 1024;
@@ -55,11 +56,11 @@ function bandEvents(source: BandSource) {
 }
 
 function addSkyObjects(events: RippleEvent[]): RippleEvent[] {
-  let nextAt = 8;
+  let nextAt = 8 / SKY_OBJECT_RATE;
   let count = 0;
   return events.map(event => {
     if (event.born < nextAt || event.energy < .5) return event;
-    nextAt = event.born + 32 + seed(event.id + 431) * 18;
+    nextAt = event.born + (32 + seed(event.id + 431) * 18) / SKY_OBJECT_RATE;
     return { ...event, object: SKY_OBJECTS[count++ % SKY_OBJECTS.length] };
   });
 }
@@ -93,7 +94,9 @@ function previewEvents(seconds: number): RippleEvent[] {
   const last = Math.floor((seconds + RAIN_ENTRY_SECONDS) / .65);
   return Array.from({ length: last - first + 1 }, (_, index) => {
     const id = index + first;
-    const object = id % 70 === 16 ? SKY_OBJECTS[Math.floor(id / 70) % SKY_OBJECTS.length] : undefined;
+    const sequence = Math.floor(id * SKY_OBJECT_RATE / 70);
+    const cameoStart = Math.round((sequence * 70 + 16) / SKY_OBJECT_RATE);
+    const object = id === cameoStart ? SKY_OBJECTS[sequence % SKY_OBJECTS.length] : undefined;
     return { id, born: id * .65, band: id % 3, energy: .15 + seed(id + 83) * .8, object };
   });
 }
