@@ -1,6 +1,6 @@
 ---
 import ArrowUpRight from '../components/ArrowUpRight.astro';
-import { visualModes } from '../scripts/synth-visual-types';
+import { TERRAIN_HORIZON } from '../scripts/synth-terrain-style';
 
 const playlist = 'PLpJqhXBWT7F96to6OoJnsTrG6y6aJtxvi';
 const playlistUrl = `https://www.youtube.com/playlist?list=${playlist}`;
@@ -19,17 +19,24 @@ const playlistUrl = `https://www.youtube.com/playlist?list=${playlist}`;
   </head>
   <body class="lights-down">
     <canvas class="atmosphere" data-synth-canvas aria-hidden="true"></canvas>
+    <div class="terrain-softness" data-terrain-softness aria-hidden="true" hidden style={`--terrain-horizon: ${TERRAIN_HORIZON * 100}%`}></div>
     <div class="paper-grain" aria-hidden="true"></div>
     <div class="room" data-synth-room>
       <header class="masthead">
         <a class="home" href="/" aria-label="Andrew Landry home">AL<span aria-hidden="true"><ArrowUpRight /></span></a>
         <span class="edition">Andrew Landry <span aria-hidden="true">/</span> Basement sessions</span>
-        <button class="lights" data-lights aria-pressed="true"><span class="light-icon" aria-hidden="true">◐</span> Lights down</button>
+        <div class="room-actions" role="group" aria-label="Room settings">
+          <button class="room-action" data-change-visualization>
+            <svg class="change-icon" viewBox="0 0 24 24" aria-hidden="true"><path d="M4 8h15m-4-4 4 4-4 4M20 16H5m4-4-4 4 4 4" /></svg>
+            Change visualization
+          </button>
+          <button class="room-action lights" data-lights aria-pressed="true"><span class="light-icon" aria-hidden="true">◐</span> Lights down</button>
+          <button class="motion" data-motion aria-label="Pause background animation"><span data-pause-icon><svg viewBox="0 0 20 20" aria-hidden="true"><path d="M6 4V16M14 4V16" /></svg></span><span data-play-icon hidden><svg viewBox="0 0 20 20" aria-hidden="true"><path d="M5 3L16 10L5 17Z" /></svg></span></button>
+        </div>
       </header>
 
       <main id="main" class="listening-room">
         <div class="identity">
-          <span class="eyebrow"><span class="status-light" aria-hidden="true"></span> Sounds from downstairs</span>
           <h1>synth<br /><span>&amp; chill.</span></h1>
           <button class="start-listening" data-listen disabled><span data-listen-icon aria-hidden="true">▶</span><span data-listen-label>Start listening</span></button>
           <p class="player-message" data-player-message role="status" hidden></p>
@@ -38,7 +45,7 @@ const playlistUrl = `https://www.youtube.com/playlist?list=${playlist}`;
         <section class="film" aria-label="Synth and chill YouTube playlist">
           <iframe
             id="synth-youtube"
-            src={`https://www.youtube.com/embed/D8bjcI4pkiE?list=${playlist}&index=4&playsinline=1&rel=0&enablejsapi=1`}
+            src={`https://www.youtube.com/embed/videoseries?list=${playlist}&playsinline=1&rel=0&enablejsapi=1`}
             title="Synth and chill — synthesizer sessions playlist"
             allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
             referrerpolicy="strict-origin-when-cross-origin"
@@ -46,37 +53,13 @@ const playlistUrl = `https://www.youtube.com/playlist?list=${playlist}`;
           ></iframe>
           <div class="film-caption">
             <button class="track-button" data-previous-track aria-label="Previous track" disabled>‹</button>
-            <span class="track-title" data-track-title aria-live="polite">he’s a bad guy</span>
+            <span class="track-title" data-track-title aria-live="polite">Synth &amp; chill</span>
             <button class="track-button" data-next-track aria-label="Next track" disabled>›</button>
             <a href={playlistUrl} target="_blank" rel="noopener noreferrer">YouTube playlist <ArrowUpRight /><span class="sr-only"> (opens in a new tab)</span></a>
           </div>
         </section>
       </main>
 
-      <footer class="room-footer">
-        <div class="atmosphere-note">
-          <span class="ambient-label"><span aria-hidden="true">↳</span> Set the atmosphere</span>
-          <p data-visual-description aria-live="polite">{visualModes.find(mode => mode.id === 'signal')!.description}</p>
-        </div>
-        <section class="controls" aria-label="Background visualization">
-          <div class="modes">
-            <button class="visual-step" data-visual-step="-1" aria-label="Previous visualizer">‹</button>
-            <label class="visual-picker"><span class="sr-only">Visualizer</span>
-              <select data-visual-mode>
-                <optgroup label="Six new visualizers">
-                  {visualModes.filter(mode => !mode.original).map(mode => <option value={mode.id}>{mode.label}</option>)}
-                </optgroup>
-                <optgroup label="Originals">
-                  {visualModes.filter(mode => mode.original).map(mode => <option value={mode.id} selected={mode.id === 'signal'}>{mode.label}</option>)}
-                </optgroup>
-              </select>
-            </label>
-            <button class="visual-step" data-visual-step="1" aria-label="Next visualizer">›</button>
-          </div>
-          <label class="depth">Depth <input data-depth type="range" min="0" max="100" value="55" /></label>
-          <button class="motion" data-motion aria-label="Pause background animation"><span data-pause-icon><svg viewBox="0 0 20 20" aria-hidden="true"><path d="M6 4V16M14 4V16" /></svg></span><span data-play-icon hidden><svg viewBox="0 0 20 20" aria-hidden="true"><path d="M5 3L16 10L5 17Z" /></svg></span></button>
-        </section>
-      </footer>
     </div>
     <script>
       import { initSynthVisuals } from '../scripts/synth-visuals';
@@ -91,30 +74,37 @@ const playlistUrl = `https://www.youtube.com/playlist?list=${playlist}`;
   :global(*) { box-sizing: border-box; }
   :global(body) { --blue: #2446ee; --lemon: #f2f76c; --ink: #2446ee; --paper: #fffef6; margin: 0; background: var(--blue); color: var(--paper); font-family: 'Space Grotesk', sans-serif; transition: background-color .7s; }
   :global(body.lights-down) { --blue: #101835; }
-  button, input, select, a { -webkit-tap-highlight-color: transparent; touch-action: manipulation; }
-  button, input, select { font: inherit; }
+  button, a { -webkit-tap-highlight-color: transparent; touch-action: manipulation; }
+  button { font: inherit; }
   button { cursor: pointer; }
   button, a { color: inherit; }
   button { border: 0; }
   a { text-decoration: none; }
   a:hover { text-decoration: underline; text-underline-offset: 5px; }
-  :is(button, a, input, select):focus-visible { outline: 3px solid var(--lemon); outline-offset: 5px; }
-  .controls :is(button, input, select):focus-visible { outline-color: var(--ink); outline-offset: -4px; }
+  :is(button, a):focus-visible { outline: 3px solid var(--lemon); outline-offset: 5px; }
   .atmosphere { position: fixed; inset: 0; width: 100%; height: 100%; pointer-events: none; }
+  .terrain-softness {
+    position: fixed; inset: 0; pointer-events: none;
+    -webkit-backdrop-filter: blur(var(--terrain-blur, 0px));
+    backdrop-filter: blur(var(--terrain-blur, 0px));
+    -webkit-mask-image: linear-gradient(to bottom, transparent var(--terrain-horizon), #000 100%);
+    mask-image: linear-gradient(to bottom, transparent var(--terrain-horizon), #000 100%);
+  }
   .paper-grain { position: fixed; inset: 0; pointer-events: none; opacity: .17; background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 180 180' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.9' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Cpath fill='%23fff' filter='url(%23n)' opacity='.35' d='M0 0h180v180H0z'/%3E%3C/svg%3E"); }
   .room { position: relative; min-height: 100svh; display: flex; flex-direction: column; padding: 30px 4vw 32px; }
-  .masthead { display: flex; align-items: center; justify-content: space-between; gap: 25px; }
+  .masthead { display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 25px; }
   .home { font-size: 24px; font-weight: 700; letter-spacing: -.08em; display: inline-flex; align-items: center; gap: 15px; min-height: 44px; }
   .home span { font-size: 36px; font-weight: 400; }
   .edition { font-size: 12px; letter-spacing: .04em; margin-right: auto; margin-left: 30px; }
   .edition span { opacity: .55; margin: 0 14px; }
-  .lights { display: inline-flex; align-items: center; gap: 10px; background: transparent; font-size: 13px; min-height: 44px; padding: 0 4px; }
+  .room-actions { display: flex; align-items: center; gap: 18px; margin-left: auto; }
+  .room-action { display: inline-flex; align-items: center; gap: 10px; background: transparent; font-size: 13px; min-height: 44px; padding: 0 4px; white-space: nowrap; }
+  .room-action:hover, .motion:hover { color: var(--lemon); }
+  .change-icon { width: 20px; height: 20px; fill: none; stroke: currentColor; stroke-width: 1.6; stroke-linecap: round; stroke-linejoin: round; }
   .light-icon { font-size: 23px; line-height: 1; }
   .lights[aria-pressed="true"] { color: var(--lemon); }
   .listening-room { flex: 1; display: grid; grid-template-columns: .85fr 1.9fr; align-items: center; gap: 6.5vw; padding: 65px 0 70px; }
   .identity { padding-bottom: 10px; }
-  .eyebrow { display: flex; align-items: center; gap: 9px; font-size: 11px; margin-bottom: 27px; letter-spacing: .055em; }
-  .status-light { width: 6px; height: 6px; background: var(--lemon); border-radius: 50%; }
   h1 { margin: 0; font-size: clamp(62px, 8.1vw, 148px); font-weight: 500; letter-spacing: -.065em; line-height: .95; }
   h1 span { color: var(--lemon); white-space: nowrap; }
   .start-listening { margin-top: 38px; display: inline-flex; align-items: center; gap: 18px; min-height: 58px; padding: 15px 23px; background: var(--lemon); color: #101835; font-size: 17px; font-weight: 500; box-shadow: 5px 5px 0 #fffef624; }
@@ -131,21 +121,7 @@ const playlistUrl = `https://www.youtube.com/playlist?list=${playlist}`;
   .track-button { display: grid; place-items: center; width: 44px; height: 44px; background: transparent; font-size: 29px; line-height: 1; }
   .track-button:hover:not(:disabled) { background: var(--lemon); }
   .track-button:disabled { opacity: .25; cursor: default; }
-  .room-footer { display: flex; align-items: center; justify-content: space-between; gap: 20px; }
-  .ambient-label { font-size: 12px; display: flex; align-items: center; gap: 12px; }
-  .ambient-label>span { font-size: 30px; font-weight: 400; }
-  .atmosphere-note { min-width: 0; }
-  .atmosphere-note p { margin: 3px 0 0 35px; max-width: 390px; font-size: 11px; line-height: 1.5; color: #fffef6b5; }
-  .controls { display: flex; gap: 18px; align-items: center; color: var(--ink); background: var(--paper); padding: 7px 9px; box-shadow: 5px 6px 0 #0d259170; }
-  .modes { display: flex; align-items: center; gap: 3px; }
-  .visual-step { width: 44px; height: 44px; flex-shrink: 0; background: transparent; font-size: 26px; }
-  .visual-step:hover { background: #2446ee0c; }
-  .visual-picker { display: flex; min-width: 0; }
-  .visual-picker select { width: 166px; min-height: 44px; border: 0; border-radius: 0; padding: 8px 12px; background: var(--lemon); color: var(--ink); font-size: 13px; cursor: pointer; }
-  .depth { display: flex; align-items: center; gap: 10px; font-size: 11px; padding-left: 18px; border-left: 1px solid #2446ee30; }
-  input[type="range"] { width: 76px; height: 32px; accent-color: var(--ink); cursor: pointer; }
-  .motion { display: grid; place-items: center; width: 42px; height: 42px; background: transparent; }
-  .motion:hover { background: #2446ee0c; }
+  .motion { display: grid; place-items: center; width: 44px; height: 44px; background: transparent; }
   .motion svg { width: 16px; height: 16px; fill: none; stroke: currentColor; stroke-width: 2; }
   .motion [hidden] { display: none; }
   .sr-only { position: absolute; width: 1px; height: 1px; overflow: hidden; clip-path: inset(50%); white-space: nowrap; }
@@ -153,35 +129,27 @@ const playlistUrl = `https://www.youtube.com/playlist?list=${playlist}`;
   @media (max-width: 1100px) {
     .room { padding: 22px 4vw 25px; }
     .listening-room { gap: 4vw; grid-template-columns: .8fr 1.8fr; }
-    .eyebrow { font-size: 9px; }
     .edition { margin-left: 10px; }
-    .controls { gap: 8px; }
+    .room-actions { gap: 12px; }
   }
   @media (max-width: 760px) {
     .room { padding: 16px 22px 28px; }
     .edition { display: none; }
+    .masthead { gap: 8px; }
+    .room-actions { gap: 6px; }
+    .room-action { gap: 6px; font-size: 11px; padding: 0; }
+    .change-icon { width: 16px; height: 16px; }
+    .motion { width: 32px; }
     .listening-room { display: flex; flex-direction: column; align-items: stretch; gap: 35px; padding: 42px 0 36px; }
     .identity { position: relative; }
     h1 { font-size: clamp(66px, 14vw, 102px); }
     h1 br { display: none; }
     h1 span { margin-left: .15em; }
-    .eyebrow { margin-bottom: 18px; font-size: 10px; }
     .start-listening { margin-top: 24px; min-height: 52px; font-size: 15px; }
     .film { padding: 6px 6px 0; transform: rotate(-1deg); }
     .film-caption { grid-template-columns: 44px minmax(0,1fr) 44px; padding: 6px 0; gap: 2px 4px; font-size: 11px; }
     .film-caption>a { grid-column: 1/-1; justify-content: flex-end; margin: 0 9px; padding: 0 4px; min-height: 36px; border-left: 0; border-top: 1px solid #2446ee25; }
     .track-title { font-size: 14px; }
-    .room-footer { flex-direction: column; align-items: stretch; gap: 14px; }
-    .ambient-label { font-size: 11px; }
-    .ambient-label>span { font-size: 23px; }
-    .atmosphere-note p { margin-left: 30px; min-height: 33px; }
-    .controls { flex-wrap: wrap; gap: 4px; padding: 6px; }
-    .modes { flex: 1; min-width: 0; }
-    .visual-picker { flex: 1; }
-    .visual-picker select { width: 100%; }
-    .depth { order: 2; flex: 1 0 100%; border-left: 0; border-top: 1px solid #2446ee25; justify-content: space-between; padding: 4px 12px 0; }
-    input[type="range"] { width: calc(100% - 55px); }
-    .motion { width: 36px; }
   }
   @media (max-width: 390px) { .room { padding-inline: 14px; } h1 { font-size: 61px; } .film-caption { gap: 8px; font-size: 10px; } }
   @media (prefers-reduced-motion: reduce) { :global(body) { transition: none; } }

@@ -1,22 +1,17 @@
 import type { AudioFeatures } from './synth-audio-data';
+import type { AudioTimeline } from './synth-audio';
 
-export type OriginalMode = 'signal' | 'orbit' | 'drift';
-export type VisualMode = OriginalMode | 'aurora' | 'constellation' | 'kaleidoscope' | 'terrain' | 'ripple' | 'mosaic';
+export type VisualMode = 'terrain' | 'ripple';
+export const DEFAULT_VISUAL_MODE: VisualMode = 'terrain';
+export const VISUAL_DEPTHS: Record<VisualMode, number> = { terrain: .2, ripple: 0 };
 export type Viewport = { width: number; height: number };
-export type VisualSettings = { time: number; depth: number; dark: boolean; audio: AudioFeatures };
+export type VisualSettings = { time: number; depth: number; dark: boolean; audio: AudioFeatures; timeline?: AudioTimeline };
 export type Renderer = (context: CanvasRenderingContext2D, size: Viewport, settings: VisualSettings) => void;
 export const TAU = Math.PI * 2;
 
-export const visualModes: { id: VisualMode; label: string; description: string; original?: boolean }[] = [
-  { id: 'aurora', label: 'Aurora', description: 'Soft curtains of light. Bass swells; treble shimmers.' },
-  { id: 'constellation', label: 'Constellation', description: 'A drifting star field. The music draws the connections.' },
-  { id: 'kaleidoscope', label: 'Kaleidoscope', description: 'Turning stained glass. Each register shapes a different layer.' },
-  { id: 'terrain', label: 'Terrain', description: 'An endless wireframe landscape. Bass raises the mountains.' },
-  { id: 'ripple', label: 'Ripple', description: 'Three pools of sound. Low, middle, and high notes make waves.' },
-  { id: 'mosaic', label: 'Mosaic', description: 'A living wall of tiles. Low, middle, and high notes unfold it.' },
-  { id: 'signal', label: 'Signal', description: 'Rolling waves, pulled into shape by the music.', original: true },
-  { id: 'orbit', label: 'Orbit', description: 'Loops within loops, expanding with the sound.', original: true },
-  { id: 'drift', label: 'Drift', description: 'Slow ribbons with a little musical turbulence.', original: true },
+export const visualModes: { id: VisualMode; label: string }[] = [
+  { id: 'terrain', label: 'Terrain' },
+  { id: 'ripple', label: 'Rain' },
 ];
 
 export function ink(alpha: number, white = false) {

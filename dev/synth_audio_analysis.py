@@ -1,7 +1,7 @@
 """Build compact, timestamped music features from downloaded playlist audio.
 
-Requires NumPy and FFmpeg. Originals stay outside the website; only four
-normalized measurements per frame are written to the public output directory.
+Requires NumPy and FFmpeg. Originals stay outside the website; only numerical
+measurements per frame are written to the public output directory.
 """
 
 import argparse
@@ -16,7 +16,7 @@ SAMPLE_RATE = 24000
 FPS = 20
 WINDOW_SIZE = 2048
 HOP = SAMPLE_RATE // FPS
-BANDS = ((30, 180), (180, 2500), (2500, 12000))
+BANDS = ((30, 180), (180, 2500), (2500, 12000), (30, 90))
 
 
 def decode_audio(path):
@@ -35,7 +35,7 @@ def measure_frames(audio):
     window_energy = np.sum(window ** 2)
     frequencies = np.fft.rfftfreq(WINDOW_SIZE, 1 / SAMPLE_RATE)
     masks = [(frequencies >= low) & (frequencies < high) for low, high in BANDS]
-    output = np.zeros((count, 4), dtype=np.float32)
+    output = np.zeros((count, 1 + len(BANDS)), dtype=np.float32)
     offsets = np.arange(WINDOW_SIZE)
     for start in range(0, count, 256):
         stop = min(start + 256, count)
@@ -51,6 +51,9 @@ def measure_frames(audio):
 def normalize_features(features):
     """Preserve dynamics with a soft amplitude curve, including true silence."""
     reference = np.maximum(np.percentile(features, 98, axis=0), 0.0001)
+    # Keep deep bass relative to the broader mix. Normalizing this narrow band
+    # to itself would amplify tiny spectral leakage in songs without deep bass.
+    reference[4] = max(reference[1], reference[0] * 0.25)
     normalized = np.clip(features / reference, 0, 1) ** 0.7
     normalized[features < 0.00003] = 0
     padded = np.pad(normalized, ((1, 1), (0, 0)), mode="edge")
@@ -68,7 +71,9 @@ def analyze_track(entry, media_dir, output_dir):
     duration = len(audio) / SAMPLE_RATE
     metadata = {"videoId": video_id, "title": entry["title"], "duration": round(duration, 3)}
     data = {"version": 1, **metadata, "fps": FPS, "channels": ["level", "bass", "mid", "high"],
-            "data": base64.b64encode(features.tobytes()).decode("ascii")}
+            "data": base64.b64encode(features[:, :4].tobytes()).decode("ascii"),
+            "deepBassHz": list(BANDS[-1]),
+            "deepBass": base64.b64encode(features[:, 4].tobytes()).decode("ascii")}
     (output_dir / f"{video_id}.json").write_text(json.dumps(data, separators=(",", ":")) + "\n")
     print(f"Analyzed {video_id}: {duration:.1f}s, {len(features)} frames", flush=True)
     return metadata

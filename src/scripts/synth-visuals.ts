@@ -1,8 +1,10 @@
 import { drawVisualizer } from './synth-renderers';
-import type { VisualMode } from './synth-visual-types';
-import { initVisualPicker } from './synth-visual-picker';
+import { VISUAL_DEPTHS, DEFAULT_VISUAL_MODE, type VisualMode, type VisualSettings } from './synth-visual-types';
+import { initVisualToggle } from './synth-visual-toggle';
 import { createAudioFollower, type PlaybackReader } from './synth-audio';
 import { quietFeatures } from './synth-audio-data';
+import { createTerrainSoftness } from './synth-terrain-softness';
+import { createRippleFloor } from './synth-ripple-floor';
 
 export function initSynthVisuals(readPlayback: PlaybackReader) {
   const canvas = document.querySelector<HTMLCanvasElement>('[data-synth-canvas]');
@@ -14,18 +16,24 @@ export function initSynthVisuals(readPlayback: PlaybackReader) {
   const abort = new AbortController();
   const options = { signal: abort.signal };
   const size = { width: innerWidth, height: innerHeight };
-  const settings = { mode: 'signal' as VisualMode, time: 12, depth: .55, dark: document.body.classList.contains('lights-down'), audio: quietFeatures() };
+  const settings: VisualSettings & { mode: VisualMode } = { mode: DEFAULT_VISUAL_MODE, time: 12, depth: VISUAL_DEPTHS[DEFAULT_VISUAL_MODE], dark: document.body.classList.contains('lights-down'), audio: quietFeatures() };
   const followAudio = createAudioFollower(readPlayback);
+  const softenTerrain = createTerrainSoftness(document.querySelector<HTMLElement>('[data-terrain-softness]')!, canvas);
+  const rippleFloor = createRippleFloor(canvas);
   let paused = reducedMotion.matches;
   let frame = 0;
   let lastTime = 0;
-  let drawnAt = 0;
 
-  function draw() { drawVisualizer(context!, size, settings); }
+  function draw() {
+    softenTerrain(settings);
+    rippleFloor.prepare(size, settings);
+    drawVisualizer(context!, size, settings, rippleFloor.context ?? undefined);
+  }
   function resize() {
     size.width = innerWidth;
     size.height = innerHeight;
-    const scale = Math.min(devicePixelRatio || 1, 2);
+    // Keep the solid terrain's fill and backdrop blur within the frame budget.
+    const scale = Math.min(devicePixelRatio || 1, settings.mode === 'terrain' ? 1.5 : 2);
     canvas!.width = Math.round(size.width * scale);
     canvas!.height = Math.round(size.height * scale);
     context!.setTransform(scale, 0, 0, scale, 0, 0);
@@ -33,10 +41,11 @@ export function initSynthVisuals(readPlayback: PlaybackReader) {
   }
   function animate(now: number) {
     settings.time += Math.min((now - lastTime) / 1000, .05);
-    settings.audio = followAudio(now);
+    const music = followAudio(now);
+    settings.audio = music.audio;
+    settings.timeline = music.timeline;
     lastTime = now;
-    // A quiet 30 fps field is ample for this slow movement.
-    if (now - drawnAt > 32) { draw(); drawnAt = now; }
+    draw();
     frame = requestAnimationFrame(animate);
   }
   function updateMotion() {
@@ -49,11 +58,11 @@ export function initSynthVisuals(readPlayback: PlaybackReader) {
     frame = requestAnimationFrame(animate);
   }
 
-  initVisualPicker(room, mode => { settings.mode = mode; draw(); }, abort.signal);
-  room.querySelector<HTMLInputElement>('[data-depth]')!.addEventListener('input', event => {
-    settings.depth = Number((event.target as HTMLInputElement).value) / 100;
-    draw();
-  }, options);
+  initVisualToggle(room, mode => {
+    settings.mode = mode;
+    settings.depth = VISUAL_DEPTHS[mode];
+    resize();
+  }, abort.signal);
   room.querySelector<HTMLButtonElement>('[data-lights]')!.addEventListener('click', event => {
     settings.dark = !settings.dark;
     document.body.classList.toggle('lights-down', settings.dark);
@@ -66,7 +75,7 @@ export function initSynthVisuals(readPlayback: PlaybackReader) {
   window.addEventListener('resize', resize, options);
   window.addEventListener('pagehide', event => {
     cancelAnimationFrame(frame);
-    if (!event.persisted) abort.abort();
+    if (!event.persisted) { rippleFloor.destroy(); abort.abort(); }
   }, options);
   window.addEventListener('pageshow', updateMotion, options);
   resize();

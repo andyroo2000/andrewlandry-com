@@ -1,7 +1,9 @@
-import { createAudioTrackStore, quietFeatures, sampleAudioTrack, type AudioFeatures } from './synth-audio-data';
+import { createAudioTrackStore, quietFeatures, sampleAudioTrack, type AudioFeatures, type AudioTrack } from './synth-audio-data';
 
 export type PlaybackSnapshot = { videoId: string; seconds: number; playing: boolean; rate: number };
 export type PlaybackReader = () => PlaybackSnapshot | undefined;
+export type AudioTimeline = { track: AudioTrack; seconds: number };
+export type AudioFrame = { audio: AudioFeatures; timeline?: AudioTimeline };
 
 // Re-anchor on every new YouTube timestamp. Extrapolate only between updates,
 // and cap the estimate so a stalled player cannot leave the real music behind.
@@ -18,11 +20,13 @@ export function createPlaybackClock() {
 
 export function easeAudioFeatures(current: AudioFeatures, target: AudioFeatures, elapsed: number): AudioFeatures {
   const eased = (key: keyof AudioFeatures) => {
-    const response = target[key] > current[key] ? .035 : .12;
+    const from = current[key] ?? 0;
+    const to = target[key] ?? 0;
+    const response = to > from ? .035 : .12;
     const fraction = 1 - Math.exp(-Math.max(elapsed, 0) / response);
-    return current[key] + (target[key] - current[key]) * fraction;
+    return from + (to - from) * fraction;
   };
-  return { level: eased('level'), bass: eased('bass'), mid: eased('mid'), high: eased('high') };
+  return { level: eased('level'), bass: eased('bass'), mid: eased('mid'), high: eased('high'), deepBass: eased('deepBass') };
 }
 
 export function createAudioFollower(readPlayback: PlaybackReader, tracks = createAudioTrackStore()) {
@@ -30,17 +34,20 @@ export function createAudioFollower(readPlayback: PlaybackReader, tracks = creat
   let current = quietFeatures();
   let previousId = '';
   let lastFrame = 0;
-  return (now: number): AudioFeatures => {
+  return (now: number): AudioFrame => {
     const elapsed = Math.min(Math.max((now - lastFrame) / 1000, 0), .1);
     lastFrame = now;
     const snapshot = readPlayback();
-    if (!snapshot) return current = easeAudioFeatures(current, quietFeatures(), elapsed);
+    if (!snapshot) {
+      current = easeAudioFeatures(current, quietFeatures(), elapsed);
+      return { audio: current };
+    }
     if (snapshot.videoId !== previousId) { current = quietFeatures(); previousId = snapshot.videoId; }
     tracks.request(snapshot.videoId);
     const track = tracks.get(snapshot.videoId);
     const seconds = clock(snapshot, now);
     const target = track && snapshot.playing ? sampleAudioTrack(track, seconds) : quietFeatures();
     current = easeAudioFeatures(current, target, elapsed);
-    return current;
+    return { audio: current, timeline: track ? { track, seconds } : undefined };
   };
 }

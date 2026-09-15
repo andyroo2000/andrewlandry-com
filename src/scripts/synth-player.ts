@@ -58,6 +58,7 @@ export function initSynthPlayer() {
   }
   function ready(event: { target: SynthPlayer }) {
     player = event.target;
+    player.setShuffle(false);
     listen.disabled = false;
     updateTrack();
     startPolling();

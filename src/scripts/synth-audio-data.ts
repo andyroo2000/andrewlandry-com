@@ -1,7 +1,7 @@
-export type AudioFeatures = { level: number; bass: number; mid: number; high: number };
-export type AudioTrack = { videoId: string; duration: number; fps: number; frames: Uint8Array };
-export const quietFeatures = (): AudioFeatures => ({ level: 0, bass: 0, mid: 0, high: 0 });
-type EncodedTrack = { version: number; videoId: string; duration: number; fps: number; data: string };
+export type AudioFeatures = { level: number; bass: number; mid: number; high: number; deepBass?: number };
+export type AudioTrack = { videoId: string; duration: number; fps: number; frames: Uint8Array; deepBass?: Uint8Array };
+export const quietFeatures = (): AudioFeatures => ({ level: 0, bass: 0, mid: 0, high: 0, deepBass: 0 });
+type EncodedTrack = { version: number; videoId: string; duration: number; fps: number; data: string; deepBass?: string };
 const validDuration = (seconds: number) => Number.isFinite(seconds) && seconds > 0;
 
 function validateTrackHeader(data: EncodedTrack, expectedId: string) {
@@ -15,7 +15,9 @@ export function decodeAudioTrack(data: EncodedTrack, expectedId: string): AudioT
   const frames = Uint8Array.from(atob(data.data), character => character.charCodeAt(0));
   const expectedFrames = Math.ceil(data.duration * data.fps) + 1;
   if (Math.abs(frames.length / 4 - expectedFrames) > 1 || frames.length % 4 !== 0) throw new Error('Incomplete audio analysis');
-  return { videoId: data.videoId, duration: data.duration, fps: data.fps, frames };
+  const deepBass = data.deepBass === undefined ? undefined : Uint8Array.from(atob(data.deepBass), character => character.charCodeAt(0));
+  if (deepBass && deepBass.length !== frames.length / 4) throw new Error('Incomplete deep bass analysis');
+  return { videoId: data.videoId, duration: data.duration, fps: data.fps, frames, deepBass };
 }
 
 export function sampleAudioTrack(track: AudioTrack, seconds: number): AudioFeatures {
@@ -26,7 +28,8 @@ export function sampleAudioTrack(track: AudioTrack, seconds: number): AudioFeatu
   const next = Math.min(first + 1, track.frames.length / 4 - 1);
   const blend = position - Math.floor(position);
   const channel = (index: number) => (track.frames[first * 4 + index]! * (1 - blend) + track.frames[next * 4 + index]! * blend) / 255;
-  return { level: channel(0), bass: channel(1), mid: channel(2), high: channel(3) };
+  const deepBass = track.deepBass ? (track.deepBass[first] * (1 - blend) + track.deepBass[next] * blend) / 255 : 0;
+  return { level: channel(0), bass: channel(1), mid: channel(2), high: channel(3), deepBass };
 }
 
 export function createAudioTrackStore() {
