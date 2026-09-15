@@ -1,5 +1,7 @@
 ---
 import ArrowUpRight from '../components/ArrowUpRight.astro';
+import ThemeHead from '../components/ThemeHead.astro';
+import ThemeToggle from '../components/ThemeToggle.astro';
 import { TERRAIN_HORIZON } from '../scripts/synth-terrain-style';
 
 const playlist = 'PLpJqhXBWT7F96to6OoJnsTrG6y6aJtxvi';
@@ -10,6 +12,7 @@ const playlistUrl = `https://www.youtube.com/playlist?list=${playlist}`;
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <ThemeHead />
     <meta name="description" content="Synthesizer sessions from Andrew Landry’s basement." />
     <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
     <link rel="preconnect" href="https://fonts.googleapis.com" />
@@ -17,7 +20,7 @@ const playlistUrl = `https://www.youtube.com/playlist?list=${playlist}`;
     <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&display=swap" rel="stylesheet" />
     <title>Synth &amp; Chill — Andrew Landry</title>
   </head>
-  <body class="lights-down">
+  <body>
     <canvas class="atmosphere" data-synth-canvas aria-hidden="true"></canvas>
     <div class="terrain-softness" data-terrain-softness aria-hidden="true" hidden style={`--terrain-horizon: ${TERRAIN_HORIZON * 100}%`}></div>
     <div class="paper-grain" aria-hidden="true"></div>
@@ -30,7 +33,7 @@ const playlistUrl = `https://www.youtube.com/playlist?list=${playlist}`;
             <svg class="change-icon" viewBox="0 0 24 24" aria-hidden="true"><path d="M4 8h15m-4-4 4 4-4 4M20 16H5m4-4-4 4 4 4" /></svg>
             Change visualization
           </button>
-          <button class="room-action lights" data-lights aria-pressed="true"><span class="light-icon" aria-hidden="true">◐</span> Lights down</button>
+          <ThemeToggle />
           <button class="motion" data-motion aria-label="Pause background animation"><span data-pause-icon><svg viewBox="0 0 20 20" aria-hidden="true"><path d="M6 4V16M14 4V16" /></svg></span><span data-play-icon hidden><svg viewBox="0 0 20 20" aria-hidden="true"><path d="M5 3L16 10L5 17Z" /></svg></span></button>
         </div>
       </header>
@@ -72,8 +75,7 @@ const playlistUrl = `https://www.youtube.com/playlist?list=${playlist}`;
 
 <style>
   :global(*) { box-sizing: border-box; }
-  :global(body) { --blue: #2446ee; --lemon: #f2f76c; --ink: #2446ee; --paper: #fffef6; margin: 0; background: var(--blue); color: var(--paper); font-family: 'Space Grotesk', sans-serif; transition: background-color .7s; }
-  :global(body.lights-down) { --blue: #101835; }
+  :global(body) { --blue: var(--site-bg); --lemon: #f2f76c; --ink: var(--site-ink); --paper: #fffef6; margin: 0; background: var(--blue); color: var(--paper); font-family: 'Space Grotesk', sans-serif; transition: background-color .7s; }
   button, a { -webkit-tap-highlight-color: transparent; touch-action: manipulation; }
   button { font: inherit; }
   button { cursor: pointer; }
@@ -101,8 +103,6 @@ const playlistUrl = `https://www.youtube.com/playlist?list=${playlist}`;
   .room-action { display: inline-flex; align-items: center; gap: 10px; background: transparent; font-size: 13px; min-height: 44px; padding: 0 4px; white-space: nowrap; }
   .room-action:hover, .motion:hover { color: var(--lemon); }
   .change-icon { width: 20px; height: 20px; fill: none; stroke: currentColor; stroke-width: 1.6; stroke-linecap: round; stroke-linejoin: round; }
-  .light-icon { font-size: 23px; line-height: 1; }
-  .lights[aria-pressed="true"] { color: var(--lemon); }
   .listening-room { flex: 1; display: grid; grid-template-columns: .85fr 1.9fr; align-items: center; gap: 6.5vw; padding: 65px 0 70px; }
   .identity { padding-bottom: 10px; }
   h1 { margin: 0; font-size: clamp(62px, 8.1vw, 148px); font-weight: 500; letter-spacing: -.065em; line-height: .95; }
@@ -112,14 +112,14 @@ const playlistUrl = `https://www.youtube.com/playlist?list=${playlist}`;
   .start-listening:disabled { cursor: wait; opacity: .65; }
   .start-listening>span:first-child { font-size: 14px; width: 16px; }
   .player-message { max-width: 290px; font-size: 12px; line-height: 1.5; }
-  .film { background: var(--paper); color: var(--ink); padding: 9px 9px 0; box-shadow: 10px 12px 0 #0d259180; min-width: 0; transform: rotate(-1deg); }
+  .film { background: var(--site-card); color: var(--ink); padding: 9px 9px 0; box-shadow: 10px 12px 0 var(--site-shadow); min-width: 0; transform: rotate(-1deg); }
   iframe { display: block; width: 100%; aspect-ratio: 16 / 9; min-height: 200px; border: 0; background: #0b1020; }
   .film-caption { display: grid; grid-template-columns: 44px minmax(0,1fr) 44px auto; align-items: center; padding: 9px 5px; gap: 10px; font-size: 12px; }
-  .film-caption>a { display: inline-flex; align-items: center; gap: 10px; min-height: 44px; padding-left: 18px; margin-left: 6px; border-left: 1px solid #2446ee30; }
+  .film-caption>a { display: inline-flex; align-items: center; gap: 10px; min-height: 44px; padding-left: 18px; margin-left: 6px; border-left: 1px solid var(--site-rule); }
   .film-caption :is(a,button):focus-visible { outline-color: var(--ink); outline-offset: -3px; }
   .track-title { font-size: 16px; font-weight: 500; line-height: 1.3; overflow-wrap: anywhere; }
   .track-button { display: grid; place-items: center; width: 44px; height: 44px; background: transparent; font-size: 29px; line-height: 1; }
-  .track-button:hover:not(:disabled) { background: var(--lemon); }
+  .track-button:hover:not(:disabled) { background: var(--lemon); color: #101835; }
   .track-button:disabled { opacity: .25; cursor: default; }
   .motion { display: grid; place-items: center; width: 44px; height: 44px; background: transparent; }
   .motion svg { width: 16px; height: 16px; fill: none; stroke: currentColor; stroke-width: 2; }
@@ -148,7 +148,7 @@ const playlistUrl = `https://www.youtube.com/playlist?list=${playlist}`;
     .start-listening { margin-top: 24px; min-height: 52px; font-size: 15px; }
     .film { padding: 6px 6px 0; transform: rotate(-1deg); }
     .film-caption { grid-template-columns: 44px minmax(0,1fr) 44px; padding: 6px 0; gap: 2px 4px; font-size: 11px; }
-    .film-caption>a { grid-column: 1/-1; justify-content: flex-end; margin: 0 9px; padding: 0 4px; min-height: 36px; border-left: 0; border-top: 1px solid #2446ee25; }
+    .film-caption>a { grid-column: 1/-1; justify-content: flex-end; margin: 0 9px; padding: 0 4px; min-height: 36px; border-left: 0; border-top: 1px solid var(--site-rule); }
     .track-title { font-size: 14px; }
   }
   @media (max-width: 390px) { .room { padding-inline: 14px; } h1 { font-size: 61px; } .film-caption { gap: 8px; font-size: 10px; } }

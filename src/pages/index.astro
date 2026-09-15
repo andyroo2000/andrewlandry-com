@@ -1,5 +1,7 @@
 ---
 import ArrowUpRight from '../components/ArrowUpRight.astro';
+import ThemeHead from '../components/ThemeHead.astro';
+import ThemeToggle from '../components/ThemeToggle.astro';
 
 const description = 'Andrew Landry’s Japan cycling trips, Synth & Chill sessions, and links to GitHub, LinkedIn, and Instagram.';
 const shareImage = 'https://andrewlandry.com/images/social-share.png';
@@ -15,6 +17,7 @@ const links = [
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <ThemeHead />
     <meta name="description" content={description} />
     <link rel="canonical" href="https://andrewlandry.com/" />
     <meta property="og:type" content="website" />
@@ -40,6 +43,7 @@ const links = [
   </head>
   <body class="blue-frequency">
     <a href="#main" class="skip">Skip to content</a>
+    <div class="page-settings"><ThemeToggle /></div>
   <main id="main" class="id-page">
     <section class="identity" aria-label="Andrew Landry">
       <h1>ANDREW<br /><span>LANDRY</span></h1>
@@ -86,10 +90,11 @@ const links = [
   :global(.blue-frequency) {
     --blue: #2446ee;
     --lemon: #f2f76c;
-    background: var(--blue);
-    color: #fff;
+    background: var(--site-bg);
+    color: var(--site-text);
     font-family: 'Space Grotesk', sans-serif;
   }
+  .page-settings { position: absolute; top: 24px; right: 4vw; z-index: 2; color: var(--site-ink); --theme-toggle-accent: var(--site-ink); }
   .id-page {
     min-height: 100svh;
     display: grid;
@@ -133,8 +138,8 @@ const links = [
   .featured-link:hover .featured-arrow, .featured-link:focus-visible .featured-arrow { transform: translateX(6px); }
   .featured-link:hover .featured-title>span:first-child { text-decoration: underline; text-decoration-thickness: 2px; text-underline-offset: 6px; }
   .links-panel {
-    background: var(--lemon);
-    color: var(--blue);
+    background: var(--site-panel);
+    color: var(--site-ink);
     padding: 95px 10% 95px 0;
     display: flex;
     align-items: center;
@@ -142,13 +147,13 @@ const links = [
   .link-sheet {
     position: relative;
     width: calc(100% - 20px);
-    background: #fff;
+    background: var(--site-card);
     padding: 30px 32px 18px;
     transform: translateX(-30px) rotate(-4deg);
-    box-shadow: 8px 8px 0 var(--blue);
+    box-shadow: 8px 8px 0 var(--site-shadow);
   }
   .sheet-heading {
-    border-bottom: 1px solid var(--blue);
+    border-bottom: 1px solid currentColor;
     padding-bottom: 22px;
   }
   h2 {
@@ -162,7 +167,7 @@ const links = [
     gap: 20px;
     min-height: 103px;
     padding: 22px 0;
-    border-bottom: 1px solid #2446ee35;
+    border-bottom: 1px solid var(--site-rule);
   }
   .profile-link:last-child { border-bottom: 0; }
   .link-copy { display: flex; flex-direction: column; gap: 8px; }
@@ -207,10 +212,11 @@ const links = [
   }
   @media (max-width: 700px) {
     .id-page { grid-template-columns: 1fr; }
-    .identity { padding: 45px 7% 40px; min-height: 280px; gap: 28px; }
+    .page-settings { top: 12px; right: 7%; color: var(--site-text); --theme-toggle-accent: var(--site-accent); }
+    .identity { padding: 75px 7% 40px; min-height: 280px; gap: 28px; }
     h1 { font-size: 17vw; line-height: .96; }
     .links-panel { padding: 70px 10% 60px; }
-    .link-sheet { width: 100%; padding: 26px 26px 12px; transform: rotate(-3deg); box-shadow: 8px 8px 0 var(--blue); }
+    .link-sheet { width: 100%; padding: 26px 26px 12px; transform: rotate(-3deg); box-shadow: 8px 8px 0 var(--site-shadow); }
     .profile-link { min-height: 98px; padding: 20px 0; }
     .link-copy strong { font-size: 32px; }
     .link-copy>span { font-size: 14px; }
