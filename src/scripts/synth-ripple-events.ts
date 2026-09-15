@@ -1,11 +1,11 @@
 import type { AudioTrack } from './synth-audio-data';
 import { seed, type VisualSettings } from './synth-visual-types';
 
-export type RainObject = 'plane' | 'satellite' | 'ufo' | 'astronaut' | 'saturn' | 'pizza' | 'hotdog' | 'hamburger';
+export type RainObject = 'plane' | 'satellite' | 'ufo' | 'astronaut' | 'saturn' | 'pizza' | 'hotdog' | 'hamburger' | 'godzilla' | 'banana';
 export const RAIN_ENTRY_SECONDS = .32;
 // Event timestamps mark the sound; the rain launches one entrance earlier.
 export type RippleEvent = { id: number; born: number; band: number; energy: number; object?: RainObject };
-const SKY_OBJECTS: RainObject[] = ['astronaut', 'saturn', 'pizza', 'hotdog', 'hamburger', 'plane', 'satellite', 'ufo'];
+const SKY_OBJECTS: RainObject[] = ['godzilla', 'banana', 'astronaut', 'saturn', 'pizza', 'hotdog', 'hamburger', 'plane', 'satellite', 'ufo'];
 // Retain a full accumulation cycle plus the slowest incoming flight.
 export const RIPPLE_HISTORY = 52;
 const MAX_VISIBLE_EVENTS = 1024;

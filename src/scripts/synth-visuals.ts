@@ -12,7 +12,6 @@ export function initSynthVisuals(readPlayback: PlaybackReader) {
   const context = canvas?.getContext('2d');
   if (!canvas || !context) return;
   const room = document.querySelector<HTMLElement>('[data-synth-room]')!;
-  const motion = room.querySelector<HTMLButtonElement>('[data-motion]')!;
   const reducedMotion = matchMedia('(prefers-reduced-motion: reduce)');
   const abort = new AbortController();
   const options = { signal: abort.signal };
@@ -22,7 +21,6 @@ export function initSynthVisuals(readPlayback: PlaybackReader) {
   const softenTerrain = createTerrainSoftness(document.querySelector<HTMLElement>('[data-terrain-softness]')!, canvas);
   const rippleFloor = createRippleFloor(canvas);
   const shouldDraw = createFrameClock();
-  let paused = reducedMotion.matches;
   let frame = 0;
   let lastTime = 0;
 
@@ -52,10 +50,7 @@ export function initSynthVisuals(readPlayback: PlaybackReader) {
   }
   function updateMotion() {
     cancelAnimationFrame(frame);
-    motion.setAttribute('aria-label', paused ? 'Resume background animation' : 'Pause background animation');
-    room.querySelector('[data-pause-icon]')!.toggleAttribute('hidden', paused);
-    room.querySelector('[data-play-icon]')!.toggleAttribute('hidden', !paused);
-    if (paused || document.hidden) return;
+    if (reducedMotion.matches || document.hidden) return;
     lastTime = performance.now();
     frame = requestAnimationFrame(animate);
   }
@@ -69,8 +64,7 @@ export function initSynthVisuals(readPlayback: PlaybackReader) {
     settings.dark = document.documentElement.dataset.theme === 'dark';
     draw();
   }, options);
-  motion.addEventListener('click', () => { paused = !paused; updateMotion(); }, options);
-  reducedMotion.addEventListener('change', () => { paused = reducedMotion.matches; updateMotion(); }, options);
+  reducedMotion.addEventListener('change', updateMotion, options);
   document.addEventListener('visibilitychange', updateMotion, options);
   window.addEventListener('resize', resize, options);
   window.addEventListener('pagehide', event => {
