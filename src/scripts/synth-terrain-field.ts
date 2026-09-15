@@ -1,17 +1,20 @@
 import { quietFeatures, sampleAudioTrack, type AudioFeatures, type AudioTrack } from './synth-audio-data';
 import { seed } from './synth-visual-types';
+import { terrainBirthScale, TERRAIN_SETTLE_SECONDS } from './synth-terrain-style';
 
 export const TERRAIN_COLUMNS = 65;
+const TERRAIN_PERIOD = TERRAIN_COLUMNS - 1;
 export const TERRAIN_HISTORY_SECONDS = 36;
 export const TERRAIN_ROWS_PER_SECOND = 4;
 export const MOUND_RADIUS_COLUMNS = 8;
 export const MOUND_RADIUS_SECONDS = 2.25;
 export const MOUND_ATTACK_SECONDS = .45;
-export const MOUND_PEAK_LEAD_SECONDS = .05;
-export type TerrainField = { heights: Float32Array; fps: number; duration: number };
+export const MOUND_PEAK_LEAD_SECONDS = TERRAIN_SETTLE_SECONDS;
+export type TerrainField = { heights: Float32Array; fps: number; duration: number; mounds: RecordedMound[] };
 type TerrainHit = { frame: number; strength: number };
 type TerrainBand = { channel: 'bass' | 'mid' | 'high'; width: number; height: number; salt: number };
 type TerrainMound = { radius: number; height: number; salt: number };
+type RecordedMound = TerrainMound & { center: number; peak: number; soundAt: number };
 const TERRAIN_BANDS: TerrainBand[] = [
   { channel: 'bass', width: 1.5, height: 1.3, salt: 17 },
   { channel: 'mid', width: 1, height: -.95, salt: 113 },
@@ -80,12 +83,12 @@ function moundShape(track: AudioTrack, hit: TerrainHit, band: TerrainBand): Terr
 }
 
 function stampMound(field: TerrainField, hit: TerrainHit, mound: TerrainMound) {
-  // Leave the repeated field's borders flat even for the widest bass hills.
-  const margin = Math.ceil(mound.radius) + 1;
-  const center = Math.round(margin + seed(hit.frame + mound.salt) * (TERRAIN_COLUMNS - 1 - margin * 2));
+  // Every column can host a peak; its shoulders wrap across the field's seam.
+  const center = Math.floor(seed(hit.frame + mound.salt) * TERRAIN_PERIOD);
   const attack = MOUND_ATTACK_SECONDS * field.fps;
   const release = MOUND_RADIUS_SECONDS * mound.radius / MOUND_RADIUS_COLUMNS * field.fps;
   const peak = hit.frame - MOUND_PEAK_LEAD_SECONDS * field.fps;
+  field.mounds.push({ ...mound, center, peak: peak / field.fps, soundAt: hit.frame / field.fps });
   const finalFrame = field.heights.length / TERRAIN_COLUMNS - 1;
   const first = Math.max(0, Math.floor(peak - attack));
   const last = Math.min(finalFrame, Math.ceil(peak + release));
@@ -97,14 +100,15 @@ function stampMound(field: TerrainField, hit: TerrainHit, mound: TerrainMound) {
       // Rounded sides and a smooth summit, with a quick anticipatory rise
       // and a longer decay behind the hit instead of a two-second attack.
       const profile = Math.max(0, 1 - along * along - across * across) ** 3;
-      field.heights[frame * TERRAIN_COLUMNS + column] += mound.height * profile;
+      const wrapped = (column % TERRAIN_PERIOD + TERRAIN_PERIOD) % TERRAIN_PERIOD;
+      field.heights[frame * TERRAIN_COLUMNS + wrapped] += mound.height * profile;
     }
   }
 }
 
 export function buildTerrainField(track: AudioTrack): TerrainField {
   const heights = new Float32Array(track.frames.length / 4 * TERRAIN_COLUMNS);
-  const field = { heights, fps: track.fps, duration: track.duration };
+  const field: TerrainField = { heights, fps: track.fps, duration: track.duration, mounds: [] };
   const attacks = measureAttacks(track);
   for (const band of TERRAIN_BANDS) {
     findHits(attacks[band.channel], track.fps).forEach(hit => stampMound(field, hit, moundShape(track, hit, band)));
@@ -112,6 +116,10 @@ export function buildTerrainField(track: AudioTrack): TerrainField {
   // Keep room for different-sized peaks; soften only the larger overlapping
   // sums instead of squeezing every strong note toward a low ceiling.
   heights.forEach((height, index) => { heights[index] = 3 * Math.tanh(height / 3); });
+  // Duplicate the first column at the far edge so the repeat stays seamless.
+  for (let start = 0; start < heights.length; start += TERRAIN_COLUMNS) {
+    heights[start + TERRAIN_PERIOD] = heights[start];
+  }
   return field;
 }
 
@@ -125,6 +133,43 @@ export function sampleTerrainHeight(field: TerrainField | undefined, column: num
   const blend = position - Math.floor(position);
   return field.heights[first * TERRAIN_COLUMNS + column] * (1 - blend) + field.heights[next * TERRAIN_COLUMNS + column] * blend;
 }
+
+function moundHeight(mound: RecordedMound, sample: { column: number; seconds: number }) {
+  const distance = Math.abs(sample.column - mound.center);
+  const across = Math.min(distance, TERRAIN_PERIOD - distance) / mound.radius;
+  const offset = sample.seconds - mound.peak;
+  const release = MOUND_RADIUS_SECONDS * mound.radius / MOUND_RADIUS_COLUMNS;
+  const along = offset / (offset < 0 ? MOUND_ATTACK_SECONDS : release);
+  return mound.height * Math.max(0, 1 - along * along - across * across) ** 3;
+}
+
+function settlingMounds(field: TerrainField | undefined, seconds: number) {
+  return (field?.mounds ?? [])
+    .filter(mound => seconds >= mound.peak - MOUND_ATTACK_SECONDS && seconds < mound.soundAt)
+    .map(mound => ({ mound, extra: terrainBirthScale(seconds - mound.peak) - 1 }));
+}
+
+function settlingRow(field: TerrainField | undefined, recordedAt: number, seconds: number) {
+  const first = Math.max(0, seconds - MOUND_ATTACK_SECONDS - MOUND_PEAK_LEAD_SECONDS);
+  return recordedAt >= first && recordedAt <= (field?.duration ?? 0);
+}
+
+export function createTerrainFrame(field: TerrainField | undefined, seconds: number) {
+  // Only upcoming sounds can animate the ground. Each mound settles exactly
+  // on its own hit, including when overlapping notes arrive at different times.
+  const active = settlingMounds(field, seconds);
+  return (column: number, recordedAt: number) => {
+    const height = sampleTerrainHeight(field, column, recordedAt);
+    // All older rows use the cached geometry, keeping the effect inexpensive.
+    if (!active.length || !settlingRow(field, recordedAt, seconds)) return height;
+    const sample = { column, seconds: recordedAt };
+    const extra = active.reduce((sum, item) => sum + moundHeight(item.mound, sample) * item.extra, 0);
+    // Add the transient lift before the same soft ceiling used by the field.
+    return extra === 0 ? height : 3 * Math.tanh(Math.atanh(height / 3) + extra / 3);
+  };
+}
+
+export type TerrainHeightSampler = ReturnType<typeof createTerrainFrame>;
 
 // Cache only the active song. Its immutable geometry includes the rounded
 // shoulders around each hit, so rewinding recreates exactly the same ground.

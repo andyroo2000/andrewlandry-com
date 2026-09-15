@@ -1,12 +1,14 @@
 import type { VisualMode, VisualSettings } from './synth-visual-types';
-import { terrainBassResponse } from './synth-terrain-style';
+import { terrainBassResponse, terrainForegroundWeight } from './synth-terrain-style';
 
-const TOP_BLUR = 2;
 const BOTTOM_BLUR = 8;
-// Sequential Gaussian blurs add their variances, not their radii.
-const FOREGROUND_BLUR = Math.sqrt(BOTTOM_BLUR ** 2 - TOP_BLUR ** 2);
 
 export function createTerrainSoftness(layer: HTMLElement, canvas: HTMLCanvasElement) {
+  // Keep the original terrain crisp; only the masked foreground is softened.
+  canvas.style.filter = 'none';
+  const stops = [25, 40, 55, 70, 85, 100].map(position =>
+    `rgb(0 0 0 / ${terrainForegroundWeight(position / 100)}) ${position}%`);
+  layer.style.setProperty('--terrain-softness-mask', `linear-gradient(to bottom, ${stops.join(', ')})`);
   let previous = -1;
   return (settings: VisualSettings & { mode: VisualMode }) => {
     const amount = settings.mode === 'terrain'
@@ -14,11 +16,7 @@ export function createTerrainSoftness(layer: HTMLElement, canvas: HTMLCanvasElem
       : 0;
     if (amount === previous) return;
     previous = amount;
-    const response = amount / BOTTOM_BLUR;
-    // The background canvas supplies the soft top; the masked backdrop adds the
-    // stronger foreground. Both filters disappear between bass hits.
-    canvas.style.filter = amount > 0 ? `blur(${response * TOP_BLUR}px)` : 'none';
-    layer.style.setProperty('--terrain-blur', `${response * FOREGROUND_BLUR}px`);
+    layer.style.setProperty('--terrain-blur', `${amount}px`);
     layer.hidden = amount === 0;
   };
 }
