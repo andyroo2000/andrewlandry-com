@@ -6,6 +6,7 @@ export interface SynthPlayer {
   unMute(): void;
   nextVideo(): void;
   previousVideo(): void;
+  setShuffle(shuffle: boolean): void;
   getPlayerState(): number;
   getCurrentTime(): number;
   getPlaybackRate(): number;
