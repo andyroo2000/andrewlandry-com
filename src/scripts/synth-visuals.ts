@@ -5,6 +5,7 @@ import { createAudioFollower, type PlaybackReader } from './synth-audio';
 import { quietFeatures } from './synth-audio-data';
 import { createTerrainSoftness } from './synth-terrain-softness';
 import { createRippleFloor } from './synth-ripple-floor';
+import { createFrameClock } from './synth-frame-clock';
 
 export function initSynthVisuals(readPlayback: PlaybackReader) {
   const canvas = document.querySelector<HTMLCanvasElement>('[data-synth-canvas]');
@@ -20,6 +21,7 @@ export function initSynthVisuals(readPlayback: PlaybackReader) {
   const followAudio = createAudioFollower(readPlayback);
   const softenTerrain = createTerrainSoftness(document.querySelector<HTMLElement>('[data-terrain-softness]')!, canvas);
   const rippleFloor = createRippleFloor(canvas);
+  const shouldDraw = createFrameClock();
   let paused = reducedMotion.matches;
   let frame = 0;
   let lastTime = 0;
@@ -45,7 +47,7 @@ export function initSynthVisuals(readPlayback: PlaybackReader) {
     settings.audio = music.audio;
     settings.timeline = music.timeline;
     lastTime = now;
-    draw();
+    if (shouldDraw(now)) draw();
     frame = requestAnimationFrame(animate);
   }
   function updateMotion() {
