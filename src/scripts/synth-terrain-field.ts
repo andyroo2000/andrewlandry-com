@@ -9,12 +9,11 @@ export const TERRAIN_ROWS_PER_SECOND = 4;
 export const MOUND_RADIUS_COLUMNS = 8;
 export const MOUND_RADIUS_SECONDS = 2.25;
 export const MOUND_ATTACK_SECONDS = .45;
-export const MOUND_PEAK_LEAD_SECONDS = TERRAIN_SETTLE_SECONDS;
 export type TerrainField = { heights: Float32Array; fps: number; duration: number; mounds: RecordedMound[] };
 type TerrainHit = { frame: number; strength: number };
 type TerrainBand = { channel: 'bass' | 'mid' | 'high'; width: number; height: number; salt: number };
 type TerrainMound = { radius: number; height: number; salt: number };
-type RecordedMound = TerrainMound & { center: number; peak: number; soundAt: number };
+type RecordedMound = TerrainMound & { center: number; peak: number };
 const TERRAIN_BANDS: TerrainBand[] = [
   { channel: 'bass', width: 1.5, height: 1.3, salt: 17 },
   { channel: 'mid', width: 1, height: -.95, salt: 113 },
@@ -70,7 +69,7 @@ function findHits(strengths: Float32Array, fps: number) {
 function moundShape(track: AudioTrack, hit: TerrainHit, band: TerrainBand): TerrainMound {
   let loudness = 0;
   // Read through the next 100 ms: the steepest rising frame often precedes
-  // the note's full volume. This does not delay the visible peak.
+  // the note's full volume. The mountain's crest stays aligned with the hit.
   for (let frame = hit.frame; frame <= hit.frame + Math.ceil(track.fps * .1); frame++) {
     const audio = sampleAudioTrack(track, frame / track.fps);
     loudness = Math.max(loudness, audio.level ** 1.15 * audio[band.channel] ** .65);
@@ -87,8 +86,8 @@ function stampMound(field: TerrainField, hit: TerrainHit, mound: TerrainMound) {
   const center = Math.floor(seed(hit.frame + mound.salt) * TERRAIN_PERIOD);
   const attack = MOUND_ATTACK_SECONDS * field.fps;
   const release = MOUND_RADIUS_SECONDS * mound.radius / MOUND_RADIUS_COLUMNS * field.fps;
-  const peak = hit.frame - MOUND_PEAK_LEAD_SECONDS * field.fps;
-  field.mounds.push({ ...mound, center, peak: peak / field.fps, soundAt: hit.frame / field.fps });
+  const peak = hit.frame;
+  field.mounds.push({ ...mound, center, peak: peak / field.fps });
   const finalFrame = field.heights.length / TERRAIN_COLUMNS - 1;
   const first = Math.max(0, Math.floor(peak - attack));
   const last = Math.min(finalFrame, Math.ceil(peak + release));
@@ -97,8 +96,8 @@ function stampMound(field: TerrainField, hit: TerrainHit, mound: TerrainMound) {
     const along = offset / (offset < 0 ? attack : release);
     for (let column = Math.floor(center - mound.radius); column <= Math.ceil(center + mound.radius); column++) {
       const across = (column - center) / mound.radius;
-      // Rounded sides and a smooth summit, with a quick anticipatory rise
-      // and a longer decay behind the hit instead of a two-second attack.
+      // Rise ahead of the sound so the rounded crest arrives on the beat,
+      // with a longer trailing slope behind it.
       const profile = Math.max(0, 1 - along * along - across * across) ** 3;
       const wrapped = (column % TERRAIN_PERIOD + TERRAIN_PERIOD) % TERRAIN_PERIOD;
       field.heights[frame * TERRAIN_COLUMNS + wrapped] += mound.height * profile;
@@ -145,18 +144,18 @@ function moundHeight(mound: RecordedMound, sample: { column: number; seconds: nu
 
 function settlingMounds(field: TerrainField | undefined, seconds: number) {
   return (field?.mounds ?? [])
-    .filter(mound => seconds >= mound.peak - MOUND_ATTACK_SECONDS && seconds < mound.soundAt)
+    .filter(mound => seconds >= mound.peak - MOUND_ATTACK_SECONDS && seconds < mound.peak + TERRAIN_SETTLE_SECONDS)
     .map(mound => ({ mound, extra: terrainBirthScale(seconds - mound.peak) - 1 }));
 }
 
 function settlingRow(field: TerrainField | undefined, recordedAt: number, seconds: number) {
-  const first = Math.max(0, seconds - MOUND_ATTACK_SECONDS - MOUND_PEAK_LEAD_SECONDS);
+  const first = Math.max(0, seconds - MOUND_ATTACK_SECONDS - TERRAIN_SETTLE_SECONDS);
   return recordedAt >= first && recordedAt <= (field?.duration ?? 0);
 }
 
 export function createTerrainFrame(field: TerrainField | undefined, seconds: number) {
-  // Only upcoming sounds can animate the ground. Each mound settles exactly
-  // on its own hit, including when overlapping notes arrive at different times.
+  // Each mound reaches its overshoot on the sound and settles afterward.
+  // Overlapping notes keep their own timing without disturbing older ground.
   const active = settlingMounds(field, seconds);
   return (column: number, recordedAt: number) => {
     const height = sampleTerrainHeight(field, column, recordedAt);

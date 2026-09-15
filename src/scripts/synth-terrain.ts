@@ -10,6 +10,7 @@ const ROW_COUNT = TERRAIN_HISTORY_SECONDS * TERRAIN_ROWS_PER_SECOND;
 const TRAVEL_SPEED = (TERRAIN_FAR_DISTANCE - TERRAIN_FOREGROUND_DISTANCE) / TERRAIN_HISTORY_SECONDS;
 const GRID_SPACING = TRAVEL_SPEED * MOUND_RADIUS_SECONDS / MOUND_RADIUS_COLUMNS;
 const MESH_COLUMN_STEP = 2;
+const TERRAIN_SHAKE_GAIN = 1.25;
 
 function terrainRow(row: number, camera: TerrainCamera, settings: VisualSettings, sampleHeight: TerrainHeightSampler) {
   const seconds = settings.timeline?.seconds ?? 0;
@@ -116,7 +117,8 @@ export const drawTerrain: Renderer = (context, size, settings) => {
   const field = readField(settings.timeline?.track);
   const sampleHeight = createTerrainFrame(field, settings.timeline?.seconds ?? 0);
   const response = terrainResponse(settings.audio, settings.timeline);
-  const camera = createTerrainCamera(size, terrainShake(settings.time, settings.audio.deepBass ?? 0));
+  const shake = terrainShake(settings.time, settings.audio.deepBass ?? 0);
+  const camera = createTerrainCamera(size, { x: shake.x * TERRAIN_SHAKE_GAIN, y: shake.y * TERRAIN_SHAKE_GAIN });
   const rows = Array.from({ length: ROW_COUNT + 2 }, (_, row) => terrainRow(row - 1, camera, settings, sampleHeight));
   context.lineJoin = 'round';
   context.lineCap = 'round';

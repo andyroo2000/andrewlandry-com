@@ -9,7 +9,7 @@ const energy = (level: number, bass: number, high: number) => level * .55 + bass
 export function terrainDepth(slider: number) { return unit(slider) ** 3; }
 
 export function terrainBirthScale(age: number) {
-  // Age starts at the anticipatory crest, 300 ms before the sound.
+  // Age starts at the overshoot crest, exactly when the sound hits.
   const progress = unit(age / TERRAIN_SETTLE_SECONDS);
   return 1 + .06 * (1 - progress * progress * (3 - 2 * progress));
 }

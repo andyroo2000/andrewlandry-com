@@ -4,7 +4,7 @@ import { createServer } from 'vite';
 
 const server = await createServer({ server: { middlewareMode: true, ws: false, hmr: false }, appType: 'custom', logLevel: 'error' });
 after(() => server.close());
-const { buildTerrainField, sampleTerrainHeight, createTerrainFieldCache, createTerrainFrame, terrainRowTime, TERRAIN_COLUMNS, TERRAIN_HISTORY_SECONDS, TERRAIN_ROWS_PER_SECOND, MOUND_RADIUS_COLUMNS, MOUND_RADIUS_SECONDS, MOUND_PEAK_LEAD_SECONDS } = await server.ssrLoadModule('/src/scripts/synth-terrain-field.ts');
+const { buildTerrainField, sampleTerrainHeight, createTerrainFieldCache, createTerrainFrame, terrainRowTime, TERRAIN_COLUMNS, TERRAIN_HISTORY_SECONDS, TERRAIN_ROWS_PER_SECOND, MOUND_RADIUS_COLUMNS, MOUND_RADIUS_SECONDS, MOUND_ATTACK_SECONDS } = await server.ssrLoadModule('/src/scripts/synth-terrain-field.ts');
 const { drawVisualizer } = await server.ssrLoadModule('/src/scripts/synth-renderers.ts');
 const { createTerrainCamera, projectTerrainPoint, TERRAIN_FAR_DISTANCE, TERRAIN_FOREGROUND_DISTANCE } = await server.ssrLoadModule('/src/scripts/synth-terrain-camera.ts');
 
@@ -19,23 +19,24 @@ function slice(field, seconds) {
   return Array.from({ length: TERRAIN_COLUMNS }, (_, column) => sampleTerrainHeight(field, column, seconds));
 }
 
-test('isolated hits rise in under half a second, crest just before the hit, and leave a rounded decay', () => {
+test('isolated hits rise ahead of the sound, crest on the beat, and leave a rounded decay', () => {
   const bass = buildTerrainField(isolatedHit(1));
   const treble = buildTerrainField(isolatedHit(3));
-  const peakTime = 4 - MOUND_PEAK_LEAD_SECONDS;
+  const peakTime = 4;
   const crest = Math.max(...slice(bass, peakTime));
   assert.ok(crest > 1);
   assert.ok(Math.max(...slice(treble, peakTime)) > 1.5);
   assert.deepEqual(slice(bass, peakTime - .5), Array(TERRAIN_COLUMNS).fill(0));
   assert.ok(Math.max(...slice(bass, peakTime - .1)) > crest * .8);
-  assert.ok(Math.max(...slice(bass, 4)) < crest);
+  assert.deepEqual(slice(bass, 4 - MOUND_ATTACK_SECONDS), Array(TERRAIN_COLUMNS).fill(0));
+  assert.ok(Math.max(...slice(bass, 4.1)) < crest, 'the crest has passed by the time the sound is ringing out');
   assert.ok(Math.max(...slice(bass, peakTime + 1)) > .3);
-  assert.deepEqual(slice(bass, 7.5), Array(TERRAIN_COLUMNS).fill(0));
+  assert.deepEqual(slice(bass, peakTime + 3.5), Array(TERRAIN_COLUMNS).fill(0));
 });
 
 test('the fast attack retains rounded sides, a smooth summit and a broad trailing slope', () => {
   const field = buildTerrainField(isolatedHit(1));
-  const peakTime = 4 - MOUND_PEAK_LEAD_SECONDS;
+  const peakTime = 4;
   const summit = slice(field, peakTime);
   const center = summit.indexOf(Math.max(...summit));
   const halfWidth = MOUND_RADIUS_COLUMNS / 2;
@@ -48,7 +49,7 @@ test('the fast attack retains rounded sides, a smooth summit and a broad trailin
 
 function moundDimensions(channel, volume) {
   const field = buildTerrainField(isolatedHit(channel, volume));
-  const values = slice(field, 4 - MOUND_PEAK_LEAD_SECONDS).map(Math.abs);
+  const values = slice(field, 4).map(Math.abs);
   const height = Math.max(...values);
   return { height, width: values.filter(value => value > height / 2).length };
 }
@@ -70,7 +71,7 @@ test('bass creates broad hills, treble creates taller narrow peaks, and midrange
   const treble = moundDimensions(3, 1);
   assert.ok(treble.height > bass.height * 1.4);
   assert.ok(bass.width >= treble.width * 2);
-  const valley = slice(buildTerrainField(isolatedHit(2)), 4 - MOUND_PEAK_LEAD_SECONDS);
+  const valley = slice(buildTerrainField(isolatedHit(2)), 4);
   assert.ok(Math.min(...valley) < -.8);
   assert.equal(Math.max(...valley), 0);
 });
@@ -80,7 +81,7 @@ test('wide and overlapping landforms remain finite and join seamlessly at the fi
   track.frames.fill(255, 56 * 4, 57 * 4);
   const field = buildTerrainField(track);
   assert.ok(field.heights.every(value => Number.isFinite(value) && Math.abs(value) < 3));
-  assert.ok(sampleTerrainHeight(field, 0, 2.8 - MOUND_PEAK_LEAD_SECONDS) > 1, 'a hill crosses the seam instead of leaving a flat lane');
+  assert.ok(sampleTerrainHeight(field, 0, 2.8) > 1, 'a hill crosses the seam instead of leaving a flat lane');
   for (let frame = 0; frame < field.heights.length / TERRAIN_COLUMNS; frame++) {
     assert.equal(field.heights[frame * TERRAIN_COLUMNS], field.heights[(frame + 1) * TERRAIN_COLUMNS - 1]);
   }
@@ -92,7 +93,7 @@ test('all frequency bands place peaks across the whole field with rounded should
     const centers = [];
     for (let frame = 40; frame <= 200; frame++) {
       const field = buildTerrainField(isolatedHit(channel, 1, frame));
-      const summit = slice(field, frame / field.fps - MOUND_PEAK_LEAD_SECONDS).map(Math.abs);
+      const summit = slice(field, frame / field.fps).map(Math.abs);
       const center = summit.indexOf(Math.max(...summit));
       centers.push(center);
       for (let offset = 1; offset <= 4; offset++) {
@@ -114,6 +115,7 @@ test('a recorded ridge retains its shape as it travels and after rewinding', () 
   const foreground = terrainRowTime(29.5, 102);
   assert.equal(nearHorizon, 4);
   assert.equal(foreground, 4);
+  assert.ok(Math.max(...slice(field, nearHorizon)) > 1);
   assert.deepEqual(slice(field, nearHorizon), slice(field, foreground));
   assert.deepEqual(buildTerrainField(track).heights, field.heights);
 });
@@ -185,13 +187,13 @@ test('new peaks appear at the far edge and its live waveform is not quantized to
   assert.notDeepEqual(nextEdge, liveEdge, 'the horizon updates within the same quarter-second grid interval');
 });
 
-test('the rendered crest anticipates the sound and completes settling on the hit', () => {
-  const track = isolatedHit(1, 1, 86); // Sound at 4.3 s; anticipatory crest at 4 s.
+test('the rendered crest reaches its overshoot on the sound and settles afterward', () => {
+  const track = isolatedHit(1, 1, 90); // Sound and overshoot crest both at 4.5 s.
   const camera = createTerrainCamera({ width: 1440, height: 900 });
   const crestHeight = age => {
-    const settings = { time: 0, depth: .2, dark: true, audio: { level: 0, bass: 0, mid: 0, high: 0 }, timeline: { track, seconds: 4 + age } };
+    const settings = { time: 0, depth: .2, dark: true, audio: { level: 0, bass: 0, mid: 0, high: 0 }, timeline: { track, seconds: 4.5 + age } };
     // Before the next half-second contour, this is always the same recorded
-    // row at 4 s. Remove perspective magnification to measure its own lift.
+    // row at 4.5 s. Remove perspective magnification to measure its own lift.
     const crest = renderedPaths(settings).contours.at(-2);
     const z = TERRAIN_FAR_DISTANCE - age * (TERRAIN_FAR_DISTANCE - TERRAIN_FOREGROUND_DISTANCE) / TERRAIN_HISTORY_SECONDS;
     const ground = projectTerrainPoint(camera, { x: 0, y: 0, z });
@@ -206,18 +208,26 @@ test('the rendered crest anticipates the sound and completes settling on the hit
   assert.equal(crestHeight(0), born, 'rewinding reproduces the entrance');
 });
 
-test('each frequency band finishes its overshoot on the sound and never alters settled ground', () => {
+test('each frequency band anticipates the sound, overshoots on the beat, and preserves settled ground', () => {
   for (const channel of [1, 2, 3]) {
     const field = buildTerrainField(isolatedHit(channel));
-    const recordedAt = 4 - MOUND_PEAK_LEAD_SECONDS;
+    const recordedAt = 4;
     const permanent = slice(field, recordedAt);
     const column = permanent.map(Math.abs).indexOf(Math.max(...permanent.map(Math.abs)));
     const heightAt = seconds => Math.abs(createTerrainFrame(field, seconds)(column, recordedAt));
     const resting = Math.abs(permanent[column]);
     assert.ok(heightAt(recordedAt) > resting * 1.03);
     assert.ok(heightAt(recordedAt + .15) < heightAt(recordedAt));
-    assert.ok(heightAt(3.95) > resting, 'the final settling happens just before the sound');
-    for (const seconds of [4, 4.01, 4.3, 10]) assert.equal(heightAt(seconds), resting);
+    for (const seconds of [3.5, 3.55]) {
+      const frame = createTerrainFrame(field, seconds);
+      for (let column = 0; column < TERRAIN_COLUMNS; column++) {
+        assert.equal(Math.abs(frame(column, seconds)), 0, 'the rise does not begin more than 450 ms before the sound');
+      }
+    }
+    const approaching = Math.abs(createTerrainFrame(field, 3.9)(column, 3.9));
+    assert.ok(approaching > 0 && approaching < heightAt(4), 'the visible rise leads into the overshoot on the beat');
+    assert.ok(heightAt(4.25) > resting, 'the bounce is still settling after the sound');
+    for (const seconds of [4.3, 4.31, 5, 10]) assert.equal(heightAt(seconds), resting);
     assert.deepEqual(slice(field, recordedAt), permanent, 'the overshoot is never baked into the landscape');
   }
 });
