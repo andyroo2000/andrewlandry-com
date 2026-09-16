@@ -1,5 +1,6 @@
 import { seed, TAU, type Viewport, type VisualSettings } from './synth-visual-types';
 import { RAIN_ENTRY_SECONDS, type RippleEvent } from './synth-ripple-events';
+import type { AudioTrack } from './synth-audio-data';
 
 export const RAIN_CYCLE = 30;
 export const RAIN_OPEN_AT = 23;
@@ -121,16 +122,27 @@ export function sampleRainDrop(drop: RainPlan, time: number) {
   return { ...motion, radius: drop.radius, id: drop.id, alpha: .88, object: drop.object };
 }
 
+function reuseRainDrops(events: RippleEvent[], view: RainView, previous: Map<number, RainPlan[]>) {
+  return new Map(events.map(event => [event.id, previous.get(event.id) ?? buildRainPlan([event], view)]));
+}
+
 export function createRainPlanReader() {
   let key = '';
-  let track: VisualSettings['timeline'];
+  let layout = '';
+  let track: AudioTrack | undefined;
   let plan: RainPlan[] = [];
+  let cachedDrops = new Map<number, RainPlan[]>();
   return (events: RippleEvent[], size: Viewport, settings: VisualSettings) => {
-    const nextKey = [events[0]?.id, events.at(-1)?.id, events.length, size.width, size.height, settings.depth].join(':');
-    const sameLayout = track?.track === settings.timeline?.track;
+    const nextLayout = [size.width, size.height, settings.depth].join(':');
+    const nextKey = [events[0]?.id, events.at(-1)?.id, events.length, nextLayout].join(':');
+    const nextTrack = settings.timeline?.track;
+    const sameLayout = track === nextTrack && layout === nextLayout;
     if (key === nextKey && sameLayout) return plan;
-    key = nextKey; track = settings.timeline;
-    plan = buildRainPlan(events, { ...size, depth: settings.depth });
+    if (!sameLayout) cachedDrops.clear();
+    key = nextKey; track = nextTrack; layout = nextLayout;
+    // Only new arrivals need geometry; expired history is released each update.
+    cachedDrops = reuseRainDrops(events, { ...size, depth: settings.depth }, cachedDrops);
+    plan = [...cachedDrops.values()].flat();
     return plan;
   };
 }

@@ -229,6 +229,25 @@ test('pause, rewind and song changes preserve the right rain history and complet
   assert.equal(planReader(events, viewport, settings), plan, 'unchanged layouts reuse their rain plan');
 });
 
+test('new arrivals reuse old geometry while seek, viewport and track changes stay deterministic', () => {
+  const read = createRainPlanReader();
+  const events = [0, 1, 2].map(id => ({ id, born: id, band: id, energy: .6 }));
+  const settings = { ...base, timeline: { track: makeTrack(), seconds: 2 } };
+  const original = read(events.slice(0, 2), viewport, settings);
+  const extended = read(events, viewport, settings);
+  assert.equal(extended[0], original[0], 'new hits reuse existing drop objects');
+  const remaining = read(events.slice(1), viewport, settings);
+  assert.equal(remaining[0], original[2], 'aging out history preserves remaining geometry');
+  const rewound = read(events, viewport, settings);
+  assert.deepEqual(rewound, extended, 'rewinding reconstructs evicted geometry');
+  const small = { width: 390, height: 844 };
+  const resized = read(events, small, settings);
+  assert.deepEqual(resized, buildRainPlan(events, { ...small, depth: settings.depth }));
+  const newSong = read(events, small, { ...settings, timeline: { track: makeTrack(), seconds: 2 } });
+  assert.notEqual(newSong[0], resized[0]);
+  assert.deepEqual(newSong, buildRainPlan(events, { ...small, depth: settings.depth }));
+});
+
 test('deep bass only shakes collected shapes, while falling rain stays on its original path', () => {
   const settings = { ...base, time: 20.017 };
   const resting = render(settings);
