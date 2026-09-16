@@ -4,9 +4,7 @@ import playbackIds from './mux-videos.json';
 const videos: Record<string, string> = playbackIds;
 
 export function muxPlaybackId(videoId: string) {
-  return videos[videoId];
-}
-
-export function hasMuxVideos(videoIds: string[]) {
-  return videoIds.length > 0 && videoIds.every(videoId => Boolean(muxPlaybackId(videoId)));
+  const playbackId = videos[videoId];
+  if (!playbackId) throw new Error(`Missing Mux playback ID for ${videoId}`);
+  return playbackId;
 }

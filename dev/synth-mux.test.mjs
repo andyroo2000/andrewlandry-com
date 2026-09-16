@@ -5,7 +5,9 @@ import { createServer } from 'vite';
 const server = await createServer({ server: { middlewareMode: true, ws: false, hmr: false }, appType: 'custom', logLevel: 'error' });
 after(() => server.close());
 const { createMuxPlaylist } = await server.ssrLoadModule('/src/scripts/synth-mux.ts');
-const { readSynthPlayback } = await server.ssrLoadModule('/src/scripts/synth-youtube.ts');
+const { muxPlaybackId } = await server.ssrLoadModule('/src/data/mux-videos.ts');
+const { trips } = await server.ssrLoadModule('/src/data/japan-trips.ts');
+const { readSynthPlayback } = await server.ssrLoadModule('/src/scripts/synth-playback.ts');
 
 class Media extends EventTarget {
   paused = true;
@@ -98,4 +100,22 @@ test('cleanup removes media listeners and ignores pending playback errors', asyn
   await Promise.resolve();
   assert.equal(player.getPlaylistIndex(), 0);
   assert.deepEqual(errors, []);
+});
+
+test('every published video has a hosted playback ID and missing mappings fail explicitly', () => {
+  const { player } = setup();
+  for (const id of [...player.getPlaylist(), ...Object.values(trips).map(trip => trip.videoId)]) {
+    assert.ok(muxPlaybackId(id));
+  }
+  assert.throws(() => muxPlaybackId('missing-session'), /Missing Mux playback ID/);
+});
+
+test('unknown legacy selections start with the first hosted track', () => {
+  const first = setup().player.getVideoId();
+  for (const index of [-1, 999]) {
+    const { media, player } = setup(index);
+    assert.equal(player.getVideoId(), first);
+    assert.equal(media.playbackId, muxPlaybackId(first));
+    assert.equal(media.plays, 0);
+  }
 });

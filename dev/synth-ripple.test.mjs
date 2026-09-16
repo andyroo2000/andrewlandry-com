@@ -6,7 +6,7 @@ const server = await createServer({ server: { middlewareMode: true, ws: false, h
 after(() => server.close());
 const { drawRipple, RIPPLE_PALETTE } = await server.ssrLoadModule('/src/scripts/synth-ripple.ts');
 const { buildRippleEvents, activeRippleEvents, createRippleEventReader, RAIN_ENTRY_SECONDS } = await server.ssrLoadModule('/src/scripts/synth-ripple-events.ts');
-const { buildRainPlan, sampleRainDrop, rainGate, createRainPlanReader } = await server.ssrLoadModule('/src/scripts/synth-ripple-rain.ts');
+const { buildRainPlan, sampleRainDrop, rainGate, rainEntryLine, createRainPlanReader } = await server.ssrLoadModule('/src/scripts/synth-ripple-rain.ts');
 const { createRippleFloor } = await server.ssrLoadModule('/src/scripts/synth-ripple-floor.ts');
 const { paintNeonObject } = await server.ssrLoadModule('/src/scripts/synth-rain-objects.ts');
 const { visualModes } = await server.ssrLoadModule('/src/scripts/synth-visual-types.ts');
@@ -33,6 +33,7 @@ function drawingContext(shapes, layer) {
   let radius;
   const capture = () => shapes.push({ position, angle, radius, color: context.fillStyle, alpha: context.globalAlpha, layer });
   const context = {
+    createLinearGradient() { return { addColorStop() {} }; },
     save() {}, restore() {}, beginPath() {}, closePath() {}, arc() {}, moveTo() {}, lineTo() {}, rect() {}, clip() {}, fillRect() {},
     translate(x, y) { position = [x, y]; },
     rotate(value) { angle = value; },
@@ -151,6 +152,7 @@ test('after the quick entrance, all sizes fall at one speed with uninterrupted a
       const after = sampleRainDrop(drop, drop.born + 5.1);
       assert.ok(Math.abs((after.y - before.y) - (size.height + 16) / 100) < 1e-8, 'every shape has the same downward velocity');
       const joined = sampleRainDrop(drop, drop.born + .32);
+      assert.ok(Math.abs(joined.y + joined.radius - rainEntryLine(size)) < 1e-8, 'the beat marker aligns with every size at the end of its entrance');
       const justBefore = sampleRainDrop(drop, drop.born + .3199);
       const justAfter = sampleRainDrop(drop, drop.born + .3201);
       assert.ok(Math.abs((joined.y - justBefore.y) - (justAfter.y - joined.y)) < .0001, 'the entrance joins normal motion without a speed jump');

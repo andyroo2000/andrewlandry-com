@@ -14,6 +14,16 @@ export type RainPlan = RippleEvent & {
   fallSpeed: number; launchDistance: number;
 };
 
+function rainMotion(view: Viewport) {
+  return { fallSpeed: (view.height + 16) / RAIN_FLIGHT_SECONDS, launchDistance: Math.min(110, view.height * .14) };
+}
+
+export function rainEntryLine(view: Viewport) {
+  const { fallSpeed, launchDistance } = rainMotion(view);
+  // Every drop's lower edge reaches this height at its audio timestamp.
+  return -24 + fallSpeed * RAIN_ENTRY_SECONDS + launchDistance;
+}
+
 export function rainGate(time: number) {
   const phase = ((time % RAIN_CYCLE) + RAIN_CYCLE) % RAIN_CYCLE;
   return smooth((phase - RAIN_OPEN_AT) / .8) * (1 - smooth(phase - 29));
@@ -47,8 +57,7 @@ function planDrop(event: RippleEvent, view: RainView, scale: number): RainPlan {
   const room = Math.max(0, view.width - radius * 2 - 24);
   const startX = radius + 12 + room * seed(event.id + 71);
   const floor = view.height - FLOOR_MARGIN;
-  const fallSpeed = (view.height + 16) / RAIN_FLIGHT_SECONDS;
-  const launchDistance = Math.min(110, view.height * .14);
+  const { fallSpeed, launchDistance } = rainMotion(view);
   const landing = event.born + (view.height + 16 - launchDistance) / fallSpeed;
   return {
     ...event, radius, landing, startX, restX: startX, restY: floor - radius,

@@ -82,10 +82,9 @@ play/pause state. The index in `src/data/japan-trip-items.json` contains all
 140/110 item cuts, measured against the encoded video start timestamp. It uses
 the player's seek API directly and does not require chapter markers.
 Native player controls retain keyboard focus and their usual arrow-key seeking.
-Story shortcuts work when focus is on the page or the previous/next buttons;
-YouTube iframe key events do not bubble to the page. Space toggles
-playback when the page itself is focused.
-Local previews, Mux, and YouTube start playing muted on load, including links
+Story shortcuts work when focus is on the page or the previous/next buttons.
+Space toggles playback when the page itself is focused.
+Local previews and Mux start playing muted on load, including links
 to a specific story time. Native player controls enable sound or pause playback.
 If the browser blocks autoplay, those controls remain available for manual play.
 Switching trips preserves the current playback and sound settings.
@@ -205,14 +204,8 @@ The local files have corrected audio: separately concatenated AAC segments
 introduced cumulative encoder padding. Audio is now assembled at exact sample
 boundaries and encoded once; video packets and item cut timestamps are unchanged.
 Continuous decoding confirmed silence in all 182 still photos. Previous exports
-are preserved outside the repository. Corrected replacement uploads were saved
-on September 12, 2026, and are fully processed in SD and HD:
-[2025](https://youtu.be/3M3GsNgvnpw) and [2026](https://youtu.be/K6CPy63peaE).
-The previous uploads remain intact. `src/data/japan-trips.ts` selects the new IDs.
-
-Mux is selected when both cycling videos have public playback IDs in
-`src/data/mux-videos.json`. Until then, the page keeps its working YouTube embeds.
-The corrected YouTube videos remain unlisted and available through fallback links.
+are preserved outside the repository. Both corrected films are hosted on Mux,
+with public playback IDs in `src/data/mux-videos.json`.
 
 Use `?trip=2025` or `?trip=2026` to select a trip and `&t=600` to preview a point
 in the film. Manage the background server with `npm run astro -- dev status`,
@@ -223,23 +216,25 @@ in the film. Manage the background server with `npm run astro -- dev status`,
 `/synth-and-chill/` embeds Andrew's synthesizer playlist with an explicit
 Start listening button, current track title, and previous/next track controls.
 It uses the dark palette and starts with Terrain; Change visualization switches
-between Terrain and Rain. The transport includes volume, with Space to play/pause
+between Terrain and Rain. Rain has a soft mint beam at its upper arrival band,
+with brief local flashes as shapes complete their fast entrance on a beat. The
+beam stays separate from the floor blur and rumble. The transport includes volume, with Space to play/pause
 and left/right arrow keys to change tracks when a focused control does not own them.
 Reduced-motion preferences pause the background initially, and hidden tabs
 stop drawing.
 
 Each current playlist track has a stable URL such as
 `/synth-and-chill/hes-a-bad-guy/`. Opening or refreshing it selects that video
-without autoplay. Mux follows the order in `src/data/synth-tracks.json`, initially
-matched to the current YouTube playlist. The address bar
+without autoplay. Mux follows the order in `src/data/synth-tracks.json`. The address bar
 updates using `replaceState` as tracks change, so Back still leaves the listening
 session rather than walking through every song.
 
 `src/data/synth-tracks.json` maps permanent slugs to video IDs and display titles.
 Keep existing slugs unchanged when renaming or reordering videos. Add a record
-and redeploy to give a new video its pretty URL; until then, newly added playlist
-videos use a functional `/synth-and-chill/?track=VIDEO_ID` link. Slug changes do
-not require regenerating audio analysis, which remains keyed by video ID.
+and a Mux playback ID, then redeploy to publish a new session. Known legacy
+`?track=VIDEO_ID` links still select the matching session; unknown IDs open the
+first track. Slug changes do not require regenerating audio analysis, which remains
+keyed by the original catalog ID.
 
 The visualizers follow the active player's playback clock using precomputed volume and
 bass/midrange/treble measurements (including older playlist tracks). Seeking, pausing,
@@ -253,28 +248,22 @@ alignment tests can be run with `python -m unittest discover -s dev -p 'test_syn
 
 ## Mux video hosting
 
-`src/data/mux-videos.json` maps the existing YouTube video IDs to public Mux
+`src/data/mux-videos.json` maps stable catalog video IDs to public Mux
 playback IDs. These IDs are public; no Mux API token belongs in the site or its
 build environment. Upload original files through the Mux dashboard using Basic
 video quality, a 1080p maximum resolution, public playback, and no extra workflows.
 Do not trim or alter playback speed: the visualizers and trip map use the original
 timeline. Keep source media outside the repository.
 
-Each collection switches to Mux only after every video in that collection is
-configured, so a partially completed migration cannot drop tracks. The player
-loads on video pages only. Playback is capped at 1080p for both collections;
+Both collections use Mux exclusively in production. Every published video must
+have a playback ID; a missing mapping fails the build instead of silently changing
+players. The player loads on video pages only. Playback is capped at 1080p;
 adaptive streaming can still select lower resolutions. Mux supplies seeking,
 volume, quality, picture-in-picture, and fullscreen controls. Playback-speed
 and ten-second seek buttons are hidden; synth players also hide time displays.
-Synth tracks advance
-automatically through the catalog and stop after the last track. Existing slug
-links and audio-analysis IDs remain unchanged; unknown legacy `?track=VIDEO_ID`
-links still use YouTube. Keep `synth-tracks.json` and the Mux mapping up to date
-when adding a new session.
-
-To compare the cycling page against its YouTube fallback locally, stop the dev
-server and start it with `JAPAN_TRIP_USE_YOUTUBE=1 npm run dev -- --background`.
-This override applies only in development; production continues to use Mux.
+Synth tracks advance automatically through the catalog and stop after the last
+track. Existing slug links and audio-analysis IDs remain unchanged. Keep
+`synth-tracks.json` and the Mux mapping up to date when adding a new session.
 
 ## Deployment
 

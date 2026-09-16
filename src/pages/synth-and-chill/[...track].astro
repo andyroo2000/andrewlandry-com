@@ -4,7 +4,7 @@ import ThemeHead from '../../components/ThemeHead.astro';
 
 import tracks from '../../data/synth-tracks.json';
 import { synthTrackPageTitle } from '../../scripts/synth-track-links';
-import { hasMuxVideos, muxPlaybackId } from '../../data/mux-videos';
+import { muxPlaybackId } from '../../data/mux-videos';
 
 export function getStaticPaths() {
   return [
@@ -14,10 +14,7 @@ export function getStaticPaths() {
 }
 interface Props { track?: (typeof tracks)[number] }
 const { track } = Astro.props;
-const playlist = 'PLpJqhXBWT7F96to6OoJnsTrG6y6aJtxvi';
-const useMux = hasMuxVideos(tracks.map(track => track.videoId));
 const selected = track ?? tracks[0]!;
-const youtubeSrc = `https://www.youtube.com/embed/${track?.videoId ?? 'videoseries'}?list=${playlist}&playsinline=1&rel=0&enablejsapi=1&controls=1`;
 ---
 <!doctype html>
 <html lang="en" data-theme="dark">
@@ -56,7 +53,7 @@ const youtubeSrc = `https://www.youtube.com/embed/${track?.videoId ?? 'videoseri
         </div>
 
         <section class="film" aria-label="Synth and chill playlist">
-          {useMux ? <mux-player
+          <mux-player
             id="synth-mux"
             class="session-video"
             playback-id={muxPlaybackId(selected.videoId)}
@@ -65,16 +62,7 @@ const youtubeSrc = `https://www.youtube.com/embed/${track?.videoId ?? 'videoseri
             max-resolution="1080p"
             accent-color="#f2f76c"
             aria-label={selected.title}
-            data-youtube-src={youtubeSrc}
-          ></mux-player> : <iframe
-            id="synth-youtube"
-            class="session-video"
-            src={youtubeSrc}
-            title="Synth and chill — synthesizer sessions playlist"
-            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
-            referrerpolicy="strict-origin-when-cross-origin"
-            allowfullscreen
-          ></iframe>}
+          ></mux-player>
           <div class="film-caption" role="group" aria-label="Playback controls">
             <button class="track-button" data-previous-track aria-label="Previous track" aria-keyshortcuts="ArrowLeft" title="Previous track (←)" disabled><svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="m15 6-6 6 6 6" /></svg> Previous track</button>
             <span class="track-title" data-track-title aria-live="polite">{track?.title ?? 'Synth & chill'}</span>
@@ -82,7 +70,6 @@ const youtubeSrc = `https://www.youtube.com/embed/${track?.videoId ?? 'videoseri
           </div>
         </section>
       </main>
-      <a class="youtube-link" href={`https://www.youtube.com/playlist?list=${playlist}`} target="_blank" rel="noopener noreferrer">Listen on YouTube <ArrowUpRight /></a>
 
     </div>
     <script>
@@ -136,7 +123,6 @@ const youtubeSrc = `https://www.youtube.com/embed/${track?.videoId ?? 'videoseri
   .film { background: var(--site-card); color: var(--ink); padding: 9px 9px 0; box-shadow: 10px 12px 0 var(--site-shadow); min-width: 0; transform: rotate(-1deg); }
   :global(.session-video) { display: block; width: 100%; aspect-ratio: 16 / 9; min-height: 200px; border: 0; background: #0b1020; }
   mux-player { --seek-backward-button: none; --seek-forward-button: none; --playback-rate-button: none; --time-display: none; --duration-display: none; }
-  .youtube-link { align-self: flex-end; font-size: 12px; opacity: .7; }
   .film-caption { display: grid; grid-template-columns: auto minmax(0,1fr) auto; align-items: center; padding: 9px 5px; gap: 10px; }
   .film-caption button:focus-visible { outline: 3px solid var(--ink); outline-offset: -3px; }
   .track-title { text-align: center; font-size: 16px; font-weight: 500; line-height: 1.3; overflow-wrap: anywhere; }

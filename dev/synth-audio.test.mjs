@@ -7,7 +7,7 @@ const server = await createServer({ server: { middlewareMode: true, ws: false, h
 after(() => server.close());
 const { decodeAudioTrack, quietFeatures, sampleAudioTrack } = await server.ssrLoadModule('/src/scripts/synth-audio-data.ts');
 const { createPlaybackClock, createAudioFollower } = await server.ssrLoadModule('/src/scripts/synth-audio.ts');
-const { readSynthPlayback, youtubeVideoId } = await server.ssrLoadModule('/src/scripts/synth-youtube.ts');
+const { readSynthPlayback } = await server.ssrLoadModule('/src/scripts/synth-playback.ts');
 const { createTerrainSoftness } = await server.ssrLoadModule('/src/scripts/synth-terrain-softness.ts');
 const dataFile = name => new URL(`../public/data/synth-audio/${name}`, import.meta.url);
 const track = { videoId: 'D8bjcI4pkiE', fps: 20, duration: .1, frames: new Uint8Array([0, 0, 0, 0, 255, 255, 0, 0, 0, 0, 255, 255]) };
@@ -96,12 +96,10 @@ test('terrain history follows the same clock and survives pause without leaking 
 });
 
 test('the player adapter reads the actual video and transport state', () => {
-  const player = { getVideoUrl: () => 'https://www.youtube.com/watch?v=D8bjcI4pkiE&list=example',
+  const player = { getVideoId: () => 'D8bjcI4pkiE',
     getCurrentTime: () => 12.75, getPlayerState: () => 3, getPlaybackRate: () => 1.5 };
   assert.deepEqual(readSynthPlayback(player), { videoId: track.videoId, seconds: 12.75, playing: false, rate: 1.5 });
   assert.equal(readSynthPlayback(undefined), undefined);
-  assert.equal(youtubeVideoId('https://www.youtube.com/watch?v=D8bjcI4pkiE&t=123'), track.videoId);
-  assert.equal(youtubeVideoId(''), undefined);
 });
 
 test('every playlist entry has complete, correctly identified audio measurements', async () => {

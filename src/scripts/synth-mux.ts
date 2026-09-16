@@ -3,10 +3,10 @@ import tracks from '../data/synth-tracks.json';
 import { muxPlaybackId } from '../data/mux-videos';
 import { requestedSynthTrack } from './synth-track-links';
 import { prepareMuxPlayers } from './mux-player';
-import { connectSynthPlayer, type PlayerEvents, type SynthPlayer } from './synth-youtube';
+import { type PlayerEvents, type SynthPlayer } from './synth-playback';
 
 export function createMuxPlaylist(media: MuxPlayerElement, events: PlayerEvents, signal: AbortSignal, initialIndex: number) {
-  let index = initialIndex;
+  let index = initialIndex >= 0 && initialIndex < tracks.length ? initialIndex : 0;
   let state = -1;
   let generation = 0;
   let playOnLoad = false;
@@ -46,11 +46,10 @@ export function createMuxPlaylist(media: MuxPlayerElement, events: PlayerEvents,
     setVolume: volume => { media.volume = Math.max(0, Math.min(100, volume)) / 100; },
     nextVideo: () => select(index + 1, true),
     previousVideo: () => select(index - 1, true),
-    setShuffle: () => {},
     getPlayerState: () => state,
     getCurrentTime: () => media.currentTime,
     getPlaybackRate: () => media.playbackRate,
-    getVideoUrl: () => `https://www.youtube.com/watch?v=${tracks[index]!.videoId}`,
+    getVideoId: () => tracks[index]!.videoId,
     getPlaylist: () => tracks.map(track => track.videoId),
     getPlaylistIndex: () => index,
     destroy: () => { generation++; media.pause(); media.playbackId = undefined; },
@@ -76,16 +75,6 @@ export function createMuxPlaylist(media: MuxPlayerElement, events: PlayerEvents,
 export async function connectMuxSynth(media: MuxPlayerElement, events: PlayerEvents, signal: AbortSignal) {
   const requested = requestedSynthTrack(location.href);
   const index = requested ? tracks.findIndex(track => track.videoId === requested) : 0;
-  // Preserve older query links to videos added to YouTube but not yet migrated.
-  if (index < 0) {
-    const iframe = document.createElement('iframe');
-    iframe.src = media.dataset.youtubeSrc!;
-    iframe.title = 'Synth and chill — synthesizer sessions playlist';
-    iframe.allow = 'autoplay; encrypted-media; picture-in-picture; fullscreen';
-    iframe.className = media.className;
-    media.replaceWith(iframe);
-    return connectSynthPlayer(iframe, events, signal);
-  }
   await prepareMuxPlayers();
   if (!signal.aborted) return createMuxPlaylist(media, events, signal, index);
 }
