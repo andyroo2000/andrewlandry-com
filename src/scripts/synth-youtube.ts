@@ -1,5 +1,6 @@
 import type { PlaybackSnapshot } from './synth-audio';
 import { requestedSynthTrack } from './synth-track-links';
+import tracks from '../data/synth-tracks.json';
 
 export interface SynthPlayer {
   playVideo(): void;
@@ -31,7 +32,7 @@ export function readSynthPlayback(player: SynthPlayer | undefined): PlaybackSnap
   return { videoId, seconds: player.getCurrentTime(), playing: player.getPlayerState() === 1, rate: player.getPlaybackRate() };
 }
 
-type PlayerEvents = {
+export type PlayerEvents = {
   onReady(event: { target: SynthPlayer }): void;
   onStateChange(event: { data: number }): void;
   onError(): void;
@@ -72,6 +73,8 @@ export async function connectSynthPlayer(iframe: HTMLIFrameElement, events: Play
 export function createTrackTitleLoader() {
   const cache = new Map<string, Promise<string>>();
   return (videoUrl: string) => {
+    const track = tracks.find(track => track.videoId === youtubeVideoId(videoUrl));
+    if (track) return Promise.resolve(track.title);
     if (!cache.has(videoUrl)) {
       const endpoint = new URL('https://www.youtube.com/oembed');
       endpoint.searchParams.set('url', videoUrl);

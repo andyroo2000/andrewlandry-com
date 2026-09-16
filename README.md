@@ -36,7 +36,17 @@ npm run dev
 
 ## Japan cycling trips
 
-The cycling page uses YouTube's player clock to select individual story items
+Each year has a permanent entry URL: `/japan-cycling-trips/2025/` and
+`/japan-cycling-trips/2026/`. Each photo and video story also has a static URL,
+such as `/japan-cycling-trips/2026/kamikawa-01/`, which starts at that story.
+Playback, seeking, and story navigation update the address bar without reloading
+the player or adding browser history entries. Year links can be copied directly
+or opened in a new tab. Existing `?trip=2026&t=119` links still work.
+`src/data/japan-trip-slugs.json` stores stable slugs by original story ID;
+preserve published slugs when correcting metadata or adding stories. Location
+names follow the displayed journey, including held locations and station arrivals.
+
+The cycling page uses the active player's clock to select individual story items
 from `src/data/japan-trip-items.json`. Matched originals supply capture timestamps
 and GPS. The source metadata stays intact; the presentation maps each item to
 its corresponding point on the ordered journey. Items without a location and
@@ -54,8 +64,15 @@ Each GPX recording remains a separate cycling segment. Transport follows
 mapped geography, and small visible connections join recording boundaries and
 station/port entrances without contributing to cycling mileage.
 `src/scripts/trip-camera.ts` pans between places at a fixed scale. The scale
-only changes to fit the viewport. `src/scripts/trip-route.ts` draws each completed
-leg over the dashed route, including train, ferry, bus, and flight legs. The current marker and camera share a distance cursor
+only changes to fit the viewport. `src/scripts/trip-map-canvas.ts` caches the
+coastline, lakes, and dashed routes in local raster tiles (128 MiB cache budget,
+up to 1.5x pixel density for geography; viewport surfaces capped at six million pixels). Panning copies cached pixels instead of repainting complex
+SVG paths and masks, leaving rendering time for 30 fps video. Map movement also
+runs at 30 fps. The next story's map tiles are prepared one at a time during idle
+periods after the current pan finishes. Labels retain the tested SVG font
+measurement and placement but are painted on a separate canvas at up to 2x
+density. The pulsing marker has its own small SVG. `src/scripts/trip-route.ts` traces each completed leg over the dashed
+route, including train, ferry, bus, and flight legs. The current marker and camera share a distance cursor
 along that route, including every bend during a long seek. An interrupted
 animation retargets from its current cursor. Seeking backward restores the
 earlier progress; switching trips clears it. Panning and pulsing
@@ -63,12 +80,12 @@ respect reduced motion. The map is hidden on mobile. Previous/next buttons flank
 location card; Left/Right keys move to the previous/next story while preserving
 play/pause state. The index in `src/data/japan-trip-items.json` contains all
 140/110 item cuts, measured against the encoded video start timestamp. It uses
-YouTube's seek API directly and does not require chapter markers or new uploads.
+the player's seek API directly and does not require chapter markers.
 Native player controls retain keyboard focus and their usual arrow-key seeking.
 Story shortcuts work when focus is on the page or the previous/next buttons;
-YouTube iframe key events do not bubble to the page. Space toggles YouTube
+YouTube iframe key events do not bubble to the page. Space toggles
 playback when the page itself is focused.
-Both local previews and YouTube start playing muted on load, including links
+Local previews, Mux, and YouTube start playing muted on load, including links
 to a specific story time. Native player controls enable sound or pause playback.
 If the browser blocks autoplay, those controls remain available for manual play.
 Switching trips preserves the current playback and sound settings.
@@ -183,7 +200,7 @@ JAPAN_TRIP_MEDIA_DIR="/path/to/Japan Bike Trips" npm run dev -- --background
 That directory should contain `Hokkaido Bike Trip 2025.mp4` and
 `Hokkaido Bike Trip 2026.mp4`. The development middleware streams those files
 with seeking support, without copying them into the repository or production
-build. Without this environment variable, development also uses YouTube.
+build. Without this environment variable, development uses the configured hosted player.
 The local files have corrected audio: separately concatenated AAC segments
 introduced cumulative encoder padding. Audio is now assembled at exact sample
 boundaries and encoded once; video packets and item cut timestamps are unchanged.
@@ -193,8 +210,9 @@ on September 12, 2026, and are fully processed in SD and HD:
 [2025](https://youtu.be/3M3GsNgvnpw) and [2026](https://youtu.be/K6CPy63peaE).
 The previous uploads remain intact. `src/data/japan-trips.ts` selects the new IDs.
 
-Production always uses YouTube. Both corrected videos are unlisted: playable
-on the website and through direct links, without appearing on the channel page.
+Mux is selected when both cycling videos have public playback IDs in
+`src/data/mux-videos.json`. Until then, the page keeps its working YouTube embeds.
+The corrected YouTube videos remain unlisted and available through fallback links.
 
 Use `?trip=2025` or `?trip=2026` to select a trip and `&t=600` to preview a point
 in the film. Manage the background server with `npm run astro -- dev status`,
@@ -212,7 +230,8 @@ stop drawing.
 
 Each current playlist track has a stable URL such as
 `/synth-and-chill/hes-a-bad-guy/`. Opening or refreshing it selects that video
-without autoplay and retains YouTube's current playlist order. The address bar
+without autoplay. Mux follows the order in `src/data/synth-tracks.json`, initially
+matched to the current YouTube playlist. The address bar
 updates using `replaceState` as tracks change, so Back still leaves the listening
 session rather than walking through every song.
 
@@ -222,15 +241,40 @@ and redeploy to give a new video its pretty URL; until then, newly added playlis
 videos use a functional `/synth-and-chill/?track=VIDEO_ID` link. Slug changes do
 not require regenerating audio analysis, which remains keyed by video ID.
 
-The visualizers follow YouTube's playback clock using precomputed volume and
-bass/midrange/treble measurements for all 17 playlist videos. Seeking, pausing,
+The visualizers follow the active player's playback clock using precomputed volume and
+bass/midrange/treble measurements (including older playlist tracks). Seeking, pausing,
 changing speed, and changing tracks update the response. A missing analysis
 file leaves ambient motion instead of using another track's measurements.
 Only compact numerical measurements are served from `public/data/synth-audio/`;
-the browser plays audio through YouTube, and downloaded media remain outside
+the browser plays audio through the video player, and downloaded media remain outside
 the repository. See that directory's `SOURCES.md` for provenance and regeneration.
 The optional analysis script requires Python, NumPy, and FFmpeg. Its signal
 alignment tests can be run with `python -m unittest discover -s dev -p 'test_synth_audio_analysis.py'`.
+
+## Mux video hosting
+
+`src/data/mux-videos.json` maps the existing YouTube video IDs to public Mux
+playback IDs. These IDs are public; no Mux API token belongs in the site or its
+build environment. Upload original files through the Mux dashboard using Basic
+video quality, a 1080p maximum resolution, public playback, and no extra workflows.
+Do not trim or alter playback speed: the visualizers and trip map use the original
+timeline. Keep source media outside the repository.
+
+Each collection switches to Mux only after every video in that collection is
+configured, so a partially completed migration cannot drop tracks. The player
+loads on video pages only. Playback is capped at 1080p for both collections;
+adaptive streaming can still select lower resolutions. Mux supplies seeking,
+volume, quality, picture-in-picture, and fullscreen controls. Playback-speed
+and ten-second seek buttons are hidden; synth players also hide time displays.
+Synth tracks advance
+automatically through the catalog and stop after the last track. Existing slug
+links and audio-analysis IDs remain unchanged; unknown legacy `?track=VIDEO_ID`
+links still use YouTube. Keep `synth-tracks.json` and the Mux mapping up to date
+when adding a new session.
+
+To compare the cycling page against its YouTube fallback locally, stop the dev
+server and start it with `JAPAN_TRIP_USE_YOUTUBE=1 npm run dev -- --background`.
+This override applies only in development; production continues to use Mux.
 
 ## Deployment
 

@@ -2,7 +2,7 @@ type PlaybackButtons = { listen: HTMLButtonElement; previous: HTMLButtonElement;
 
 function ownsKey(target: EventTarget | null, key: string) {
   if (!(target instanceof HTMLElement)) return false;
-  if (target.isContentEditable || target.closest('input, textarea, select, [role="textbox"], [role="slider"]')) return true;
+  if (target.isContentEditable || target.closest('mux-player, video, input, textarea, select, [role="textbox"], [role="slider"]')) return true;
   // Preserve native Space activation for focused controls, including track buttons.
   const control = target.closest('button, a, [role="button"]');
   return key === ' ' && control && !control.matches('[data-listen]');

@@ -2,6 +2,9 @@ import { trips, type TripYear } from '../data/japan-trips';
 import { createTripCamera } from './trip-camera';
 import { tripDayAtTime } from '../data/japan-trip-days';
 import { adjacentItem, itemAtTime, tripItems } from '../data/japan-trip-items';
+import type MuxPlayerElement from '@mux/mux-player';
+import { muxPlaybackId } from '../data/mux-videos';
+import { createTripUrlSync, requestedTrip, tripSegments } from '../data/japan-trip-links';
 
 interface YouTubePlayer {
   getCurrentTime(): number;
@@ -30,16 +33,17 @@ if (root) {
   const camera = createTripCamera(root);
   const abort = new AbortController();
   const options = { signal: abort.signal };
-  const buttons = root.querySelectorAll<HTMLButtonElement>('[data-year]');
+  const yearLinks = root.querySelectorAll<HTMLAnchorElement>('a[data-year]');
   const previous = root.querySelector<HTMLButtonElement>('[data-previous-item]')!;
   const next = root.querySelector<HTMLButtonElement>('[data-next-item]')!;
-  const video = root.querySelector<HTMLVideoElement>('[data-local-video]');
+  const video = root.querySelector<HTMLVideoElement | MuxPlayerElement>('[data-local-video], #trip-mux');
   const iframe = root.querySelector<HTMLIFrameElement>('#trip-youtube');
   const fallback = root.querySelector<HTMLAnchorElement>('[data-video-fallback]')!;
-  const params = new URLSearchParams(location.search);
-  let year: TripYear = params.get('trip') === '2025' ? '2025' : '2026';
-  let initialTime = Math.max(0, Number(params.get('t')) || 0);
-  if (!Number.isFinite(initialTime)) initialTime = 0;
+  const requested = requestedTrip(location.href)!;
+  let year = requested.year;
+  let initialTime = requested.seconds;
+  let loadingSelection = true;
+  const syncUrl = createTripUrlSync();
   let player: YouTubePlayer | undefined;
   let youtubeReady = false;
   let pendingYouTubeSound: { muted: boolean; readyState: number } | undefined;
@@ -51,7 +55,7 @@ if (root) {
     return pendingItem !== undefined && performance.now() > pendingItem.until;
   }
   function playbackReady() {
-    return video ? video.readyState >= 1 : youtubeReady;
+    return !loadingSelection && (video ? video.readyState >= 1 : youtubeReady);
   }
   function currentItem(seconds: number) {
     if (pendingItem && !pendingExpired()) return pendingItem.index;
@@ -73,7 +77,7 @@ if (root) {
     if (index === current) return;
     // Land one frame inside the item, avoiding floating-point/keyframe edge
     // cases that can briefly leave the preceding still on screen after a seek.
-    const target = tripItems[year][index]!.at + 1 / 30;
+    const target = tripSegments[year][index]!.seconds;
     pendingItem = { index, until: performance.now() + 2000 };
     if (video) video.currentTime = target;
     else {
@@ -88,85 +92,118 @@ if (root) {
   }
   previous.addEventListener('click', () => skipItem(-1), options);
   next.addEventListener('click', () => skipItem(1), options);
-  function toggleYouTube(event: KeyboardEvent) {
+  function toggleVideo() {
+    if (video) {
+      if (video.paused) void video.play().catch(() => setPlaying(false));
+      else video.pause();
+      return;
+    }
+    if (player!.getPlayerState() === 1) player!.pauseVideo();
+    else player!.playVideo();
+  }
+  function togglePlayback(event: KeyboardEvent) {
     const pageFocused = event.target === root || event.target === document.body;
-    if (!iframe || !youtubeReady) return false;
+    if (!playbackReady()) return false;
     if (!pageFocused) return false;
     event.preventDefault();
-    if (!event.repeat) {
-      if (player!.getPlayerState() === 1) player!.pauseVideo();
-      else player!.playVideo();
-    }
+    if (!event.repeat) toggleVideo();
     return true;
   }
-  function hasModifier(event: KeyboardEvent) {
-    return [event.altKey, event.ctrlKey, event.metaKey, event.shiftKey, event.isComposing].some(Boolean);
+  function hasModifier(event: MouseEvent | KeyboardEvent) {
+    return [event.altKey, event.ctrlKey, event.metaKey, event.shiftKey, 'isComposing' in event && event.isComposing].some(Boolean);
   }
   function ownsArrowKeys(target: EventTarget | null) {
-    return target instanceof Element && target.closest('video, input, textarea, select, [contenteditable="true"], [role="slider"]');
+    return target instanceof Element && target.closest('mux-player, video, input, textarea, select, [contenteditable="true"], [role="slider"]');
   }
   document.addEventListener('keydown', event => {
-    if (event.code === 'Space' && toggleYouTube(event)) return;
+    if (hasModifier(event) || event.defaultPrevented) return;
+    if (event.code === 'Space' && togglePlayback(event)) return;
     if (!['ArrowLeft', 'ArrowRight'].includes(event.key)) return;
-    if (hasModifier(event) || ownsArrowKeys(event.target)) return;
+    if (ownsArrowKeys(event.target)) return;
     event.preventDefault();
     skipItem(event.key === 'ArrowLeft' ? -1 : 1);
   }, { ...options, capture: true });
 
   function sync(seconds: number) {
+    if (loadingSelection) return;
     const waitingForSeek = currentItem(seconds) !== itemAtTime(year, seconds);
     updateNavigation(seconds);
     if (waitingForSeek) return;
     camera.sync(year, itemAtTime(year, seconds), tripDayAtTime(year, seconds));
+    syncUrl(year, itemAtTime(year, seconds));
   }
   function setPlaying(playing: boolean) {
     root!.classList.toggle('is-playing', playing);
     if (playing) fallback.hidden = true;
   }
   function updateSelection() {
-    buttons.forEach(button => { button.setAttribute('aria-pressed', String(button.dataset.year === year)); });
-    fallback.href = `https://youtu.be/${trips[year].videoId}`;
+    loadingSelection = true;
+    yearLinks.forEach(link => {
+      if (link.dataset.year === year) link.setAttribute('aria-current', 'page');
+      else link.removeAttribute('aria-current');
+    });
+    document.title = `Japan Cycling Trips ${year} — Andrew Landry`;
+    fallback.href = `https://youtu.be/${trips[year].videoId}?t=${Math.floor(initialTime)}`;
     fallback.hidden = true;
     pendingItem = undefined;
     previous.disabled = true;
     next.disabled = true;
     camera.showTrip(year);
     camera.sync(year, itemAtTime(year, initialTime), tripDayAtTime(year, initialTime));
+    syncUrl(year, itemAtTime(year, initialTime));
+  }
+  function selectYear(event: MouseEvent, link: HTMLAnchorElement) {
+    if (event.button !== 0 || hasModifier(event)) return false;
+    event.preventDefault();
+    if (year === link.dataset.year) return false;
+    year = link.dataset.year as TripYear;
+    initialTime = 0;
+    updateSelection();
+    return true;
   }
   updateSelection();
 
   if (video) {
-    function loadLocal(autoplay: boolean) {
-      video!.poster = `/images/japan-cycling-${year}.webp`;
-      video!.src = `/__trip-media/${year}.mp4`;
-      video!.setAttribute('aria-label', `Hokkaido cycling trip ${year}`);
-      video!.load();
-      if (autoplay) void video!.play().catch(() => setPlaying(false));
-    }
-    video.addEventListener('loadedmetadata', () => {
-      if (initialTime > 0) video.currentTime = Math.min(initialTime, video.duration);
-      sync(video.currentTime);
+    let playOnLoad = false;
+    function onLoadedMetadata() {
+      if (initialTime > 0) video!.currentTime = Math.min(initialTime, video!.duration);
+      loadingSelection = false;
+      sync(video!.currentTime);
       initialTime = 0;
-    }, options);
+      if (playOnLoad) {
+        playOnLoad = false;
+        void video!.play().catch(() => setPlaying(false));
+      }
+    }
+    function loadVideo(autoplay: boolean) {
+      playOnLoad = autoplay;
+      video!.poster = `/images/japan-cycling-${year}.webp`;
+      if (video instanceof HTMLVideoElement) {
+        video.src = `/__trip-media/${year}.mp4`;
+        video.load();
+      } else {
+        const unchanged = video!.playbackId === muxPlaybackId(trips[year].videoId);
+        video!.metadata = { video_id: trips[year].videoId, video_title: `Hokkaido cycling trip ${year}` };
+        video!.playbackId = muxPlaybackId(trips[year].videoId);
+        if (unchanged && video!.readyState >= 1) onLoadedMetadata();
+      }
+      video!.setAttribute('aria-label', `Hokkaido cycling trip ${year}`);
+    }
+    video.addEventListener('loadedmetadata', onLoadedMetadata, options);
     video.addEventListener('timeupdate', () => sync(video.currentTime), options);
     video.addEventListener('seeked', () => sync(video.currentTime), options);
     video.addEventListener('play', () => { setPlaying(true); sync(video.currentTime); }, options);
     video.addEventListener('pause', () => setPlaying(false), options);
     video.addEventListener('ended', () => setPlaying(false), options);
     video.addEventListener('error', () => { fallback.hidden = false; setPlaying(false); }, options);
-    buttons.forEach(button => button.addEventListener('click', () => {
-      if (year === button.dataset.year) return;
+    yearLinks.forEach(link => link.addEventListener('click', event => {
       const wasPlaying = !video.paused;
-      year = button.dataset.year as TripYear;
-      initialTime = 0;
-      updateSelection();
-      loadLocal(wasPlaying);
-      updateUrl();
+      if (selectYear(event, link)) loadVideo(wasPlaying);
     }, options));
     // Start silently so autoplay works without a prior gesture. The native
     // volume control remains available, and switching trips preserves it.
     video.muted = true;
-    loadLocal(true);
+    loadVideo(true);
   } else if (iframe) {
     // YouTube owns playback/controls; its actual clock drives the same map as
     // the local MP4 preview. No second simulated timeline to drift out of sync.
@@ -184,6 +221,7 @@ if (root) {
       pendingYouTubeSound = { muted: true, readyState: 1 };
       player!.mute();
       player!.loadVideoById({ videoId: trips[year].videoId, startSeconds: initialTime });
+      loadingSelection = false;
       sync(initialTime);
       initialTime = 0;
       poll = setInterval(pollYouTube, 250);
@@ -196,6 +234,7 @@ if (root) {
       // Restore sound after YouTube finishes replacing its media element;
       // setting it only before loadVideoById can be lost during that load.
       if (pendingYouTubeSound?.readyState === event.data) {
+        loadingSelection = false;
         setYouTubeMuted(pendingYouTubeSound.muted);
         pendingYouTubeSound = undefined;
       }
@@ -228,24 +267,14 @@ if (root) {
       // YouTube can reset its sound setting when loading another video.
       setYouTubeMuted(wasMuted);
     }
-    buttons.forEach(button => button.addEventListener('click', () => {
-      if (year === button.dataset.year) return;
+    yearLinks.forEach(link => link.addEventListener('click', event => {
       const wasPlaying = youtubeReady && player?.getPlayerState() === 1;
-      year = button.dataset.year as TripYear;
-      initialTime = 0;
-      updateSelection();
+      if (!selectYear(event, link)) return;
       iframe.title = `Hokkaido cycling trip ${year}`;
       loadSelectedYouTube(wasPlaying);
-      updateUrl();
     }, options));
   }
 
-  function updateUrl() {
-    const url = new URL(location.href);
-    url.searchParams.set('trip', year);
-    url.searchParams.delete('t');
-    history.replaceState(null, '', url);
-  }
   function cleanup() {
     disposed = true;
     clearInterval(poll);

@@ -1,11 +1,13 @@
 import { connectSynthPlayer, createTrackTitleLoader, readSynthPlayback, youtubeVideoId, type SynthPlayer } from './synth-youtube';
 import { initSynthKeyboard } from './synth-keyboard';
-import { initSynthVolume } from './synth-volume';
 import { syncSynthTrackUrl, synthTrackPageTitle } from './synth-track-links';
+import type MuxPlayerElement from '@mux/mux-player';
+import { connectMuxSynth } from './synth-mux';
 
 export function initSynthPlayer() {
   const iframe = document.querySelector<HTMLIFrameElement>('#synth-youtube');
-  if (!iframe) return () => undefined;
+  const mux = document.querySelector<MuxPlayerElement>('#synth-mux');
+  if (!iframe && !mux) return () => undefined;
   const listen = document.querySelector<HTMLButtonElement>('[data-listen]')!;
   const label = document.querySelector<HTMLElement>('[data-listen-label]')!;
   const icon = document.querySelector<HTMLElement>('[data-listen-icon]')!;
@@ -13,7 +15,6 @@ export function initSynthPlayer() {
   const next = document.querySelector<HTMLButtonElement>('[data-next-track]')!;
   const title = document.querySelector<HTMLElement>('[data-track-title]')!;
   const message = document.querySelector<HTMLElement>('[data-player-message]')!;
-  const volume = document.querySelector<HTMLInputElement>('[data-volume]')!;
   const abort = new AbortController();
   const options = { signal: abort.signal };
   const loadTitle = createTrackTitleLoader();
@@ -21,7 +22,6 @@ export function initSynthPlayer() {
   let currentUrl = '';
   let hasPlayed = false;
   let poll: ReturnType<typeof setInterval> | undefined;
-  const syncVolume = initSynthVolume(volume, () => player, abort.signal);
 
   function showMessage(text: string) {
     message.textContent = text;
@@ -46,7 +46,6 @@ export function initSynthPlayer() {
   }
   function updateTrack() {
     if (!player) return;
-    syncVolume();
     const index = updateNavigation(player);
     const videoId = youtubeVideoId(player.getVideoUrl());
     if (!videoId) return;
@@ -90,11 +89,13 @@ export function initSynthPlayer() {
     clearInterval(poll);
     if (!event.persisted) { abort.abort(); player?.destroy(); }
   }, options);
-  void connectSynthPlayer(iframe, {
+  const events = {
     onReady: ready,
-    onStateChange: event => updatePlayback(event.data),
+    onStateChange: (event: { data: number }) => updatePlayback(event.data),
     onError: () => showMessage('This track could not play. Try the next track or reload the page.'),
     onAutoplayBlocked: () => showMessage('Tap play in the video to start listening.'),
-  }, abort.signal).catch(() => showMessage('You can still use the play button in the video.'));
+  };
+  const connection = mux ? connectMuxSynth(mux, events, abort.signal) : connectSynthPlayer(iframe!, events, abort.signal);
+  void connection.catch(() => showMessage('The player could not load. Reload the page or use the YouTube link below.'));
   return () => readSynthPlayback(player);
 }

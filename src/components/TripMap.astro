@@ -8,7 +8,7 @@ import { buildJourney } from '../data/japan-transfers';
 import { mapPlaces } from '../data/hokkaido-places';
 
 // OpenStreetMap coastlines and Strava GPX, projected once at build time.
-// The browser only moves an SVG group; no map SDK, tiles, or API key.
+// The browser caches raster tiles locally; no map SDK, remote tiles, or API key.
 const projection = mapProjection;
 const path = geoPath(projection);
 const coastline = path(geometry as GeoPermissibleObjects);
@@ -32,54 +32,18 @@ const distances = Object.assign({}, routes['2025'].miles, routes['2026'].miles);
 const places = mapPlaces.map(place => ({ ...place, point: projection(place.coordinates) }));
 ---
 <div class="trip-map" data-map data-distances={JSON.stringify(distances)} data-journeys={JSON.stringify(journeys)} aria-hidden="true">
+  <canvas data-map-canvas></canvas>
+  <canvas data-label-canvas></canvas>
   <svg xmlns="http://www.w3.org/2000/svg" class="map-art" viewBox="0 0 1440 900">
     <defs>
       <path id="hokkaido-land" d={coastline} />
-      <mask id="route-land-mask" maskUnits="userSpaceOnUse" x="-1000" y="-1000" width="4000" height="5000" style="mask-type:luminance">
-        <use href="#hokkaido-land" fill="white" />
-        <path d={lakes} fill="black" />
-      </mask>
+      <path d={lakes} data-lakes />
       <mask id="map-label-mask" data-label-mask maskUnits="userSpaceOnUse" x="0" y="0" width="1440" height="900" style="mask-type:luminance">
         <rect data-label-mask-background x="0" y="0" width="1440" height="900" fill="white" />
         <g data-label-blockers fill="black" />
       </mask>
       {routeGuides.map(({ year, d }) => <path id={`journey-path-${year}`} d={d} />)}
-      <pattern id="sea-dots" width="22" height="22" patternUnits="userSpaceOnUse">
-        <circle cx="1" cy="1" r=".7" fill="currentColor" />
-      </pattern>
     </defs>
-    <rect width="100%" height="100%" fill="url(#sea-dots)" class="sea-dots" />
-    <g data-world>
-      <use href="#hokkaido-land" class="coast-echo outer" />
-      <use href="#hokkaido-land" class="coast-echo inner" />
-      <use href="#hokkaido-land" class="land" />
-      <path d={lakes} class="inland-water" data-lakes />
-      {Object.entries(journeys).map(([year, journey]) => (
-        <g data-route={year} style={year === '2025' ? 'display:none' : undefined}>
-          <g class="route-guides">
-            <use href={`#journey-path-${year}`} class="route-line water-route" />
-            <g mask="url(#route-land-mask)">
-              <use href={`#journey-path-${year}`} class="route-line land-route" />
-            </g>
-          </g>
-          {journey.legs.map(segment => (
-            <g data-journey-segment data-start={segment.start} data-end={segment.end} data-mode={segment.mode} data-activity={segment.activity}
-              stroke-dasharray="1 1" stroke-dashoffset="1" style="visibility:hidden">
-              <path d={segment.d} pathLength="1" class="route-progress-halo" />
-              <path d={segment.d} pathLength="1" class="route-progress water-route" />
-            </g>
-          ))}
-          <g mask="url(#route-land-mask)">
-            {journey.legs.map(segment => (
-              <g data-journey-segment data-start={segment.start} data-end={segment.end} data-mode={segment.mode} data-activity={segment.activity}
-                stroke-dasharray="1 1" stroke-dashoffset="1" style="visibility:hidden">
-                <path d={segment.d} pathLength="1" class="route-progress land-route" />
-              </g>
-            ))}
-          </g>
-        </g>
-      ))}
-    </g>
     <g class="map-labels" data-map-labels data-places={JSON.stringify(places)} mask="url(#map-label-mask)" lang="ja">
       {places.map(place => (
         <g class:list={['map-label', place.kind]} data-map-label={place.name} opacity="0">
@@ -89,6 +53,8 @@ const places = mapPlaces.map(place => ({ ...place, point: projection(place.coord
         </g>
       ))}
     </g>
+  </svg>
+  <svg xmlns="http://www.w3.org/2000/svg" class="pin-art" viewBox="-40 -40 80 80">
     <g data-pin data-mode="dot">
       <g class="pin-location">
         <circle r="22" class="pin-halo" />
@@ -114,20 +80,10 @@ const places = mapPlaces.map(place => ({ ...place, point: projection(place.coord
   </svg>
 </div>
 <style>
-  .trip-map { position: absolute; inset: 0; overflow: hidden; pointer-events: none; }
-  .map-art { width: 100%; height: 100%; display: block; }
-  .sea-dots { color: var(--lemon); opacity: .16; }
-  .land { fill: var(--map-land); }
-  .inland-water { fill: var(--blue); }
-  .coast-echo { fill: none; stroke: var(--map-land); stroke-linejoin: round; }
-  .outer { stroke-width: 100; opacity: .06; }
-  .inner { stroke-width: 45; opacity: .11; }
-  .route-guides { opacity: .65; }
-  .route-line { fill: none; stroke-width: 3; stroke-dasharray: 4 10; stroke-linecap: round; vector-effect: non-scaling-stroke; }
-  .water-route { stroke: var(--map-water-route); }
-  .land-route { stroke: var(--map-ink); }
-  .route-progress, .route-progress-halo { fill: none; stroke-width: calc(4.5px / var(--map-scale, 1)); stroke-linecap: round; stroke-linejoin: round; }
-  .route-progress-halo { stroke: #fff; stroke-width: calc(6px / var(--map-scale, 1)); opacity: .3; }
+  .trip-map { background-image: radial-gradient(circle at 1px 1px, color-mix(in srgb, var(--lemon) 16%, transparent) .7px, transparent .8px); background-size: 22px 22px; position: absolute; inset: 0; overflow: hidden; pointer-events: none; }
+  [data-map-canvas], [data-label-canvas] { position: absolute; inset: 0; width: 100%; height: 100%; }
+  .map-art { visibility: hidden; position: absolute; inset: 0; width: 100%; height: 100%; display: block; }
+  .pin-art { position: absolute; left: 79%; top: 53%; width: 80px; height: 80px; transform: translate(-50%, -50%); }
   .pin-halo { fill: var(--map-pin); opacity: .15; }
   .pin-dot { fill: var(--map-pin); stroke: #fff; stroke-width: 4; }
   .pin-pulse { fill: none; stroke: #fff; stroke-width: 2; transform-box: fill-box; transform-origin: center; animation: location-pulse 2.4s ease-out infinite; }
