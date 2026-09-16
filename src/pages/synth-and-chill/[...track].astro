@@ -4,6 +4,7 @@ import ThemeHead from '../../components/ThemeHead.astro';
 
 import tracks from '../../data/synth-tracks.json';
 import { synthTrackPageTitle } from '../../scripts/synth-track-links';
+import { hasMuxVideos, muxPlaybackId } from '../../data/mux-videos';
 
 export function getStaticPaths() {
   return [
@@ -14,6 +15,9 @@ export function getStaticPaths() {
 interface Props { track?: (typeof tracks)[number] }
 const { track } = Astro.props;
 const playlist = 'PLpJqhXBWT7F96to6OoJnsTrG6y6aJtxvi';
+const useMux = hasMuxVideos(tracks.map(track => track.videoId));
+const selected = track ?? tracks[0]!;
+const youtubeSrc = `https://www.youtube.com/embed/${track?.videoId ?? 'videoseries'}?list=${playlist}&playsinline=1&rel=0&enablejsapi=1&controls=1`;
 ---
 <!doctype html>
 <html lang="en" data-theme="dark">
@@ -51,23 +55,34 @@ const playlist = 'PLpJqhXBWT7F96to6OoJnsTrG6y6aJtxvi';
           <p class="player-message" data-player-message role="status" hidden></p>
         </div>
 
-        <section class="film" aria-label="Synth and chill YouTube playlist">
-          <iframe
+        <section class="film" aria-label="Synth and chill playlist">
+          {useMux ? <mux-player
+            id="synth-mux"
+            class="session-video"
+            playback-id={muxPlaybackId(selected.videoId)}
+            stream-type="on-demand"
+            preload="metadata"
+            max-resolution="1080p"
+            accent-color="#f2f76c"
+            aria-label={selected.title}
+            data-youtube-src={youtubeSrc}
+          ></mux-player> : <iframe
             id="synth-youtube"
-            src={`https://www.youtube.com/embed/${track?.videoId ?? 'videoseries'}?list=${playlist}&playsinline=1&rel=0&enablejsapi=1&controls=0`}
+            class="session-video"
+            src={youtubeSrc}
             title="Synth and chill — synthesizer sessions playlist"
             allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
             referrerpolicy="strict-origin-when-cross-origin"
             allowfullscreen
-          ></iframe>
+          ></iframe>}
           <div class="film-caption" role="group" aria-label="Playback controls">
             <button class="track-button" data-previous-track aria-label="Previous track" aria-keyshortcuts="ArrowLeft" title="Previous track (←)" disabled><svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="m15 6-6 6 6 6" /></svg> Previous track</button>
             <span class="track-title" data-track-title aria-live="polite">{track?.title ?? 'Synth & chill'}</span>
             <button class="track-button" data-next-track aria-label="Next track" aria-keyshortcuts="ArrowRight" title="Next track (→)" disabled>Next track <svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="m9 6 6 6-6 6" /></svg></button>
-            <label class="volume-control">Volume <input data-volume type="range" min="0" max="100" step="1" value="100" aria-valuetext="100%" disabled /></label>
           </div>
         </section>
       </main>
+      <a class="youtube-link" href={`https://www.youtube.com/playlist?list=${playlist}`} target="_blank" rel="noopener noreferrer">Listen on YouTube <ArrowUpRight /></a>
 
     </div>
     <script>
@@ -119,17 +134,16 @@ const playlist = 'PLpJqhXBWT7F96to6OoJnsTrG6y6aJtxvi';
   .start-listening>span:first-child { font-size: 14px; width: 16px; }
   .player-message { max-width: 290px; font-size: 12px; line-height: 1.5; }
   .film { background: var(--site-card); color: var(--ink); padding: 9px 9px 0; box-shadow: 10px 12px 0 var(--site-shadow); min-width: 0; transform: rotate(-1deg); }
-  iframe { display: block; width: 100%; aspect-ratio: 16 / 9; min-height: 200px; border: 0; background: #0b1020; }
-  .film-caption { display: grid; grid-template-columns: auto minmax(0,1fr) auto auto; align-items: center; padding: 9px 5px; gap: 10px; }
-  .film-caption :is(button,input):focus-visible { outline: 3px solid var(--ink); outline-offset: -3px; }
+  :global(.session-video) { display: block; width: 100%; aspect-ratio: 16 / 9; min-height: 200px; border: 0; background: #0b1020; }
+  mux-player { --seek-backward-button: none; --seek-forward-button: none; --playback-rate-button: none; --time-display: none; --duration-display: none; }
+  .youtube-link { align-self: flex-end; font-size: 12px; opacity: .7; }
+  .film-caption { display: grid; grid-template-columns: auto minmax(0,1fr) auto; align-items: center; padding: 9px 5px; gap: 10px; }
+  .film-caption button:focus-visible { outline: 3px solid var(--ink); outline-offset: -3px; }
   .track-title { text-align: center; font-size: 16px; font-weight: 500; line-height: 1.3; overflow-wrap: anywhere; }
-  .track-button { display: inline-flex; align-items: center; justify-content: center; gap: 8px; min-height: 44px; padding: 4px 8px; background: transparent; font-size: 12px; line-height: 1.2; white-space: nowrap; }
+  .track-button { display: inline-flex; align-items: center; justify-content: center; gap: 8px; min-height: 44px; padding: 4px 16px; background: transparent; font-size: 12px; line-height: 1.2; white-space: nowrap; }
   .track-button svg { display: block; flex: 0 0 18px; width: 18px; height: 18px; fill: none; stroke: currentColor; stroke-width: 2.2; stroke-linecap: round; stroke-linejoin: round; }
   .track-button:hover:not(:disabled) { background: var(--lemon); color: #101835; }
   .track-button:disabled { opacity: .25; cursor: default; }
-  .volume-control { display: flex; align-items: center; gap: 10px; min-height: 44px; padding-left: 18px; margin-left: 6px; border-left: 1px solid var(--site-rule); font-size: 12px; }
-  .volume-control input { width: clamp(70px, 7vw, 120px); min-height: 44px; margin: 0; accent-color: var(--lemon); cursor: pointer; }
-  .volume-control input:disabled { opacity: .25; cursor: wait; }
   @media (min-width: 1700px) { .room { padding-inline: 5vw; } .listening-room { gap: 6vw; } }
   @media (max-width: 1100px) {
     .room { padding: 22px 4vw 25px; }
@@ -155,8 +169,6 @@ const playlist = 'PLpJqhXBWT7F96to6OoJnsTrG6y6aJtxvi';
     .track-title { grid-area: 1 / 1 / 2 / -1; font-size: 14px; padding: 8px; }
     .track-button { grid-row: 2; justify-self: start; }
     .track-button[data-next-track] { justify-self: end; }
-    .volume-control { grid-area: 3 / 1 / 4 / -1; justify-content: center; margin: 4px 8px 0; padding: 4px 0 0; border-left: 0; border-top: 1px solid var(--site-rule); }
-    .volume-control input { width: min(180px, 55vw); }
   }
   @media (max-width: 390px) { .room { padding-inline: 14px; } h1 { font-size: 61px; } .film-caption { gap: 8px; font-size: 10px; } }
   @media (prefers-reduced-motion: reduce) { :global(body) { transition: none; } }

@@ -1,9 +1,30 @@
 ---
-import TripMap from '../components/TripMap.astro';
-import ArrowUpRight from '../components/ArrowUpRight.astro';
-import ThemeHead from '../components/ThemeHead.astro';
+import TripMap from '../../components/TripMap.astro';
+import ArrowUpRight from '../../components/ArrowUpRight.astro';
+import ThemeHead from '../../components/ThemeHead.astro';
 import { env } from 'node:process';
+import { trips, type TripYear } from '../../data/japan-trips';
+import { hasMuxVideos, muxPlaybackId } from '../../data/mux-videos';
+import { tripYears, tripSegments, tripYearPath } from '../../data/japan-trip-links';
+
+export function getStaticPaths() {
+  return [
+    { params: { trip: undefined }, props: { year: '2026' } },
+    ...tripYears.flatMap(year => [
+      { params: { trip: year }, props: { year } },
+      ...tripSegments[year].map(segment => ({
+        params: { trip: `${year}/${segment.slug}` }, props: { year, seconds: segment.seconds },
+      })),
+    ]),
+  ];
+}
+interface Props { year: TripYear; seconds?: number }
+const { year, seconds = 0 } = Astro.props;
+const videoId = trips[year].videoId;
+const videoTitle = `Hokkaido cycling trip ${year}`;
 const localPreview = import.meta.env.DEV && Boolean(env.JAPAN_TRIP_MEDIA_DIR);
+const useMux = !(import.meta.env.DEV && env.JAPAN_TRIP_USE_YOUTUBE === '1')
+  && hasMuxVideos(Object.values(trips).map(trip => trip.videoId));
 ---
 <!doctype html>
 <html lang="en" data-theme="light">
@@ -16,7 +37,7 @@ const localPreview = import.meta.env.DEV && Boolean(env.JAPAN_TRIP_MEDIA_DIR);
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&display=swap" rel="stylesheet" />
-    <title>Japan Cycling Trips — Andrew Landry</title>
+    <title>{`Japan Cycling Trips ${year} — Andrew Landry`}</title>
   </head>
   <body>
     <main class="trip-page" tabindex="-1" data-trip-page data-local-preview={localPreview}>
@@ -26,8 +47,7 @@ const localPreview = import.meta.env.DEV && Boolean(env.JAPAN_TRIP_MEDIA_DIR);
       <h1 aria-label="Japan Cycling Trips">Japan<br /><span>Cycling</span><br />Trips<span class="period">.</span></h1>
       <div class="trip-settings">
         <nav class="trip-switcher" aria-label="Choose a cycling trip">
-          <button type="button" data-year="2025" aria-pressed="false">2025</button>
-          <button type="button" data-year="2026" aria-pressed="true">2026</button>
+          {tripYears.map(tripYear => <a href={tripYearPath(tripYear)} data-year={tripYear} aria-current={tripYear === year ? 'page' : undefined}>{tripYear}</a>)}
         </nav>
       </div>
       <section class="film" aria-label="Japan cycling trip video">
@@ -39,15 +59,27 @@ const localPreview = import.meta.env.DEV && Boolean(env.JAPAN_TRIP_MEDIA_DIR);
               playsinline
               muted
               preload="metadata"
-              poster="/images/japan-cycling-2026.webp"
-              src="/__trip-media/2026.mp4"
-              aria-label="Hokkaido cycling trip 2026"
+              poster={`/images/japan-cycling-${year}.webp`}
+              src={`/__trip-media/${year}.mp4`}
+              aria-label={videoTitle}
             >Your browser does not support video playback.</video>
+          ) : useMux ? (
+            <mux-player
+              id="trip-mux"
+              playback-id={muxPlaybackId(videoId)}
+              stream-type="on-demand"
+              preload="metadata"
+              max-resolution="1080p"
+              accent-color="#f2f76c"
+              poster={`/images/japan-cycling-${year}.webp`}
+              aria-label={videoTitle}
+              muted
+            ></mux-player>
           ) : (
             <iframe
               id="trip-youtube"
-              title="Hokkaido cycling trip 2026"
-              src="https://www.youtube.com/embed/K6CPy63peaE?enablejsapi=1&playsinline=1&rel=0"
+              title={videoTitle}
+              src={`https://www.youtube.com/embed/${videoId}?enablejsapi=1&playsinline=1&rel=0&start=${Math.floor(seconds)}`}
               allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
               referrerpolicy="strict-origin-when-cross-origin"
               allowfullscreen
@@ -64,11 +96,15 @@ const localPreview = import.meta.env.DEV && Boolean(env.JAPAN_TRIP_MEDIA_DIR);
         <button type="button" class="item-button" data-next-item aria-label="Next story" aria-keyshortcuts="ArrowRight" title="Next story (→)" disabled><span aria-hidden="true">›</span></button>
       </div>
       <div class="map-credit"><a href="https://www.openstreetmap.org/copyright">© OpenStreetMap contributors</a><span> · </span><a href="/data/japan-map-SOURCES.txt">Map data</a></div>
-      <a class="video-fallback" data-video-fallback href="https://youtu.be/K6CPy63peaE" hidden>Open video on YouTube <ArrowUpRight /></a>
-      <noscript><style>.trip-switcher { display: none; }</style></noscript>
+      <a class="video-fallback" data-video-fallback href={`https://youtu.be/${videoId}?t=${Math.floor(seconds)}`} hidden>Open video on YouTube <ArrowUpRight /></a>
+      <noscript><style>.video-fallback[hidden] { display: block; }</style></noscript>
     </main>
     <script>
-      import '../scripts/japan-cycling';
+      import { prepareMuxPlayers } from '../../scripts/mux-player';
+      void prepareMuxPlayers().then(() => import('../../scripts/japan-cycling')).catch(error => {
+        console.error('Video player initialization failed', error);
+        document.querySelector<HTMLElement>('[data-video-fallback]')!.hidden = false;
+      });
     </script>
   </body>
 </html>
@@ -90,13 +126,16 @@ const localPreview = import.meta.env.DEV && Boolean(env.JAPAN_TRIP_MEDIA_DIR);
   h1 .period { color: #fff; }
   .trip-settings { position: absolute; top: 30px; right: 3.2vw; z-index: 5; display: flex; align-items: center; gap: 20px; }
   .trip-switcher { display: flex; background: var(--site-card); color: var(--site-ink); padding: 5px; transform: rotate(-3deg); box-shadow: 5px 5px 0 var(--site-shadow); }
-  .trip-switcher button { border: 0; border-radius: 0; padding: 12px 18px; background: transparent; color: inherit; font: 500 20px 'Space Grotesk', sans-serif; cursor: pointer; }
-  .trip-switcher button[aria-pressed='true'] { color: var(--blue); background: var(--lemon); }
-  .trip-switcher button:hover { text-decoration: underline; text-underline-offset: 5px; }
+  .trip-switcher a { border: 0; border-radius: 0; padding: 12px 18px; background: transparent; color: inherit; font: 500 20px 'Space Grotesk', sans-serif; cursor: pointer; }
+  .trip-switcher a[aria-current='page'] { color: var(--blue); background: var(--lemon); }
+  .trip-switcher a:hover { text-decoration: underline; text-underline-offset: 5px; }
   .film { position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); height: calc(100% - 110px); max-width: 40vw; aspect-ratio: 9 / 16; z-index: 3; }
   .film::before { content: ''; position: absolute; inset: -7px; background: var(--site-card); box-shadow: 10px 10px 0 var(--site-shadow); }
   .film-surface { height: 100%; width: 100%; position: relative; background: #000; }
-  video, iframe { display: block; border: 0; width: 100%; height: 100%; object-fit: contain; background: #000; }
+  video, iframe, mux-player { display: block; border: 0; width: 100%; height: 100%; object-fit: contain; background: #000; }
+  mux-player { --seek-backward-button: none; --seek-forward-button: none; --playback-rate-button: none; }
+  mux-player::part(center play button) { --media-control-background: var(--blue); --media-control-hover-background: var(--lemon); --media-icon-color: var(--lemon); stroke: none; }
+  mux-player::part(center play button):hover { --media-icon-color: var(--blue); }
   .place { position: absolute; bottom: 36px; right: 3.2vw; z-index: 4; padding: 8px; background: var(--site-card); color: var(--site-ink); transform: rotate(-3deg); font-size: clamp(16px, 1.55vw, 22px); font-weight: 500; letter-spacing: -.04em; box-shadow: 5px 5px 0 var(--site-shadow); display: flex; align-items: center; gap: 4px; max-width: calc(32vw - 20px); }
   .place-details { display: flex; align-items: center; gap: 12px; min-width: 0; padding: 4px; }
   .item-button { flex: 0 0 36px; align-self: stretch; min-height: 44px; border: 0; padding: 0; background: transparent; color: var(--site-ink); font: 400 30px/1 'Space Grotesk', sans-serif; cursor: pointer; }
@@ -138,7 +177,7 @@ const localPreview = import.meta.env.DEV && Boolean(env.JAPAN_TRIP_MEDIA_DIR);
     .film-surface { position: absolute; left: 50%; top: 50%; transform: translate(-50%, -50%); width: min(100cqw, calc(100cqh * 9 / 16)); height: auto; aspect-ratio: 9 / 16; }
     .trip-settings { position: static; grid-area: 1 / 2; justify-self: end; margin: 12px 16px 12px 0; gap: 12px; }
     .trip-switcher { transform: none; padding: 3px; box-shadow: none; }
-    .trip-switcher button { font-size: 16px; min-height: 44px; padding: 8px 14px; }
+    .trip-switcher a { font-size: 16px; min-height: 44px; padding: 8px 14px; }
     .place { position: static; grid-area: 3 / 1 / 4 / -1; justify-self: center; width: calc(100% - 32px); max-width: 480px; margin: 18px 16px; padding: 6px; gap: 0; transform: rotate(-2deg); font-size: 18px; box-shadow: 4px 4px 0 var(--site-shadow); }
     .place-details { flex: 1; flex-direction: row; gap: 10px; padding: 2px 4px; }
     .trip-time { padding-right: 10px; border-right: 1px solid var(--site-rule); font-size: 11px; }
@@ -149,7 +188,7 @@ const localPreview = import.meta.env.DEV && Boolean(env.JAPAN_TRIP_MEDIA_DIR);
   }
   @media (max-width: 370px) {
     .trip-settings { gap: 8px; margin-right: 12px; }
-    .trip-switcher button { padding-inline: 10px; }
+    .trip-switcher a { padding-inline: 10px; }
     .place { font-size: 16px; width: calc(100% - 24px); margin-inline: 12px; padding: 4px; }
     .place-details { gap: 8px; padding-inline: 2px; }
     .trip-time { padding-right: 8px; }

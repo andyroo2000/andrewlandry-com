@@ -1,7 +1,8 @@
 import type { TripYear } from '../data/japan-trips';
 import { createTripLabels } from './trip-labels';
+import { createLabelCanvas } from './trip-label-canvas';
 import { createTripSign } from './trip-sign';
-import { createTripRoute } from './trip-route';
+import { createMapCanvas } from './trip-map-canvas';
 import type { TripDay } from '../data/japan-trip-days';
 import type { MapJourney } from '../data/japan-transfers';
 import { createTransferMarker, sampleJourney } from './trip-transfer';
@@ -12,13 +13,13 @@ const ease = (t: number) => t * t * (3 - 2 * t);
 export function createTripCamera(root: HTMLElement) {
   const map = root.querySelector<HTMLElement>('[data-map]')!;
   const svg = map.querySelector<SVGSVGElement>('svg')!;
-  const world = map.querySelector<SVGGElement>('[data-world]')!;
   const pin = map.querySelector<SVGGElement>('[data-pin]')!;
   const sign = createTripSign(root);
   const journeys = JSON.parse(map.dataset.journeys!) as Record<TripYear, MapJourney>;
   const marker = createTransferMarker(pin);
   const labels = createTripLabels(root);
-  const route = createTripRoute(map);
+  const labelArtwork = createLabelCanvas(root);
+  const artwork = createMapCanvas(map, journeys);
   const desktop = matchMedia('(min-width: 901px) and (hover: hover)');
   const reduced = matchMedia('(prefers-reduced-motion: reduce)');
   let year: TripYear = '2026';
@@ -37,15 +38,22 @@ export function createTripCamera(root: HTMLElement) {
     const frame = sampleJourney(journeys[year], position);
     const [x, y] = frame.point;
     const scale = baseScale * MAP_ZOOM;
-    world.style.setProperty('--map-scale', String(scale));
-    world.setAttribute('transform', `translate(${width * .79},${height * .53}) scale(${scale}) translate(${-x},${-y})`);
-    route.draw(year, position);
-    // The marker sits above the label layer at the camera's fixed anchor.
-    pin.setAttribute('transform', `translate(${width * .79},${height * .53})`);
+    artwork.draw({ x, y, scale, width, height }, year, position);
+    // The marker has its own small SVG at the camera's fixed CSS anchor.
+    // Its pulse must not invalidate the full viewport's label mask.
     pin.dataset.journeyPosition = String(position);
     marker.draw(frame, moving, direction);
     labels.select(year, moving && frame.leg.destination ? frame.leg.destination : journeys[year].stops[index]?.place ?? '');
     labels.draw({ x, y, scale, width, height, zoom: MAP_ZOOM });
+    labelArtwork.draw({ x, y, scale, width, height });
+  }
+
+  function warmNextStop() {
+    if (!desktop.matches) return;
+    const next = journeys[year].stops[index + 1];
+    if (!next) return;
+    const [x, y] = sampleJourney(journeys[year], next.position).point;
+    artwork.warm({ x, y, scale: baseScale * MAP_ZOOM, width, height }, year);
   }
 
   function shouldAnimate(animate: boolean, next: number) {
@@ -64,15 +72,24 @@ export function createTripCamera(root: HTMLElement) {
     const from = position;
     const duration = animationDuration(from, next);
     const began = performance.now();
+    let lastDraw = began - 1000 / 30;
     function step(now: number) {
       if (disposed) return;
       const t = Math.min(1, (now - began) / duration);
+      // Match the video's cadence instead of repainting two map frames per
+      // video frame. Always draw the endpoint, including reduced frame rates.
+      if (t < 1 && now - lastDraw < 1000 / 30 - .5) {
+        animation = requestAnimationFrame(step);
+        return;
+      }
+      lastDraw = now;
       // Interpolate distance along the journey, never screen coordinates. A
       // rapid second seek retargets from this cursor and preserves every bend.
       position = t === 1 ? next : from + (next - from) * ease(t);
       moving = t < 1;
       draw();
       if (moving) animation = requestAnimationFrame(step);
+      else warmNextStop();
     }
     animation = requestAnimationFrame(step);
   }
@@ -100,6 +117,7 @@ export function createTripCamera(root: HTMLElement) {
     svg.setAttribute('viewBox', `0 0 ${width} ${height}`);
     labels.measure(true);
     move(false);
+    warmNextStop();
   }
   const observer = new ResizeObserver(resize);
   observer.observe(root);
@@ -113,7 +131,6 @@ export function createTripCamera(root: HTMLElement) {
     showTrip(nextYear: TripYear) {
       year = nextYear;
       index = -1;
-      map.querySelectorAll<SVGGElement>('[data-route]').forEach(route => { route.style.display = route.dataset.route === year ? '' : 'none'; });
       pin.style.opacity = '0';
       sign.hide();
       labels.select(year, '');
@@ -135,11 +152,14 @@ export function createTripCamera(root: HTMLElement) {
       labels.select(year, stop.place);
       labels.measure();
       move(hadPrevious);
+      if (!moving) warmNextStop();
     },
     destroy() {
       disposed = true;
       cancelAnimationFrame(animation);
       observer.disconnect();
+      artwork.destroy();
+      labelArtwork.destroy();
       desktop.removeEventListener('change', resize);
       reduced.removeEventListener('change', settle);
       document.removeEventListener('visibilitychange', settle);

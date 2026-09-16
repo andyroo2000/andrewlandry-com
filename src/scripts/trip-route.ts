@@ -1,21 +1,21 @@
-import type { TripYear } from '../data/japan-trips';
+import type { JourneyLeg, MapJourney } from '../data/japan-transfers';
+import { sampleJourney } from './trip-transfer';
 
-export function createTripRoute(map: HTMLElement) {
-  const routes = new Map([...map.querySelectorAll<SVGGElement>('[data-route]')].map(group => [
-    group.dataset.route as TripYear,
-    [...group.querySelectorAll<SVGGElement>('[data-journey-segment]')].map(element => ({
-      element, start: Number(element.dataset.start), end: Number(element.dataset.end),
-    })),
-  ]));
-  const fraction = (position: number, start: number, end: number) => end > start ? Math.max(0, Math.min(1, (position - start) / (end - start))) : Number(position >= end);
+type RoutePath = Pick<CanvasPath, 'moveTo' | 'lineTo'>;
 
-  return {
-    draw(year: TripYear, position: number) {
-      routes.get(year)!.forEach(({ element, start, end }) => {
-        const completed = fraction(position, start, end);
-        element.setAttribute('stroke-dashoffset', String(1 - completed));
-        element.style.visibility = completed > 0 ? 'visible' : 'hidden';
-      });
-    },
-  };
+function traceLeg(path: RoutePath, leg: JourneyLeg, distance: number) {
+  path.moveTo(...leg.points[0]!);
+  for (let i = 1; i < leg.points.length; i++) {
+    if (leg.distances[i]! > distance) break;
+    path.lineTo(...leg.points[i]!);
+  }
+}
+
+// Use the marker's same distance cursor so the visible trail ends exactly
+// beneath it, including when seeking backward or crossing transport legs.
+export function traceTripRoute(path: RoutePath, journey: MapJourney, position: number) {
+  const frame = sampleJourney(journey, position);
+  for (const leg of journey.legs.slice(0, frame.index)) traceLeg(path, leg, Infinity);
+  traceLeg(path, frame.leg, Math.max(0, position - frame.leg.start));
+  path.lineTo(...frame.point);
 }

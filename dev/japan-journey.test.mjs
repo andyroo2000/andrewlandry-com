@@ -8,7 +8,7 @@ after(() => server.close());
 const { buildJourney } = await server.ssrLoadModule('/src/data/japan-transfers.ts');
 const { buildRouteMap } = await server.ssrLoadModule('/src/data/japan-route-map.ts');
 const { sampleJourney, createTransferMarker } = await server.ssrLoadModule('/src/scripts/trip-transfer.ts');
-const { createTripRoute } = await server.ssrLoadModule('/src/scripts/trip-route.ts');
+const { traceTripRoute } = await server.ssrLoadModule('/src/scripts/trip-route.ts');
 const { tripItems } = await server.ssrLoadModule('/src/data/japan-trip-items.ts');
 const journeys = Object.fromEntries(['2025', '2026'].map(year => [year, buildJourney(year, buildRouteMap(year))]));
 const near = (a, b, tolerance = 1e-8) => assert.ok(Math.abs(a - b) < tolerance, `${a} != ${b}`);
@@ -163,32 +163,42 @@ test('train clip arrives at the station, Strava card holds there, and cycling st
   assert.ok(trainClipDuration > 3.5, 'Train must finish before the Strava card is revealed');
 });
 
-test('transport leaves a completed breadcrumb trail before cycling begins', () => {
+function tracedRoute(journey, position) {
+  const legs = [];
+  traceTripRoute({
+    moveTo(x, y) { legs.push([[x, y]]); },
+    lineTo(x, y) { legs.at(-1).push([x, y]); },
+  }, journey, position);
+  return legs;
+}
+
+test('transport leaves an exact breadcrumb trail, and seeking backward removes future progress', () => {
   const journey = journeys['2026'];
-  const rows = journey.legs.map(leg => ({
-    dataset: { start: String(leg.start), end: String(leg.end) }, style: {}, attributes: {},
-    setAttribute(name, value) { this.attributes[name] = value; },
-  }));
-  const route = createTripRoute({ querySelectorAll: () => [{ dataset: { route: '2026' }, querySelectorAll: () => rows }] });
   const trainIndex = journey.legs.findIndex(leg => leg.mode === 'train');
   const train = journey.legs[trainIndex];
-  const rideIndex = journey.legs.findIndex(leg => leg.activity === '19129076576');
-  route.draw('2026', (train.start + train.end) / 2);
-  near(Number(rows[trainIndex].attributes['stroke-dashoffset']), .5);
-  assert.equal(rows[trainIndex].style.visibility, 'visible');
-  assert.equal(rows[rideIndex].style.visibility, 'hidden');
-  route.draw('2026', journey.stops[5].position);
-  near(Number(rows[trainIndex].attributes['stroke-dashoffset']), 0);
-  assert.ok(rows.slice(trainIndex + 1).every(row => row.style.visibility === 'hidden'), 'Day 1 card ends at the station without advancing the bike approach');
-  const atStation = structuredClone(rows.map(row => ({ style: row.style, attributes: row.attributes })));
-  route.draw('2026', journey.stops[6].position);
-  assert.deepEqual(rows.map(row => ({ style: row.style, attributes: row.attributes })), atStation, 'Strava card must not advance or reset the trail');
-  route.draw('2026', journey.stops[7].position);
-  near(Number(rows[trainIndex].attributes['stroke-dashoffset']), 0);
-  assert.equal(rows[rideIndex].style.visibility, 'visible');
-  route.draw('2026', train.start);
-  assert.equal(rows[trainIndex].style.visibility, 'hidden');
+  const middle = (train.start + train.end) / 2;
+  const trail = tracedRoute(journey, middle);
+  assert.equal(trail.length, trainIndex + 1, 'No bike approach can appear before the train arrives');
+  samePoint(trail.at(-1).at(-1), sampleJourney(journey, middle).point);
+  journey.legs.slice(0, trainIndex).forEach((leg, i) => assert.deepEqual(trail[i], leg.points));
+  const atStation = tracedRoute(journey, journey.stops[5].position);
+  samePoint(atStation.at(-1).at(-1), train.points.at(-1));
+  assert.deepEqual(tracedRoute(journey, journey.stops[6].position), atStation, 'Strava card holds the complete trail');
+  assert.ok(tracedRoute(journey, journey.stops[7].position).length > atStation.length);
+  assert.deepEqual(tracedRoute(journey, middle), trail, 'Backward seeking must discard later geometry');
 });
+
+for (const year of ['2025', '2026']) {
+  test(`${year}: rendered trail and camera share the exact endpoint at all stories and leg midpoints`, () => {
+    const journey = journeys[year];
+    const positions = [...journey.stops.map(stop => stop.position),
+      ...journey.legs.map(leg => (leg.start + leg.end) / 2), -1, journey.total + 1];
+    for (const position of positions) {
+      const trail = tracedRoute(journey, position);
+      samePoint(trail.at(-1).at(-1), sampleJourney(journey, position).point);
+    }
+  });
+}
 
 test('marker switches from transport to the location dot while riding and at ride stops', () => {
   const pin = { dataset: { mode: 'dot' }, querySelector: () => ({ setAttribute() {} }) };

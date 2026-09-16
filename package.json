@@ -15,6 +15,7 @@
     "deploy": "wrangler deploy"
   },
   "dependencies": {
+    "@mux/mux-player": "^3.13.3",
     "astro": "^7.3.2",
     "d3-geo": "^3.1.1"
   },
