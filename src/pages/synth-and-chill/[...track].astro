@@ -124,7 +124,7 @@ const selected = track ?? tracks[0]!;
   :global(.session-video) { display: block; width: 100%; aspect-ratio: 16 / 9; min-height: 200px; border: 0; background: #0b1020; }
   mux-player { --seek-backward-button: none; --seek-forward-button: none; --playback-rate-button: none; --time-display: none; --duration-display: none; }
   mux-player::part(center play button) { --media-control-background: var(--blue); --media-control-hover-background: var(--lemon); --media-icon-color: var(--lemon); stroke: none; }
-  mux-player::part(button):hover { --media-icon-color: var(--blue); color: var(--blue); }
+  mux-player::part(button):hover { --media-control-hover-background: var(--lemon); --media-icon-color: var(--blue); color: var(--blue); }
   .film-caption { display: grid; grid-template-columns: auto minmax(0,1fr) auto; align-items: center; padding: 9px 5px; gap: 10px; }
   .film-caption button:focus-visible { outline: 3px solid var(--ink); outline-offset: -3px; }
   .track-title { text-align: center; font-size: 16px; font-weight: 500; line-height: 1.3; overflow-wrap: anywhere; }
