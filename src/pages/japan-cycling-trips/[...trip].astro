@@ -124,11 +124,11 @@ const localPreview = import.meta.env.DEV && Boolean(env.JAPAN_TRIP_MEDIA_DIR);
   video, mux-player { display: block; border: 0; width: 100%; height: 100%; object-fit: contain; background: #000; }
   mux-player { --seek-backward-button: none; --seek-forward-button: none; --playback-rate-button: none; }
   mux-player::part(center play button) { --media-control-background: var(--blue); --media-control-hover-background: var(--lemon); --media-icon-color: var(--lemon); stroke: none; }
-  mux-player::part(center play button):hover { --media-icon-color: var(--blue); }
+  mux-player::part(button):hover { --media-icon-color: var(--blue); color: var(--blue); }
   .place { position: absolute; bottom: 36px; right: 3.2vw; z-index: 4; padding: 8px; background: var(--site-card); color: var(--site-ink); transform: rotate(-3deg); font-size: clamp(16px, 1.55vw, 22px); font-weight: 500; letter-spacing: -.04em; box-shadow: 5px 5px 0 var(--site-shadow); display: flex; align-items: center; gap: 4px; max-width: calc(32vw - 20px); }
   .place-details { display: flex; align-items: center; gap: 12px; min-width: 0; padding: 4px; }
   .item-button { flex: 0 0 36px; align-self: stretch; min-height: 44px; border: 0; padding: 0; background: transparent; color: var(--site-ink); font: 400 30px/1 'Space Grotesk', sans-serif; cursor: pointer; }
-  .item-button:hover:not(:disabled) { background: var(--lemon); color: #101835; }
+  .item-button:hover:not(:disabled) { background: var(--lemon); color: var(--blue); }
   .item-button:disabled { opacity: .25; cursor: default; }
   .place[hidden] { display: none; }
   .trip-time { display: grid; gap: 3px; flex-shrink: 0; padding-right: 14px; border-right: 1px solid var(--site-rule); font-size: 12px; letter-spacing: 0; }
