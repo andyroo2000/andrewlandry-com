@@ -23,3 +23,11 @@ test('returning after a pause draws once, without a burst of catch-up frames', (
   assert.equal(shouldDraw(10008), false);
   assert.equal(shouldDraw(10017), true);
 });
+
+test('ordinary display jitter and an arbitrary clock phase do not discard 60 Hz frames', () => {
+  for (const phase of [0, 4.3, 16.5, 1834.75]) {
+    const shouldDraw = createFrameClock();
+    const timestamps = Array.from({ length: 600 }, (_, frame) => phase + frame * 1000 / 60 + Math.sin(frame * .7) * .8);
+    assert.equal(timestamps.filter(shouldDraw).length, 600);
+  }
+});

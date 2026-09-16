@@ -4,7 +4,7 @@ import ArrowUpRight from '../../components/ArrowUpRight.astro';
 import ThemeHead from '../../components/ThemeHead.astro';
 import { env } from 'node:process';
 import { trips, type TripYear } from '../../data/japan-trips';
-import { hasMuxVideos, muxPlaybackId } from '../../data/mux-videos';
+import { muxPlaybackId } from '../../data/mux-videos';
 import { tripYears, tripSegments, tripYearPath } from '../../data/japan-trip-links';
 
 export function getStaticPaths() {
@@ -19,12 +19,10 @@ export function getStaticPaths() {
   ];
 }
 interface Props { year: TripYear; seconds?: number }
-const { year, seconds = 0 } = Astro.props;
+const { year } = Astro.props;
 const videoId = trips[year].videoId;
 const videoTitle = `Hokkaido cycling trip ${year}`;
 const localPreview = import.meta.env.DEV && Boolean(env.JAPAN_TRIP_MEDIA_DIR);
-const useMux = !(import.meta.env.DEV && env.JAPAN_TRIP_USE_YOUTUBE === '1')
-  && hasMuxVideos(Object.values(trips).map(trip => trip.videoId));
 ---
 <!doctype html>
 <html lang="en" data-theme="light">
@@ -63,7 +61,7 @@ const useMux = !(import.meta.env.DEV && env.JAPAN_TRIP_USE_YOUTUBE === '1')
               src={`/__trip-media/${year}.mp4`}
               aria-label={videoTitle}
             >Your browser does not support video playback.</video>
-          ) : useMux ? (
+          ) : (
             <mux-player
               id="trip-mux"
               playback-id={muxPlaybackId(videoId)}
@@ -75,15 +73,6 @@ const useMux = !(import.meta.env.DEV && env.JAPAN_TRIP_USE_YOUTUBE === '1')
               aria-label={videoTitle}
               muted
             ></mux-player>
-          ) : (
-            <iframe
-              id="trip-youtube"
-              title={videoTitle}
-              src={`https://www.youtube.com/embed/${videoId}?enablejsapi=1&playsinline=1&rel=0&start=${Math.floor(seconds)}`}
-              allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
-              referrerpolicy="strict-origin-when-cross-origin"
-              allowfullscreen
-            ></iframe>
           )}
         </div>
       </section>
@@ -96,14 +85,14 @@ const useMux = !(import.meta.env.DEV && env.JAPAN_TRIP_USE_YOUTUBE === '1')
         <button type="button" class="item-button" data-next-item aria-label="Next story" aria-keyshortcuts="ArrowRight" title="Next story (→)" disabled><span aria-hidden="true">›</span></button>
       </div>
       <div class="map-credit"><a href="https://www.openstreetmap.org/copyright">© OpenStreetMap contributors</a><span> · </span><a href="/data/japan-map-SOURCES.txt">Map data</a></div>
-      <a class="video-fallback" data-video-fallback href={`https://youtu.be/${videoId}?t=${Math.floor(seconds)}`} hidden>Open video on YouTube <ArrowUpRight /></a>
-      <noscript><style>.video-fallback[hidden] { display: block; }</style></noscript>
+      <p class="video-error" data-video-error role="status" hidden>The video could not load. Please reload the page to try again.</p>
+      <noscript><p class="video-error">Enable JavaScript to play these videos.</p></noscript>
     </main>
     <script>
       import { prepareMuxPlayers } from '../../scripts/mux-player';
       void prepareMuxPlayers().then(() => import('../../scripts/japan-cycling')).catch(error => {
         console.error('Video player initialization failed', error);
-        document.querySelector<HTMLElement>('[data-video-fallback]')!.hidden = false;
+        document.querySelector<HTMLElement>('[data-video-error]')!.hidden = false;
       });
     </script>
   </body>
@@ -132,7 +121,7 @@ const useMux = !(import.meta.env.DEV && env.JAPAN_TRIP_USE_YOUTUBE === '1')
   .film { position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); height: calc(100% - 110px); max-width: 40vw; aspect-ratio: 9 / 16; z-index: 3; }
   .film::before { content: ''; position: absolute; inset: -7px; background: var(--site-card); box-shadow: 10px 10px 0 var(--site-shadow); }
   .film-surface { height: 100%; width: 100%; position: relative; background: #000; }
-  video, iframe, mux-player { display: block; border: 0; width: 100%; height: 100%; object-fit: contain; background: #000; }
+  video, mux-player { display: block; border: 0; width: 100%; height: 100%; object-fit: contain; background: #000; }
   mux-player { --seek-backward-button: none; --seek-forward-button: none; --playback-rate-button: none; }
   mux-player::part(center play button) { --media-control-background: var(--blue); --media-control-hover-background: var(--lemon); --media-icon-color: var(--lemon); stroke: none; }
   mux-player::part(center play button):hover { --media-icon-color: var(--blue); }
@@ -149,7 +138,7 @@ const useMux = !(import.meta.env.DEV && env.JAPAN_TRIP_USE_YOUTUBE === '1')
   .current-place { min-width: 0; overflow-wrap: anywhere; }
   .map-credit { position: absolute; left: 4vw; bottom: 15px; z-index: 2; font-size: 10px; color: #fff; }
   .map-credit a:hover { text-decoration: underline; }
-  .video-fallback { position: absolute; left: 50%; bottom: 12px; transform: translateX(-50%); z-index: 6; background: var(--site-card); color: var(--site-ink); padding: 10px 16px; white-space: nowrap; }
+  .video-error { position: absolute; left: 50%; bottom: 12px; transform: translateX(-50%); z-index: 6; background: var(--site-card); color: var(--site-ink); margin: 0; padding: 10px 16px; white-space: nowrap; }
   ::selection { background: var(--lemon); color: var(--blue); }
   @media (min-width: 901px) and (max-width: 1200px) {
     .place { max-width: calc(26.8vw - 26px); padding: 6px; }
@@ -184,7 +173,7 @@ const useMux = !(import.meta.env.DEV && env.JAPAN_TRIP_USE_YOUTUBE === '1')
     .trip-day-row { flex-direction: column; gap: 2px; }
     .trip-distance { font-size: 10px; }
     .item-button { flex-basis: 44px; }
-    .video-fallback { top: 50%; bottom: auto; transform: translate(-50%, -50%); max-width: calc(100% - 32px); white-space: normal; text-align: center; }
+    .video-error { top: 50%; bottom: auto; transform: translate(-50%, -50%); max-width: calc(100% - 32px); white-space: normal; text-align: center; }
   }
   @media (max-width: 370px) {
     .trip-settings { gap: 8px; margin-right: 12px; }

@@ -5,7 +5,7 @@ export type PlaybackReader = () => PlaybackSnapshot | undefined;
 export type AudioTimeline = { track: AudioTrack; seconds: number };
 export type AudioFrame = { audio: AudioFeatures; timeline?: AudioTimeline };
 
-// Re-anchor on every new YouTube timestamp. Extrapolate only between updates,
+// Re-anchor on every new player timestamp. Extrapolate only between updates,
 // and cap the estimate so a stalled player cannot leave the real music behind.
 export function createPlaybackClock() {
   let previous: PlaybackSnapshot | undefined;

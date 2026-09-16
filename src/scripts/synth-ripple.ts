@@ -3,6 +3,7 @@ import { terrainShake } from './synth-terrain-style';
 import { createRippleEventReader } from './synth-ripple-events';
 import { createRainPlanReader, rainGap, sampleRainDrop } from './synth-ripple-rain';
 import { paintNeonObject } from './synth-rain-objects';
+import { drawRainBeam } from './synth-rain-beam';
 
 export const RIPPLE_PALETTE = ['#f2f76c', '#ff8b83', '#b6a0ff', '#89e4c8', '#fffef6'];
 const readEvents = createRippleEventReader();
@@ -56,6 +57,7 @@ function drawFloor(context: CanvasRenderingContext2D, size: Viewport, time: numb
 export function drawRipple(context: CanvasRenderingContext2D, size: Viewport, settings: VisualSettings, floorContext = context) {
   const { time, events } = readEvents(settings);
   const plan = readPlan(events, size, settings);
+  drawRainBeam(context, size, plan, time);
   const vibration = terrainShake(settings.time, settings.audio.deepBass ?? 0);
   const shake = { x: vibration.x * .35, y: vibration.y * .35 };
   for (const drop of plan) {

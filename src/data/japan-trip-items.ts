@@ -16,7 +16,7 @@ export type TripItem = {
 export const tripItems = data as Record<TripYear, TripItem[]>;
 
 // These cuts come from the original edit plus the encoded video's start PTS.
-// They are independent of YouTube chapters and work for four-second photos.
+// They are independent of player chapters and work for four-second photos.
 export function itemAtTime(year: TripYear, seconds: number): number {
   const items = tripItems[year];
   let low = 0;

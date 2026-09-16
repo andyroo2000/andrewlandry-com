@@ -1,13 +1,13 @@
-import { connectSynthPlayer, createTrackTitleLoader, readSynthPlayback, youtubeVideoId, type SynthPlayer } from './synth-youtube';
+import tracks from '../data/synth-tracks.json';
+import { readSynthPlayback, type SynthPlayer } from './synth-playback';
 import { initSynthKeyboard } from './synth-keyboard';
 import { syncSynthTrackUrl, synthTrackPageTitle } from './synth-track-links';
 import type MuxPlayerElement from '@mux/mux-player';
 import { connectMuxSynth } from './synth-mux';
 
 export function initSynthPlayer() {
-  const iframe = document.querySelector<HTMLIFrameElement>('#synth-youtube');
   const mux = document.querySelector<MuxPlayerElement>('#synth-mux');
-  if (!iframe && !mux) return () => undefined;
+  if (!mux) return () => undefined;
   const listen = document.querySelector<HTMLButtonElement>('[data-listen]')!;
   const label = document.querySelector<HTMLElement>('[data-listen-label]')!;
   const icon = document.querySelector<HTMLElement>('[data-listen-icon]')!;
@@ -17,9 +17,8 @@ export function initSynthPlayer() {
   const message = document.querySelector<HTMLElement>('[data-player-message]')!;
   const abort = new AbortController();
   const options = { signal: abort.signal };
-  const loadTitle = createTrackTitleLoader();
   let player: SynthPlayer | undefined;
-  let currentUrl = '';
+  let currentId = '';
   let hasPlayed = false;
   let poll: ReturnType<typeof setInterval> | undefined;
 
@@ -34,25 +33,16 @@ export function initSynthPlayer() {
     next.disabled = index < 0 || index >= videos.length - 1;
     return index;
   }
-  function updateTitle(url: string, index: number) {
-    currentUrl = url;
-    title.textContent = `Track ${index + 1}`;
-    void loadTitle(url).then(name => {
-      if (!abort.signal.aborted && currentUrl === url) {
-        title.textContent = name;
-        document.title = synthTrackPageTitle(name);
-      }
-    }).catch(() => { if (currentUrl === url) currentUrl = ''; });
-  }
   function updateTrack() {
     if (!player) return;
     const index = updateNavigation(player);
-    const videoId = youtubeVideoId(player.getVideoUrl());
-    if (!videoId) return;
+    const videoId = player.getVideoId();
     syncSynthTrackUrl(videoId);
-    // YouTube can append seek timestamps; those do not change the track title.
-    const url = `https://www.youtube.com/watch?v=${videoId}`;
-    if (url !== currentUrl) updateTitle(url, index);
+    if (videoId === currentId) return;
+    currentId = videoId;
+    const name = tracks.find(track => track.videoId === videoId)?.title ?? `Track ${index + 1}`;
+    title.textContent = name;
+    document.title = synthTrackPageTitle(name);
   }
   function updatePlayback(state: number) {
     if (state === 1) { hasPlayed = true; message.hidden = true; }
@@ -67,7 +57,6 @@ export function initSynthPlayer() {
   }
   function ready(event: { target: SynthPlayer }) {
     player = event.target;
-    player.setShuffle(false);
     listen.disabled = false;
     updateTrack();
     startPolling();
@@ -95,7 +84,7 @@ export function initSynthPlayer() {
     onError: () => showMessage('This track could not play. Try the next track or reload the page.'),
     onAutoplayBlocked: () => showMessage('Tap play in the video to start listening.'),
   };
-  const connection = mux ? connectMuxSynth(mux, events, abort.signal) : connectSynthPlayer(iframe!, events, abort.signal);
-  void connection.catch(() => showMessage('The player could not load. Reload the page or use the YouTube link below.'));
+  const connection = connectMuxSynth(mux, events, abort.signal);
+  void connection.catch(() => showMessage('The player could not load. Please reload the page to try again.'));
   return () => readSynthPlayback(player);
 }

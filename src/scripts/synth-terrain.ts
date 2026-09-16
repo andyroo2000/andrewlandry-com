@@ -18,7 +18,7 @@ function terrainRow(row: number, camera: TerrainCamera, settings: VisualSettings
   // it stay anchored to their recorded times as they drift toward us.
   const recordedAt = row < 0 ? seconds : terrainRowTime(seconds, row);
   const z = TERRAIN_FAR_DISTANCE - (seconds - recordedAt) * TRAVEL_SPEED;
-  const lift = (.3 + terrainDepth(settings.depth) * .95) * .75;
+  const lift = (.3 + terrainDepth(settings.depth) * .95) * .675;
   const bounds = visibleColumns(camera, z);
   const points = Array.from({ length: bounds * 2 / MESH_COLUMN_STEP + 1 }, (_, index) => {
     const column = index * MESH_COLUMN_STEP - bounds;
