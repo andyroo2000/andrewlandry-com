@@ -180,7 +180,7 @@ const projects = [
 </html>
 <style>
   :global(*) { box-sizing: border-box; }
-  :global(html) { scroll-padding-top: 32px; }
+  :global(html) { scroll-padding-top: 32px; scroll-behavior: smooth; }
   :global(body) { margin: 0; background: var(--site-bg); color: var(--site-text); font-family: 'Space Grotesk', sans-serif; font-size: 17px; line-height: 1.65; }
   :global(::selection) { background: #f2f76c; color: #2446ee; }
   h1, h2, h3, h4, p, figure, dl, dd { margin: 0; }
@@ -286,6 +286,9 @@ const projects = [
     .job-top > span { display: block; margin-top: 10px; }
     .education-grid { grid-template-columns: 1fr; gap: 40px; }
     footer { flex-direction: column; }
+  }
+  @media (prefers-reduced-motion: reduce) {
+    :global(html) { scroll-behavior: auto; }
   }
   @media print {
     :global(body) { background: white; color: #111; font-size: 11pt; }
