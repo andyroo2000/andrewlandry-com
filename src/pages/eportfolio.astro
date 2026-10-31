@@ -15,14 +15,14 @@ const skills = [
 const projects = [
   {
     id: 'convolab', number: '01', title: 'ConvoLab', category: 'Product & API engineering',
-    date: '2026 · Ongoing', role: 'Personal project · Product design and development',
+    date: '2026 · Ongoing', role: 'Product design and development',
     image: '/eportfolio/convolab.jpg',
     alt: 'ConvoLab’s public Japanese date practice tool, with an answer reveal and calendar.',
-    caption: 'A public practice tool from the wider ConvoLab learning product.',
+    caption: 'ConvoLab’s date practice tool, available without an account.',
     purpose: 'I built ConvoLab around a practical problem in my own language study: turning learning material into regular, usable practice. It brings together flashcard review, audio, and focused exercises, with public practice tools and a native iOS client.',
     approach: 'My work spans the product experience, backend APIs, and client behavior. The iOS client stores study data locally and queues review events for synchronization. Stable event identifiers let the server recognize a retried review instead of recording it twice.',
     evidence: 'The public date trainer offers a small, immediately usable example of the product. The native client’s source and architecture notes show how offline study, media preparation, and synchronization fit together.',
-    reflection: 'This project connects API design with the experience of the person using it. A review can look complete on a device while still waiting to reach the server; handling that gap makes reliability part of the product design.',
+    reflection: 'A completed review can still be waiting to reach the server. Keeping local study data separate from pending writes lets a session continue through a lost connection, while stable event identifiers prevent retries from recording the same review twice.',
     demonstrated: 'API development · Systems thinking · Product design',
     links: [
       { label: 'Try the public tool', href: 'https://convo-lab.com/tools/japanese-date' },
@@ -32,14 +32,14 @@ const projects = [
   {
     id: 'japan-cycling', number: '02', title: 'Japan Cycling Trips', category: 'Data visualization & storytelling',
     date: 'September 2026 · Trips recorded in 2025 & 2026',
-    role: 'Personal project · Film, data preparation, and web development',
+    role: 'Film, data preparation, and web development',
     image: '/eportfolio/japan-cycling.jpg',
     alt: 'Japan Cycling Trips showing a Hokkaido trip film alongside its synchronized route map.',
     caption: 'The desktop map connects a moment in the film to its place in the journey.',
     purpose: 'I created this interactive collection to give my cycling films a sense of place. Instead of asking viewers to infer the route from individual clips, I paired the films with a map that follows the journey as the video plays.',
     approach: 'I combined 34 Strava GPX recordings with photo and video timestamps, then mapped the media onto an ordered route. I kept cycling separate from transport legs and preserved the distinction between recorded locations and illustrative travel paths.',
     evidence: 'The two trips contain 250 story items. On desktop, playback and seeking update the route, location, and map position together. The implementation uses cached map tiles and a separate label layer to keep complex geography from being redrawn on every frame.',
-    reflection: 'This is where my interest in data analytics meets interface design. The useful result is not simply a plotted line: it is a sequence that makes sense to a viewer while staying honest about the source data and its gaps.',
+    reflection: 'This project gave me a practical way to work with incomplete data. Some clips have no GPS location, and transport paths have different sources from recorded rides. Keeping source data separate from presentation rules made the map easier to follow without changing recorded distances or treating estimated routes as GPS recordings.',
     demonstrated: 'Data integration · Geospatial visualization · Performance',
     links: [
       { label: 'Explore the trips', href: '/japan-cycling-trips/' },
@@ -48,14 +48,14 @@ const projects = [
   },
   {
     id: 'synth-and-chill', number: '03', title: 'Synth & Chill', category: 'Audio analysis & creative engineering',
-    date: 'September 2026', role: 'Personal project · Music, visual design, and development',
+    date: 'September 2026', role: 'Music, visual design, and development',
     image: '/eportfolio/synth-and-chill.jpg',
     alt: 'Synth & Chill with a synthesizer performance, playback controls, and a terrain visualization.',
     caption: 'A listening room for my synthesizer sessions, with music-responsive visuals.',
-    purpose: 'I built Synth & Chill to turn my recorded synthesizer sessions into a more immersive listening experience. It brings my music background together with software engineering through two visualizations: Terrain and Rain.',
+    purpose: 'I built Synth & Chill as a place to share my recorded synthesizer sessions. I wanted the visuals to respond to the music, so I built two audio-driven scenes: Terrain and Rain.',
     approach: 'I used Python audio analysis to prepare volume and frequency-band measurements, then connected those measurements to browser visuals driven by the player’s clock. Pausing, seeking, and changing tracks keep the visuals aligned with the current recording.',
     evidence: 'Visitors can play the sessions and switch between the two visualizations. The player has keyboard controls, pauses background drawing in hidden tabs, and respects reduced-motion preferences. When analysis is unavailable, it uses ambient motion rather than another track’s data.',
-    reflection: 'The project shows how analysis can support a creative experience. Timing, rendering cost, and accessible controls all affect whether the visuals complement the music. It also gives me a practical way to combine artistic judgment with measurable playback behavior.',
+    reflection: 'Using the player’s clock as a common reference keeps the animation aligned after a seek or pause. I also had to balance visual detail with rendering cost and make the movement optional. The project let me apply audio analysis to my own music while working through those interface and performance constraints.',
     demonstrated: 'Python · Audio analysis · Accessible interaction design',
     links: [
       { label: 'Enter the listening room', href: '/synth-and-chill/' },
@@ -83,7 +83,6 @@ const projects = [
     <a class="skip" href="#main">Skip to content</a>
     <header class="masthead wrap">
       <a class="monogram" href="/" aria-label="Andrew Landry home">AL <ArrowUpRight /></a>
-      <span class="edition">Professional ePortfolio / 2026</span>
       <nav aria-label="Portfolio sections">
         <a href="#work">Selected work</a>
         <a href="#experience">Experience</a>
@@ -104,15 +103,13 @@ const projects = [
         </div>
         <figure class="portrait">
           <img src="/eportfolio/andrew-landry.webp" srcset="/eportfolio/andrew-landry-260.webp 260w, /eportfolio/andrew-landry.webp 520w" sizes="(max-width: 700px) 171px, (max-width: 1000px) 186px, 236px" width="520" height="520" alt="Andrew Landry, wearing glasses against a gray background." fetchpriority="high" />
-          <figcaption>Engineer. Maker. Lifelong learner.</figcaption>
         </figure>
       </section>
 
       <section id="work" class="work" aria-labelledby="work-title">
         <div class="wrap">
           <header class="section-heading">
-            <div><p class="eyebrow">Three projects / Three ways of thinking</p><h2 id="work-title">Selected work<span>.</span></h2></div>
-            <p>Useful products, meaningful data,<br />and room to experiment.</p>
+            <h2 id="work-title">Selected work<span>.</span></h2>
           </header>
           <nav class="project-index" aria-label="Selected projects">
             {projects.map(project => <a href={`#${project.id}`}><span>{project.number}</span>{project.title}<span aria-hidden="true">↓</span></a>)}
@@ -126,23 +123,22 @@ const projects = [
               <div class="project-grid">
                 <div class="project-media">
                   <figure>
-                    <a href={project.links[0].href} aria-label={`Explore ${project.title}`}><img src={project.image} width="1710" height="896" loading="lazy" alt={project.alt} /></a>
+                    <a href={project.links[0].href} target="_blank" rel="noopener noreferrer" aria-label={`Explore ${project.title} (opens in a new tab)`}><img src={project.image} width="1710" height="896" loading="lazy" alt={project.alt} /></a>
                     <figcaption>{project.caption}</figcaption>
                   </figure>
-                  <dl class="project-meta"><div><dt>When</dt><dd>{project.date}</dd></div><div><dt>My role</dt><dd>{project.role}</dd></div></dl>
+                  <dl class="project-meta"><div><dt>When</dt><dd>{project.date}</dd></div><div><dt>Team</dt><dd>Independent project</dd></div><div><dt>My role</dt><dd>{project.role}</dd></div></dl>
                   <p class="demonstrated">{project.demonstrated}</p>
-                  <div class="project-links">{project.links.map(link => <a class="text-link" href={link.href}>{link.label}<ArrowUpRight /></a>)}</div>
+                  <div class="project-links">{project.links.map(link => <a class="text-link" href={link.href} target="_blank" rel="noopener noreferrer" aria-label={`${link.label} (opens in a new tab)`}>{link.label}<ArrowUpRight /></a>)}</div>
                 </div>
                 <div class="project-story">
                   <h4>Why I made it</h4><p>{project.purpose}</p>
                   <h4>What I built</h4><p>{project.approach}</p>
                   <h4>What the work demonstrates</h4><p>{project.evidence}</p>
-                  <div class="reflection"><h4>What I take from it</h4><p>{project.reflection}</p></div>
+                  <div class="reflection"><h4>What I learned</h4><p>{project.reflection}</p></div>
                 </div>
               </div>
             </article>
           ))}
-          <p class="credits">These are my personal projects, developed with AI-assisted tooling. The linked sources document the software and third-party data used; the cycling map includes OpenStreetMap attribution.</p>
         </div>
       </section>
 
@@ -170,17 +166,16 @@ const projects = [
 
       <section id="education" class="education" aria-labelledby="education-title">
         <div class="wrap education-grid">
-          <div><p class="eyebrow">Continuing to learn</p><h2 id="education-title">Education<span>.</span></h2>
+          <div><h2 id="education-title">Education<span>.</span></h2>
             <h3>University of North Texas</h3>
             <p class="degree">Bachelor of Applied Arts and Sciences</p>
             <p>Concentration: Data Analytics<br />Expected graduation: December 2026</p>
-            <p class="education-note">I’m bringing an analytical perspective to the systems I build: how data is collected, interpreted, and turned into useful decisions and experiences.</p>
           </div>
-          <div class="skills"><h3>Skills I bring to the work</h3><dl>{skills.map(skill => <div><dt>{skill.name}</dt><dd>{skill.detail}</dd></div>)}</dl></div>
+          <div class="skills"><h3>Skills</h3><dl>{skills.map(skill => <div><dt>{skill.name}</dt><dd>{skill.detail}</dd></div>)}</dl></div>
         </div>
       </section>
     </main>
-    <footer class="wrap"><p>Andrew Landry <span aria-hidden="true">/</span> ePortfolio</p><div><a href="https://www.linkedin.com/in/andrew-landry-8520623/">LinkedIn <ArrowUpRight /></a><a href="https://github.com/andyroo2000">GitHub <ArrowUpRight /></a><a href="#name">Back to top ↑</a></div></footer>
+    <footer class="wrap"><p>Andrew Landry <span aria-hidden="true">/</span> ePortfolio</p><div><a href="https://www.linkedin.com/in/andrew-landry-8520623/" target="_blank" rel="noopener noreferrer" aria-label="LinkedIn (opens in a new tab)">LinkedIn <ArrowUpRight /></a><a href="https://github.com/andyroo2000" target="_blank" rel="noopener noreferrer" aria-label="GitHub (opens in a new tab)">GitHub <ArrowUpRight /></a><a href="#name">Back to top ↑</a></div></footer>
   </body>
 </html>
 <style>
@@ -199,7 +194,7 @@ const projects = [
   .masthead { display: flex; align-items: center; gap: 28px; padding-block: 28px; border-bottom: 1px solid #ffffff45; font-size: 13px; }
   .monogram { display: flex; align-items: center; gap: 10px; text-decoration: none; font-size: 24px; font-weight: 700; letter-spacing: -.08em; }
   .monogram :global(svg) { width: 19px; height: 19px; }
-  .edition { margin-right: auto; }
+  .masthead nav { margin-left: auto; }
   nav { display: flex; flex-wrap: wrap; gap: 24px; }
   .masthead nav a { text-decoration: none; }
   .masthead nav a:hover { text-decoration: underline; }
@@ -215,11 +210,8 @@ const projects = [
   .text-link { display: inline-flex; align-items: center; gap: 12px; font-weight: 500; text-decoration-thickness: 1px; }
   .text-link :global(svg) { width: 17px; height: 17px; flex-shrink: 0; }
   .intro-link { margin-top: 28px; color: var(--site-accent); }
-  .portrait { background: #fffef6; color: #2446ee; padding: 12px 12px 16px; transform: rotate(3deg); box-shadow: 9px 9px 0 #142ec2; }
-  .portrait figcaption { margin-top: 14px; font-size: 12px; text-align: center; }
+  .portrait { background: #fffef6; color: #2446ee; padding: 12px; transform: rotate(3deg); box-shadow: 9px 9px 0 #142ec2; }
   .work { background: #fffef6; color: #1531b2; padding-block: 72px; }
-  .section-heading { display: flex; justify-content: space-between; gap: 30px; align-items: end; }
-  .section-heading > p { font-size: 16px; }
   h2 { font-size: clamp(36px, 4.1vw, 56px); margin-top: 12px; }
   .section-heading h2 span { color: #2446ee; }
   .project-index { border-block: 1px solid #2446ee45; margin-top: 36px; padding-block: 20px; display: grid; grid-template-columns: repeat(3, 1fr); gap: 30px; }
@@ -243,7 +235,6 @@ const projects = [
   h4 { font-size: 15px; color: #1531b2; font-weight: 600; margin-bottom: 8px; }
   .project-story > p { margin-bottom: 24px; }
   .reflection { border-left: 3px solid #2446ee; padding-left: 20px; }
-  .credits { font-size: 13px; line-height: 1.6; max-width: 780px; padding-top: 26px; }
   .experience { display: grid; grid-template-columns: 1fr 2fr; gap: 8%; padding-block: 84px; }
   .experience h2 span { color: var(--site-accent); }
   .job + .job { border-top: 1px solid #ffffff45; margin-top: 40px; padding-top: 40px; }
@@ -258,7 +249,6 @@ const projects = [
   .education-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 12%; }
   .education h3 { font-size: 25px; margin-top: 36px; }
   .degree { font-weight: 600; margin-block: 18px 8px; }
-  .education-note { max-width: 460px; font-size: 15px; margin-top: 28px; }
   .skills h3 { margin-top: 0; }
   .skills dl { margin-top: 24px; }
   .skills dl > div { border-top: 1px solid #2446ee45; padding-block: 13px; }
@@ -280,14 +270,11 @@ const projects = [
     :global(body) { font-size: 16px; }
     .wrap { width: 88%; }
     .masthead { padding-block: 20px; }
-    .edition { font-size: 11px; }
     .masthead nav { gap: 12px 22px; font-size: 12px; }
     .intro { grid-template-columns: 1fr; padding-block: 48px 60px; gap: 36px; }
     h1 { font-size: clamp(36px, 8.8vw, 60px); }
     .role { font-size: 15px; }
     .portrait { width: 195px; justify-self: end; margin-right: 5px; }
-    .section-heading { display: block; }
-    .section-heading > p { margin-top: 20px; }
     .project-index { grid-template-columns: 1fr; gap: 16px; }
     .project { padding-block: 40px; }
     .project-heading { gap: 16px; }
