@@ -22,7 +22,7 @@ const projects = [
     purpose: 'I built ConvoLab around a practical problem in my own language study: turning learning material into regular, usable practice. It brings together flashcard review, audio, and focused exercises, with public practice tools and a native iOS client.',
     approach: 'My work spans the product experience, backend APIs, and client behavior. The iOS client stores study data locally and queues review events for synchronization. Stable event identifiers let the server recognize a retried review instead of recording it twice.',
     evidence: 'The public date trainer offers a small, immediately usable example of the product. The native client’s source and architecture notes show how offline study, media preparation, and synchronization fit together.',
-    reflection: 'A completed review can still be waiting to reach the server. Keeping local study data separate from pending writes lets a session continue through a lost connection, while stable event identifiers prevent retries from recording the same review twice.',
+    reflection: 'The lesson I’d carry into another project is to plan for interrupted work from the start. A completed action on a device may still need to reach the server, so recovery needs to be part of the design. I would apply the same approach to other applications that accept updates from clients with unreliable connections.',
     demonstrated: 'API development · Systems thinking · Product design',
     links: [
       { label: 'Try the public tool', href: 'https://convo-lab.com/tools/japanese-date' },
@@ -39,7 +39,7 @@ const projects = [
     purpose: 'I created this interactive collection to give my cycling films a sense of place. Instead of asking viewers to infer the route from individual clips, I paired the films with a map that follows the journey as the video plays.',
     approach: 'I combined 34 Strava GPX recordings with photo and video timestamps, then mapped the media onto an ordered route. I kept cycling separate from transport legs and preserved the distinction between recorded locations and illustrative travel paths.',
     evidence: 'The two trips contain 250 story items. On desktop, playback and seeking update the route, location, and map position together. The implementation uses cached map tiles and a separate label layer to keep complex geography from being redrawn on every frame.',
-    reflection: 'This project gave me a practical way to work with incomplete data. Some clips have no GPS location, and transport paths have different sources from recorded rides. Keeping source data separate from presentation rules made the map easier to follow without changing recorded distances or treating estimated routes as GPS recordings.',
+    reflection: 'This project connects to my Data Analytics concentration through data preparation and interpretation. I had to combine records from different sources, handle clips with no GPS location, and distinguish recorded rides from estimated transport paths. Keeping source data separate from presentation rules let me make the map easier to follow without changing recorded distances or overstating what the data showed.',
     demonstrated: 'Data integration · Geospatial visualization · Performance',
     links: [
       { label: 'Explore the trips', href: '/japan-cycling-trips/' },
