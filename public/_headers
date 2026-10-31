@@ -1,0 +1,5 @@
+/eportfolio
+  X-Robots-Tag: noindex, noimageindex
+
+/eportfolio/*
+  X-Robots-Tag: noindex, noimageindex

@@ -2,6 +2,21 @@
 
 Andrew Landry's personal website, built with Astro and TypeScript.
 
+## Professional ePortfolio
+
+`/eportfolio/` presents Andrew's education, experience, skills, and three personal
+project case studies. It is intentionally absent from the homepage navigation.
+The page includes a `noindex, noimageindex` robots meta tag; `public/_headers`
+applies the same directives to the route and its image assets on Cloudflare.
+Keep it out of any future sitemap. Do not block it in `robots.txt`: crawlers need
+to read the exclusion directives. This is a public, unlisted page, not an
+authenticated or private page.
+
+The headshot is the existing LinkedIn profile photo. Project images are captures
+of Andrew's public projects; originals and personal account data are not included.
+
+## Homepage
+
 The homepage at `/` uses the Blue Frequency design: cobalt and lemon colors,
 oversized typography, featured Japan Cycling Trips and Synth & Chill links beneath
 the name, and a tilted card linking to GitHub, LinkedIn, and Instagram.
